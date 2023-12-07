@@ -28,6 +28,11 @@ body {
     text-decoration: none;
     font-weight: bold;
     font-size: 1.2em;
+    
+}
+
+#Nom{
+    margin-left: 10px;
 }
 
 .navi {
@@ -84,8 +89,8 @@ ul {
     text-decoration: underline;
 }
 
-/* A PROPOS */
-.propos {
+/* ACCUEIL */
+.accueil {
     min-height: 34em;
     background: url("../img/Paysage-montagne.jpg");
     background-position: center bottom; /* Ajuste la position de l'image à partir du bas */
@@ -106,8 +111,22 @@ ul {
 .title{
     font-size: 4em;
     text-align: center;
-    width: 50%;
+    width: 60%;
     margin-bottom: 20px;
+}
+
+/*A PROPOS*/
+.explication{
+    display: flex;
+    justify-content: space-around;
+}
+
+.text-presentation{
+    width: 60%;
+    text-align: center;
+    padding: 20px;
+    font-size: 1.5em;
+    letter-spacing: 1px;
 }
 
 /* COMPETENCE */
@@ -274,8 +293,17 @@ h1 {
     flex-direction: column;
     justify-content: space-around;
     width: 40%;
-    padding: 30px 0px;
+    padding: 20px 0px;
     box-shadow: 0 10px 15px rgba(0,0,0,0.5);
+    text-align: center;
+}
+
+.titre-pro{
+    text-decoration: underline;
+}
+
+.text-pro{
+    font-size: 1.2em;
 }
 
 .separartion {
@@ -305,7 +333,7 @@ h1 {
     box-shadow: 0 10px 15px rgba(0,0,0,0.5);
 }
 
-.image-contact>img{
+.image-contact>a>img{
     width: 80px;
     height: 80px;
 }

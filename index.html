@@ -12,39 +12,53 @@
             <!-- MENU -->
             <header class="header">
                 <div class="menu">
-                        <a>ARTHUR KELLER</a>
+                        <a id="Nom">ARTHUR KELLER</a>
                     <nav class="navi">
                         <ul >
                             <li class="nav-item">
-                                <a href="" class="nav-link">À propos</a>
+                                <a href="#propos" class="nav-link">À propos</a>
                             </li>
                             <li class="nav-item">
-                                <a href="" class="nav-link">Compétences</a>
+                                <a href="#competence" class="nav-link">Compétences</a>
                             </li>
                             <li class="nav-item">
-                                <a href="" class="nav-link">Formations</a>
+                                <a href="#formation" class="nav-link">Formations</a>
                             </li>
                             <li class="nav-item">
-                                <a href="" class="nav-link">Projets</a>
+                                <a href="#projets" class="nav-link">Projets</a>
                             </li>
                             <li class="nav-item">
-                                <a href="" class="nav-link">Me contacter</a>
+                                <a href="#contact" class="nav-link">Me contacter</a>
                             </li>            
                         </ul>
                     </nav>
                 </div>
             </header>
             
-            <!--À PROPOS-->
-            <section class="propos">
+            <!--ACCUEIL-->
+            <section class="accueil">
                 <div class="entete">
-                    <p class="title">Bienvenue sur mon portefolio</p>
+                    <p class="title">Bienvenue sur mon portfolio</p>
                 </div>
-                
+            </section>
+
+            <!--A PROPOS-->
+            <section class="propos" id="propos">
+                <div class="entete">
+                    <p class="title">À propos</p>
+                </div>
+                <div class="explication">
+                    <p class="text-presentation">Actuellement en deuxième année de BUT Informatique à l'IUT de Lille, je suis passionné par le domaine du réseau et des systèmes informatiques. 
+                        Mon intérêt pour l'informatique a débuté lors de mon stage d'observation en 3ème, où j'ai découvert le développement web avec HTML et CSS. 
+                        Au fil de mon BUT, j'ai réalisé que le parcours du réseau et système correspondait parfaitement à mes aspirations. 
+                        Aujourd'hui, je maîtrise des langages tels que Bash, C et SQL, ce qui me permet de concrétiser divers projets. 
+                        Mon engagement dans le déploiement d'applications communicantes et sécurisées m'a doté de compétences solides en conception et en mise en œuvre de solutions réseau robustes. 
+                        Convaincu de l'importance de la cybersécurité, je suis prêt à contribuer activement à ce domaine en constante évolution.</p>
+                </div>
             </section>
 
             <!--COMPETENCE-->
-            <section class="competence">
+            <section class="competence" id="competence">
                 <div class="entete">
                     <p class="title">Compétences</p>
                 </div>
@@ -71,16 +85,16 @@
                     </div>
                     <div class="skills">
                         <p>Autonome</p>
-                        <p>A l'écoute</p>
+                        <p>À l'écoute</p>
                         <p>Calme</p>
                         <p>Travail d'équipe</p>
-                        <p>Cummunication</p>
+                        <p>Communication</p>
                     </div>
                 </div>
             </section>
 
             <!--FORMATION-->
-            <section class="formation">
+            <section class="formation" id="formation">
                 <div class="entete">
                     <p class="title">Formation</p>
                 </div>
@@ -92,7 +106,7 @@
             
                     <div class="box b1" data-anim="1">
                         <h2>BUT INFORMATIQUE</h2>
-                        <p>Bachelor Universitaires de Technologie (bac +3)</p>
+                        <p>Bachelor Universitaire de Technologie (bac +3)</p>
                         <p>Université de Lille - IUT de Lille, France</p>
                     </div>
                     <div class="box b2" data-anim="2">
@@ -105,7 +119,7 @@
             </section>
 
             <!--PROJET-->
-            <section class="projets">
+            <section class="projets" id="projets">
                 <div class="entete">
                     <p class="title">Projets</p>
                 </div>
@@ -115,8 +129,9 @@
                             <img class="image-de-représentation" src="./img/SAE203.png" alt="Image de la vm au démarrage">
                         </div>
                         <div class="mini-pres">
-                            <div class="titre-pro"><h2>Déploiement d'une application</h2></div>
-                            <div class="text-pro"><p>Petite presentation</p></div>
+                            <div class="titre-pro"><h2>Installation de services réseaux</h2></div>
+                            <div class="text-pro"><p>Ce projet du second semestre nous a familiarisés avec la génération automatisée de machines virtuelles, mettant l'accent sur l'installation efficace de Gitea.</p></div>
+                            <a href="" id="button"><p>Découvrir le projet</p></a>
                         </div>
                     </div>
                     <div class="separartion"></div>
@@ -124,7 +139,7 @@
                         <div class="mini-pres">
                             <div class="titre-pro"><h2>Déploiement d'une application</h2></div>
                             <div class="text-pro"><p>Petite presentation</p></div>
-                        <a href="" id="button">Lien vers la description du projet</a>
+                            <a href="" id="button">Lien vers la description du projet</a>
                         </div>
                         <div class="img-pro">
                             <img class="image-de-représentation" src="./img/SAE203.png" alt="Image de la vm au démarrage">
@@ -176,22 +191,25 @@
             </section>
         
             <!--CONTACT-->
-            <section class="contact">
+            <section class="contact" id="contact">
                 <div class="entete">
                     <p class="title">Contact</p>
                 </div>
                 <div class="image-contact">
-                    <img src="./img/INSTA_Logo.png" alt="Logo Instagram">
-                    <img src="./img/FACEBOOK_Logo.png" alt="Logo Facebook">
-                    <img src="./img/LinkedIn_logo.png" alt="Logo LinkedIn">
-                    <img src="./img/GUTHUB_Logo.png" alt="Logo Github">
+                    <a href="https://www.instagram.com/kellerarthur/" target="_blank"><img src="./img/INSTA_Logo.png" alt="Logo Instagram"></a>
+                    <a href="https://www.facebook.com/arthurkeller59" target="_blank"><img src="./img/FACEBOOK_Logo.png" alt="Logo Facebook"></a>
+                    <a href="https://www.linkedin.com/in/arthur-keller-b041ab20b/" target="_blank"><img src="./img/LinkedIn_logo.png" alt="Logo LinkedIn"></a>
+                    <a href="https://github.com/Arthur-Keller" target="_blank"><img src="./img/GUTHUB_Logo.png" alt="Logo Github"></a>
                 </div>
                 <div class="coord">
-                    <div class="mail">
-                        <h3>mail : </h3><p>arthur.keller.59@gmail.com</p>
+                    <div class="titre-coord">
+                        <h3>Mail : </h3>
+                        <h3>Téléphone :</h3>
                     </div>
-                    
-                    <p>Téléphone : 07 68 33 21 55</p>
+                    <div class="titre-coord">
+                        <a href="mailto:arthur.keller.59@gmail.com"><p>arthur.keller.59@gmail.com</p></a>
+                        <a href="tel:0768332155"><p>07 68 33 21 55</p></a>
+                    </div>
                 </div>
             </section>
     </body>
