@@ -30,7 +30,6 @@ a{
     flex-direction: row;
     justify-content: space-around;
     flex-wrap: wrap;
-    
 }
 
 .competence-projet>p{
@@ -46,4 +45,5 @@ a{
 
 .projet{
     background: #f1f1f1;
+    width: 70%;
 }
