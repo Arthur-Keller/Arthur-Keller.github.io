@@ -9,6 +9,19 @@ a{
     color: black;
 }
 
+.menu>img {
+    padding-left: 10px;
+    width: 3.5%;
+}
+
+.title-projet{
+    font-size: 4em;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 80px;
+}
+
 .mini-button{
     padding: 20px 0px;
     box-shadow: 0 10px 15px rgba(0,0,0,0.5);
@@ -48,15 +61,12 @@ a{
     width: 70%;
 }
 
-img{
-    box-shadow: 0 5px 10px rgba(0,0,0,0.5);
-    border-radius: 10px;
-}
-
 .imageSolo>img{
     width: 800px;
     height: 440px;
     margin: 10px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+    border-radius: 10px;
 }
 
 .imageDuo{
@@ -70,12 +80,14 @@ img{
     width: 550px;
     height: 274px;
     margin: 10px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+    border-radius: 10px;
 }
 
 .image-sql>img{
     width: 850px;
     height: 347px;
     margin: 10px;
-    
-    
+    box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+    border-radius: 10px;    
 }

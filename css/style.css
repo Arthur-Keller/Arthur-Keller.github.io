@@ -360,6 +360,33 @@ h1 {
     background: #f1f1f1;
 }
 
+/*LOISIRS*/
+.loisirs{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.Desciption-Loisirs{
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding-bottom: 50px;
+}
+
+.loisirs-pres{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 40%;
+    padding: 20px 0px;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.5);
+    text-align: center;
+    border-radius: 15px;
+}
+
 /* CONTACT */
 .contact{
     display: flex;
@@ -384,4 +411,23 @@ h1 {
 .image-contact>a>img{
     width: 80px;
     height: 80px;
+}
+
+.fa-running::before, .fa-flag-checkered::before{
+    content: '\f70c';
+    color: black;
+    font-size: 300%;
+}
+
+.mini_title_loisir{
+    font-size: 30px;
+    width: fit-content;
+    margin: 10px;
+}
+
+.text-lois{
+    letter-spacing: 1px;
+    font-size: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
