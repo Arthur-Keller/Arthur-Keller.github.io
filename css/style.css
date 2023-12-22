@@ -48,12 +48,15 @@ body {
     display: inline-block; /* Affiche les éléments de la liste horizontalement */
 }
 
-/* Ajoutez ces styles pour créer la barre sous les liens */
 .nav-link {
     position: relative;
+    display: inline-block;
+    text-decoration: none;
+    color: #000; /* Couleur du texte normale */
+    transition: color 0.3s ease;
 }
 
-.nav-link::after {
+.nav-link::before {
     content: '';
     display: block;
     height: 2px; /* Hauteur de la barre */
@@ -61,13 +64,26 @@ body {
     background-color: #000; /* Couleur de la barre */
     position: absolute;
     bottom: 0;
+    left: 50%; /* Centrer la barre sous le texte */
+    transform: translateX(-50%); /* Ajuster pour centrer correctement */
     transition: width 0.3s ease; /* Transition pour l'effet de déplacement */
 }
 
-/* Ajoutez ces styles pour animer la barre au survol */
-.nav-link:hover::after {
+.nav-link:hover::before {
     width: 100%;
-    left: 0;
+}
+
+.nav-link:hover {
+    color: #000; /* Couleur du texte au survol */
+}
+
+
+.nav-link:hover::before {
+    width: 100%;
+}
+
+.nav-link:hover {
+    color: #000; /* Couleur du texte au survol */
 }
 
 .menu>img{
@@ -139,7 +155,7 @@ ul {
     text-align: center;
     width: 60%;
     margin-bottom: 20px;
-    margin-top: 30px;
+    margin-top: 55px;
 }
 
 /*A PROPOS*/
@@ -360,6 +376,17 @@ h1 {
     background: #f1f1f1;
 }
 
+.button-link {
+    display: inline-block;
+    text-decoration: none;
+    color: #000; /* Couleur du texte normale */
+    transition: transform 0.3s ease; /* Transition pour l'effet d'animation au survol */
+}
+
+.button-link:hover {
+    transform: scale(1.05); /* Agrandissement du texte au survol */
+}
+
 /*LOISIRS*/
 .loisirs{
     display: flex;
@@ -430,4 +457,16 @@ h1 {
     font-size: 20px;
     margin-left: 20px;
     margin-right: 20px;
+}
+
+.titre-coord-link {
+    display: flex;
+    flex-direction: row;
+    text-decoration: none;
+    color: #000; /* Couleur du texte normale */
+    transition: transform 0.3s ease; /* Transition pour l'effet d'animation au survol */
+}
+
+.titre-coord-link:hover {
+    transform: scale(1.05); /* Agrandissement du texte au survol */
 }
