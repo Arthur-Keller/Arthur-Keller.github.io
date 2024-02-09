@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Réponse tp1</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../css/style.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Réponse tp1</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#glossaire" id="toc-glossaire">Glossaire</a>
+<ul>
+<li><a
+href="#exercice-1.1-commandes-de-base-tubes-et-redirection-de-fichiers"
+id="toc-exercice-1.1-commandes-de-base-tubes-et-redirection-de-fichiers">Exercice
+1.1 : Commandes de base, tubes, et redirection de fichiers</a></li>
+<li><a
+href="#exercice-1.2-substitution-de-variables-et-de-commandes-et-évaluation-dexpressions"
+id="toc-exercice-1.2-substitution-de-variables-et-de-commandes-et-évaluation-dexpressions">Exercice
+1.2 : Substitution de variables et de commandes et évaluation
+d’expressions</a></li>
+<li><a href="#exercice-1.3-codes-de-retour-et-opérateurs-logiques"
+id="toc-exercice-1.3-codes-de-retour-et-opérateurs-logiques">Exercice
+1.3 : Codes de retour et opérateurs logiques</a></li>
+</ul></li>
+<li><a href="#scripting-bash" id="toc-scripting-bash">Scripting bash</a>
+<ul>
+<li><a href="#exercice-2.1-portée-des-variables"
+id="toc-exercice-2.1-portée-des-variables">Exercice 2.1 : Portée des
+variables</a></li>
+<li><a href="#exercice-2.2-scripting"
+id="toc-exercice-2.2-scripting">Exercice 2.2 : Scripting</a></li>
+<li><a href="#exercice-2.3-options-en-bash"
+id="toc-exercice-2.3-options-en-bash">Exercice 2.3 : Options en
+bash</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="glossaire">Glossaire</h1>
+<h2
+id="exercice-1.1-commandes-de-base-tubes-et-redirection-de-fichiers">Exercice
+1.1 : Commandes de base, tubes, et redirection de fichiers</h2>
+<h4
+id="q1-a-laide-de-la-commande-cat-et-des-redirections-de-la-sortie-standard-envoyez-les-lignes-suivantes-dans-un-nouveau-fichier-nommé-test-sort.">Q1:
+A l’aide de la commande <em>cat</em> et des redirections de la sortie
+standard, envoyez les lignes suivantes dans un nouveau fichier nommé
+<em>test-sort</em>.</h4>
+<pre><code>211
+9
+53
+97
+1000</code></pre>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="op">&gt;</span> test-sort</span></code></pre></div>
+<h4
+id="q2-maintenant-ordonnez-les-lignes-de-test-sortà-laide-de-la-commande-sort.-expliquez-le-résultat.">Q2:
+Maintenant, ordonnez les lignes de test-sortà l’aide de la commande
+sort. Expliquez le résultat.</h4>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span> <span class="at">-g</span> test-sort</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># -g pour trier dans l&#39;ordre numérique</span></span></code></pre></div>
+<h4
+id="q4-en-utilisant-léditeur-de-texte-nano-modifiez-les-lignes-du-fichier-test-sort-pour-quil-contienne">Q4:
+En utilisant l’éditeur de texte Nano, modifiez les lignes du fichier
+test-sort pour qu’il contienne :</h4>
+<pre><code>211TB
+9GB
+53MB
+97KB
+1000MB</code></pre>
+<h4
+id="q5-quelle-option-de-sort-permet-de-comparer-des-tailles-de-fichiers-en-kb-mb-testez-la-sur-test-sort.">Q5:
+Quelle option de <em>sort</em> permet de comparer des tailles de
+fichiers en KB, MB… ? Testez-la sur <em>test-sort</em>.</h4>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span> <span class="at">-g</span> test-sort</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Réponse</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">97KB</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">53MD</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ex">1000MD</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="ex">9GB</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="ex">211TB</span></span></code></pre></div>
+<h4
+id="q6-créez-un-nouveau-dossier-test-chmod-dans-votre-répertoire-personnel-et-supprimez-le-droit-de-lecture-et-franchissement-pour-tous-les-utilisateurs-y-compris-vous-même.">Q6:
+Créez un nouveau dossier test-chmod dans votre répertoire personnel et
+supprimez le droit de lecture et franchissement pour tous les
+utilisateurs (y compris vous même).</h4>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creation de fichier</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> test-chmod</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Changement de droit</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> a-rx test-chmod</span></code></pre></div>
+<h4
+id="q7-a-laide-de-la-commande-ls-vérifiez-que-vous-navez-pas-daccès-à-test-chmod.">Q7:
+A l’aide de la commande ls, vérifiez que vous n’avez pas d’accès à
+test-chmod.</h4>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span></span></code></pre></div>
+<h4
+id="q9-regardez-le-manuel-de-la-commande-du-3-.-en-combinant-des-commandes-à-laide-des-tubes-affichez-les-10-dossiers-les-moins-volumineux-dans-votre-dossier-personnel.">Q9:
+Regardez le manuel de la commande du 3 . En combinant des commandes à
+l’aide des tubes, affichez les 10 dossiers les moins volumineux dans
+votre dossier personnel.</h4>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-h</span> ~ <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-g</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-10</span></span></code></pre></div>
+<h2
+id="exercice-1.2-substitution-de-variables-et-de-commandes-et-évaluation-dexpressions">Exercice
+1.2 : Substitution de variables et de commandes et évaluation
+d’expressions</h2>
+<h4
+id="q10-définissez-une-variable-var-et-attribuez-lui-la-chaîne-un-premier-test.-ensuite-affichez-son-contenu-à-laide-de-la-commande-echo.">Q10:
+Définissez une variable <em>VAR</em> et attribuez-lui la chaîne *Un
+premier test*. Ensuite, affichez son contenu à l’aide de la commande
+<em>echo</em>.</h4>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definition de la variable</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="va">var</span><span class="op">=</span><span class="st">&quot;*un premier test*&quot;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher contenue de la variable</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$var</span><span class="st">&quot;</span></span></code></pre></div>
+<h4
+id="q11-mettez-à-jour-le-contenu-de-var-en-rajoutant-le-texte-un-deuxième-test-à-la-fin.">Q11:
+Mettez à jour le contenu de VAR en rajoutant le texte *Un deuxième test*
+à la fin.</h4>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Définition de la variable</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="va">var</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$var</span><span class="st"> *Un deuxieme test*&quot;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher contenue de la variable</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$var</span><span class="st">&quot;</span></span></code></pre></div>
+<h4
+id="q12-affectez-la-valeur-de-var-à-une-nouvelle-variable-var2.-vérifiez-que-la-sortie-de-echo-var2-est">Q12:
+Affectez la valeur de <em>VAR</em> à une nouvelle variable
+<em>VAR2</em>. Vérifiez que la sortie de <em>echo “$VAR2”</em> est
+:</h4>
+<blockquote>
+<p>*Un premier test**Un deuxième test*.</p>
+</blockquote>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Définition de la variable</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="va">var2</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$var</span><span class="st">&quot;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher contenue de la variable</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$var2</span><span class="st">&quot;</span></span></code></pre></div>
+<h4
+id="q13-listez-les-variables-denvironnement-à-laide-de-printenv.-que-contient-les-variables-shell-pwd-oldpwd-path-et-_">Q13:
+Listez les variables d’environnement à l’aide de <em>printenv</em>. Que
+contient les variables <em>SHELL</em>, <em>PWD</em>, <em>OLDPWD</em>,
+<em>PATH</em> et *_* ?</h4>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Commande</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">printenv</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Réponse</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="va">SHELL</span><span class="op">=</span>/bin/bash</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="va">PWD</span><span class="op">=</span>/home/infoetu/arthur.keller.etu/R4.012/tp1</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="va">OLDPWD</span><span class="op">=</span>/home/infoetu/arthur.keller.etu/R4.012</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="va">PATH</span><span class="op">=</span>/srv/anaconda3/condabin:/home/public/vm/bin:/opt/spring-3.1.1/bin:/opt/Kathara/bin:/usr/local/netkit-ng/bin:/home/public/admin/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/home/public/graphes/Grapp/bin</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="va">_</span><span class="op">=</span>/usr/bin/printenv</span></code></pre></div>
+<h4
+id="q14-attribuez-à-une-variable-nommée-ls-la-liste-des-dossiers-présents-dans-la-racine-et-dans-votre-dossier-personnel.-affichez-la-valeur-de-ls.">Q14:
+Attribuez à une variable nommée <em>LS</em> la liste des dossiers
+présents dans la racine (<em>/</em>) et dans votre dossier personnel.
+Affichez la valeur de <em>LS</em>.</h4>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Définition de la variable</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="va">LS</span><span class="op">=</span><span class="va">$(</span><span class="fu">ls</span> / <span class="kw">|</span> <span class="fu">ls</span> ~<span class="va">)</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher contenue de la variable</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$LS</span></span></code></pre></div>
+<h2 id="exercice-1.3-codes-de-retour-et-opérateurs-logiques">Exercice
+1.3 : Codes de retour et opérateurs logiques</h2>
+<h4
+id="q16-donnez-une-commande-qui-affiche-le-contenu-de-r4.01tp01-suivi-du-texte-cest-bien-parti-si-ce-répertoire-existe-et-qui-affiche-seulement-le-texte-cest-mal-parti-sil-nexiste-pas.">Q16:
+Donnez une commande qui affiche le contenu de <em>~/R4.01/TP01</em>
+suivi du texte <em>“C’est bien parti”</em> si ce répertoire existe, et
+qui affiche seulement le texte <em>“C’est mal parti”</em> s’il n’existe
+pas.</h4>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> ~/R4.012/tp1 <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;C&#39;est bien parti&quot;</span> <span class="kw">||</span> <span class="bu">echo</span> <span class="st">&quot;c&#39;est mal parti&quot;</span></span></code></pre></div>
+<h4
+id="q17-dans-la-page-man-de-expr-trouvez-comment-obtenir-la-longueur-dune-chaîne-de-caractères-donnée.-ensuite-donnez-une-commande-qui-affiche-le-contenu-de-la-variable-denvironnement-pwd-si-elle-contient-moins-de-caractères-que-la-variable-oldpwd-et-vice-versa.">Q17:
+Dans la page <em>man</em> de <em>expr</em>, trouvez comment obtenir la
+longueur d’une chaîne de caractères donnée. Ensuite, donnez une commande
+qui affiche le contenu de la variable d’environnement <em>PWD</em> si
+elle contient moins de caractères que la variable <em>OLDPWD</em> (et
+vice-versa).</h4>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Définition des variables</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="va">EXPR1</span><span class="op">=</span><span class="va">$(</span><span class="fu">expr</span> length <span class="va">$PWD)</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="va">EXPR2</span><span class="op">=</span><span class="va">$(</span><span class="fu">expr</span> length <span class="va">$OLDPWD)</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher contenue</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">expr</span> <span class="va">$EXPR1</span> <span class="dt">\&lt;</span> <span class="va">$EXPR2</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="va">$PWD</span> <span class="kw">||</span> <span class="bu">echo</span> <span class="va">$OLDPWD</span></span></code></pre></div>
+<h1 id="scripting-bash">Scripting bash</h1>
+<h2 id="exercice-2.1-portée-des-variables">Exercice 2.1 : Portée des
+variables</h2>
+<h4
+id="q18-définissez-deux-variables-via-v1haha-et-export-v2hehe.-créez-un-shell-fils-du-shell-courant-en-appelant-bash-cela-nouvrira-pas-un-nouveau-terminal.-affichez-les-variables-v1-et-v2.-que-peut-on-conclure">Q18:
+Définissez deux variables via <em>v1=haha</em> et <em>export
+v2=hehe</em>. Créez un shell fils du shell courant en appelant
+<em>bash</em> (cela n’ouvrira pas un nouveau terminal). Affichez les
+variables <em>v1</em> et <em>v2</em>. Que peut-on conclure ?</h4>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A faire dans l&#39;ordre</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="va">v1</span><span class="op">=</span>haha</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">v2</span><span class="op">=</span>hehe</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$v1</span> <span class="co"># rien a la sortie</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$v2</span> <span class="co"># hehe à la sortie</span></span></code></pre></div>
+<h4
+id="q19-exécutez-la-commande-exit-pour-revenir-au-shell-parent.-copiez-les-lignes-suivantes-dans-un-script-test-shell-rendez-le-exécutable-et-exécutez-.test-shell.-que-peut-on-conclure">Q19:
+Exécutez la commande <em>exit</em> pour revenir au shell parent. Copiez
+les lignes suivantes dans un script <em>test-shell</em>, rendez-le
+exécutable et exécutez <em>./test-shell</em>. Que peut-on conclure
+?</h4>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dans le fichier test-shell</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$v1</span> <span class="va">$v2</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Executer cette commande</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> ./test-shell.sh</span></code></pre></div>
+<h4
+id="q21-définissez-deux-variables-aaaa-et-bbbb-dans-un-script-nommé-test-shell-2.-rendez-le-exécutable-et-exécutez-.test-shell-2.-essayez-dafficher-a-et-b-dans-le-terminal.">Q21:
+Définissez deux variables <em>A=aaa</em> et <em>B=bbb</em> dans un
+script nommé <em>test-shell-2</em>. Rendez-le exécutable et exécutez
+<em>./test-shell-2</em>. Essayez d’afficher <em>A</em> et <em>B</em>
+dans le terminal.</h4>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creation du fichier</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> test-shell-2.sh</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ajouter les lignes suivantes</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="va">A</span><span class="op">=</span>aaa</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="va">B</span><span class="op">=</span>bbb </span></code></pre></div>
+<h4
+id="q22-maintenant-exécutez-source-.test-shell-2-et-affichez-a-et-b.">Q22:
+Maintenant, exécutez source <em>./test-shell-2</em> et affichez
+<em>A</em> et <em>B</em>.</h4>
+<h2 id="exercice-2.2-scripting">Exercice 2.2 : Scripting</h2>
+<h4
+id="q23-créez-un-script-test-quota-qui-réussit-et-renvoie-le-message-tout-est-ok.-si-lutilisateur-courant-utilise-moins-de-5g-dans-son-espace-de-stockage-mais-qui-échoue-et-renvoie-le-message-pas-assez-despace-dans-le-cas-contraire.">Q23:
+Créez un script <em>test-quota</em> qui réussit et renvoie le message
+<strong>Tout est ok</strong>. si l’utilisateur courant utilise moins de
+5G dans son espace de stockage mais qui échoue et renvoie le message
+<strong>Pas assez d’espace !</strong> dans le cas contraire.</h4>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="va">$(</span><span class="ex">quota</span> <span class="at">-w</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-n</span> 1 <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 1 <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span> <span class="st">&quot; &quot;</span> <span class="at">-f</span> 2<span class="va">)</span> <span class="dt">\&lt;</span> 5291456 <span class="bu">]</span> </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="cf">then</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">&quot;Tout est ok&quot;</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">&quot;Pas assez d&#39;espace !&quot;</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div>
+<h2 id="exercice-2.3-options-en-bash">Exercice 2.3 : Options en
+bash</h2>
+<h4
+id="q27-créez-un-script-test-bash-contenant-les-lignes-suivantes-et-rendez-le-exécutable.">Q27:
+Créez un script <em>test-bash</em> contenant les lignes suivantes et
+rendez-le exécutable.</h4>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="va">A</span><span class="op">=</span>1</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="va">B</span><span class="op">=</span>2</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="va">C</span><span class="op">=</span><span class="va">$(</span><span class="fu">expr</span> <span class="va">$A</span> <span class="pp">*</span> <span class="va">$B)</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;C=&quot;</span><span class="va">$C</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;BUT2&quot;</span> <span class="op">&gt;</span> fich1</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;BUT3&quot;</span> <span class="op">&gt;</span> fich1</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$VIDE</span></span></code></pre></div>
+</body>
+</html>
