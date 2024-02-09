@@ -7,6 +7,7 @@ body {
     background-color: #fff; /* Fond blanc pour le corps */
 }
 
+/*MENU*/
 .header {
     min-height: 3em;
     text-align: center;
@@ -166,10 +167,10 @@ ul {
 
 .text-presentation{
     width: 60%;
-    text-align: center;
+    text-align: justify;
     padding: 20px;
     font-size: 1.5em;
-    letter-spacing: 1px;
+    letter-spacing: 0.09px;
 }
 
 /* COMPETENCE */
@@ -356,6 +357,9 @@ h1 {
 
 .text-pro{
     font-size: 1.2em;
+    text-align: justify;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
 .separartion {

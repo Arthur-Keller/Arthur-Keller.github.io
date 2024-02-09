@@ -1,0 +1,58 @@
+EXO 1
+Q1) 
+cat > test-sort
+
+Q2)
+sort -g test-sort
+-g pour trier dans l'ordre numérique
+
+Q5)
+sort -g test-sort
+97KB
+53MD
+1000MD
+9GB
+211TB
+
+du -h ~ | sort -g | head -10
+
+Q10)
+var="*un premier test*"
+echo "$var"
+
+Q11)
+var="$var *Un deuxieme test*"
+echo "$var"
+
+Q12)
+var2="$var"
+echo "$var2"
+
+Q13)
+SHELL=/bin/bash
+PWD=/home/infoetu/arthur.keller.etu/R4.012/tp1
+OLDPWD=/home/infoetu/arthur.keller.etu/R4.012
+PATH=/srv/anaconda3/condabin:/home/public/vm/bin:/opt/spring-3.1.1/bin:/opt/Kathara/bin:/usr/local/netkit-ng/bin:/home/public/admin/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/home/public/graphes/Grapp/bin
+_=/usr/bin/printenv
+
+Q14)
+LS=$(ls / | ls ~)
+echo $LS
+
+Q16)
+ls ~/R4.012/tp1 && echo "C'est bien parti" || echo "c'est mal parti"
+
+Q17)
+EXPR1=$(expr length $PWD)
+EXPR2=$(expr length $OLDPWD)
+expr $EXPR1 \< $EXPR2 && echo $PWD || echo $OLDPWD
+
+Q18)
+v1=haha
+export v2=hehe
+bash
+echo $v1 rien a la sortie
+echo $v2 hehe à la sortie
+
+Q19) 
+source ./test-shell.sh

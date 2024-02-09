@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TP2</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../css/style.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">TP2</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#expansion-de-noms-de-fichiers"
+id="toc-expansion-de-noms-de-fichiers">Expansion de noms de fichiers</a>
+<ul>
+<li><a href="#exercice-1.1-globbing---exercices-de-base"
+id="toc-exercice-1.1-globbing---exercices-de-base">Exercice 1.1 Globbing
+- exercices de base</a></li>
+<li><a href="#exercice-1.2-globbing-et-filtres"
+id="toc-exercice-1.2-globbing-et-filtres">Exercice 1.2 : Globbing et
+filtres</a></li>
+</ul></li>
+<li><a href="#expressions-régulières-1-2"
+id="toc-expressions-régulières-1-2">2 Expressions régulières 1 2</a>
+<ul>
+<li><a href="#exercice-2.1-expressions-régulières"
+id="toc-exercice-2.1-expressions-régulières">Exercice 2.1 : Expressions
+régulières</a></li>
+<li><a href="#exercice-2.2-globbing-regex-et-scripts"
+id="toc-exercice-2.2-globbing-regex-et-scripts">Exercice 2.2 : Globbing,
+Regex et Scripts</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="expansion-de-noms-de-fichiers">Expansion de noms de
+fichiers</h1>
+<h2 id="exercice-1.1-globbing---exercices-de-base">Exercice 1.1 Globbing
+- exercices de base</h2>
+<h4 id="q1-affichez-la-liste-des-fichiers-dans-le-répertoire-bin">Q1:
+Affichez la liste des fichiers dans le répertoire
+<strong>/bin/</strong></h4>
+<h5 id="dont-les-noms-contiennent">Dont les noms contiennent :</h5>
+<ul>
+<li>au moins trois caractères</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> /bin/<span class="pp">???</span></span></code></pre></div>
+<ul>
+<li>au moins deux tirets</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> /bin/<span class="pp">*[-]*[-]*</span></span></code></pre></div>
+<ul>
+<li>au moins une occurrence de la lettre i après une occurrence de la
+lettre z ;</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> /bin/<span class="pp">*</span>z<span class="pp">*</span>i<span class="pp">*</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> /bin/<span class="pp">*</span>zi<span class="pp">*</span></span></code></pre></div>
+<h5
+id="dont-les-noms-ne-commencent-ni-par-une-lettre-ni-par-un-chiffre">Dont
+les noms ne commencent ni par une lettre ni par un chiffre;</h5>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> /bin/<span class="pp">[</span><span class="ss">!0</span><span class="pp">-</span><span class="ss">9a</span><span class="pp">-</span><span class="ss">zA</span><span class="pp">-</span><span class="ss">Z</span><span class="pp">]</span></span></code></pre></div>
+<h5
+id="dont-les-noms-commencent-par-les-lettres-w-y-ou-z-et-ne-terminent-pas-par-un-chiffre.">Dont
+les noms commencent par les lettres w, y ou z et ne terminent pas par un
+chiffre.</h5>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> /bin/<span class="pp">[</span><span class="ss">wyz</span><span class="pp">]*[</span><span class="ss">!0</span><span class="pp">-</span><span class="ss">9</span><span class="pp">]</span></span></code></pre></div>
+<h2 id="exercice-1.2-globbing-et-filtres">Exercice 1.2 : Globbing et
+filtres</h2>
+<h4
+id="q2-a-laide-des-commandes-stat-et-grep-affichez-la-taille-et-le-nom-des-dossiers-dans-la-racine-dont-navez-pas-le-droit-de-franchissement.-pour-cela-cherchez-dans-le-manuel-comment-utiliser-loption--c-de-stat.">Q2:
+A l’aide des commandes <em>stat</em> et <em>grep</em>, affichez la
+taille et le nom des dossiers dans la racine <em>(/)</em> dont n’avez
+pas le droit de franchissement. Pour cela, cherchez dans le manuel
+comment utiliser l’option <em>-c</em> de <em>stat</em>.</h4>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stat</span> <span class="at">-c</span> <span class="st">&quot;%A%n&quot;</span> /<span class="pp">*</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;.........-&quot;</span></span></code></pre></div>
+<h4
+id="q3-le-dossier-etccron.weekly-contient-des-scripts-qui-doivent-être-exécutés-hebdomadairement-nous-reviendrons-sur-ce-sujet-la-semaine-prochaine.-à-laide-des-commandes-cat-et-grep-affichez-toutes-les-lignes-en-commentaire-dans-les-scripts-se-trouvant-dans-etccron.weekly.">Q3:
+Le dossier <em>/etc/cron.weekly/</em> contient des scripts qui doivent
+être exécutés hebdomadairement (nous reviendrons sur ce sujet la semaine
+prochaine). À l’aide des commandes <em>cat</em> et <em>grep</em>,
+affichez toutes les lignes en commentaire dans les scripts se trouvant
+dans <em>/etc/cron.weekly/</em>.</h4>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> /etc/cron.weekly/<span class="pp">*</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-E</span> <span class="st">&quot;#+&quot;</span></span></code></pre></div>
+<h4
+id="q4-refaites-la-question-précédente-en-utilisant-la-commande-find-avec-loption--exec.">Q4:
+Refaites la question précédente en utilisant la commande <em>find</em>
+avec l’option <em>-exec</em>.</h4>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> /etc/cron.weekly/<span class="pp">*</span> <span class="at">-exec</span> cat {} <span class="dt">\;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-E</span> <span class="st">&quot;^#+&quot;</span></span></code></pre></div>
+<h4
+id="q5-en-utilisant-une-ligne-de-commande-affichez-le-nom-et-la-taille-des-fichiers-.txt-à-lintérieur-de-chaque-dossier-dans-.">Q5:
+En utilisant une ligne de commande, affichez le nom et la taille des
+fichiers <em>.txt</em> à l’intérieur de chaque dossier dans
+<em>∼</em>.</h4>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> ~/ <span class="at">-name</span> <span class="dt">\*</span>.txt <span class="at">-exec</span> stat <span class="at">-c</span> %s%n {} <span class="dt">\;</span></span></code></pre></div>
+<h1 id="expressions-régulières-1-2">2 Expressions régulières 1 2</h1>
+<h2 id="exercice-2.1-expressions-régulières">Exercice 2.1 : Expressions
+régulières</h2>
+<h4
+id="q6-en-prenant-en-compte-la-syntaxe-présentée-dans-le-tableau-ci-dessus-trouvez-les-expressions-régulières-les-plus-simples-possibles-qui-décrivent-les-ensembles-de-chaînes-de-caractères-ci-dessus.-vous-pouvez-tester-vos-réponses-à-laide-de-la-commande-cat-grep--x--e--e-en-replaçant-par-votre-réponse-à-chaque-question.-loption--x-de-grep-sert-à-sélectionner-seulement-les-correspondances-exactes-de-ligne-entière.-pour-chaque-ligne-saisie-sur-le-terminal-la-ligne-sera-réaffichée-seulement-si-elle-apparie-avec-lexpression-régulière-donnée.">Q6:
+En prenant en compte la syntaxe présentée dans le Tableau ci-dessus,
+trouvez les expressions régulières (les plus simples possibles) qui
+décrivent les ensembles de chaînes de caractères ci-dessus. Vous pouvez
+tester vos réponses à l’aide de la commande <em>cat | grep -x -E -e
+<expression></em> en replaçant <em><expression></em> par votre réponse à
+chaque question. L’option <em>-x</em> de <em>grep</em> sert à
+sélectionner seulement les correspondances exactes de ligne entière.
+Pour chaque ligne saisie sur le terminal, la ligne sera réaffichée
+seulement si elle apparie avec l’expression régulière donnée.</h4>
+<ul>
+<li>Zéro ou plus lettres ‘a’ : {∅,a,aa,aaa,aaaa,…}</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-x</span> <span class="at">-E</span> <span class="at">-e</span> <span class="st">&quot;a*&quot;</span></span></code></pre></div>
+<ul>
+<li>Deux jusqu’à cinq lettres ‘a’ : {aa,aaa,aaaa,aaaaa}</li>
+</ul>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-x</span> <span class="at">-E</span> <span class="at">-e</span> <span class="st">&quot;a{2,5}&quot;</span></span></code></pre></div>
+<ul>
+<li>Toutes les chaînes ne contenant pas une suite de deux ou plus
+occurrences de la lettre a (e.g. l’expression doit apparier avec les
+chaînes abcdaed, bcdrt et abababa, mais pas avec aabcdet ni bcdaa)</li>
+</ul>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-x</span> <span class="at">-E</span> <span class="at">-e</span> <span class="st">&quot;[^a]*(a[^a]+)*a?&quot;</span></span></code></pre></div>
+<ul>
+<li>Les cinq chaînes suivantes : {tata,tete,titi,toto,tutu}</li>
+</ul>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-x</span> <span class="at">-E</span> <span class="at">-e</span> <span class="st">&quot;((ta)|(ti)|(to)|(tu)|(te))((ta)|(ti)|(to)|(tu)|(te))&quot;</span></span></code></pre></div>
+<ul>
+<li>Les 25 chaînes suivantes :
+{tata,tate,…,tatu,teta,tete,…tetu,…,tutu}</li>
+</ul>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-x</span> <span class="at">-E</span> <span class="at">-e</span> <span class="st">&quot;(t[aeiou]){2}&quot;</span></span></code></pre></div>
+<ul>
+<li>L’ensemble de mots-clés en bash : {for,while,case,if,else}</li>
+</ul>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-x</span> <span class="at">-E</span> <span class="at">-e</span> <span class="st">&quot;((for)|(while)|(case)|(if)|(else))&quot;</span></span></code></pre></div>
+<h4
+id="q7-donnez-la-chaîne-de-caractères-la-plus-courte-qui-apparie-avec-lexpression-régulière-suivante">Q7:
+Donnez la chaîne de caractères la plus courte qui apparie avec
+l’expression régulière suivante :</h4>
+<blockquote>
+<p>((pa)+e?r)+[!f]*f+((aite)|(ait))+</p>
+</blockquote>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Commande utilisé</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-x</span> <span class="at">-E</span> <span class="at">-e</span> <span class="st">&quot;((pa)+e?r)+[!f]*f+((aite)|(ait))+&quot;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plus courte réponse </span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="ex">parfait</span></span></code></pre></div>
+<h4
+id="q8-étant-donnée-le-texte-ci-dessous-4-donnez-lexpression-régulière-la-plus-succincte-permettant-de-retrouver-tous-les-verbes-soulignés.">Q8:
+Étant donnée le texte ci-dessous 4 , donnez l’expression régulière la
+plus succincte permettant de retrouver tous les verbes soulignés.</h4>
+<blockquote>
+<p>L’année prochaine, Fathia aura 25 ans, elle <strong>va
+changer</strong> de vie : elle <strong>va arrêter</strong> de
+travailler, elle <strong>va partir</strong> de son appartement, elle ira
+à la campagne. Elle <strong>va vendre</strong> sa voiture, elle fera de
+nouvelles études, elle <strong>va rentrer</strong> d’autres amis et,
+ensemble, ils <strong>vont sortir</strong> au cinéma : ils <strong>vont
+regarder</strong> des films du cinéma asiatique. Moi… je ne serai pas
+comme elle, je resterai ici !</p>
+</blockquote>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> futur.txt <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-E</span> <span class="at">-e</span> <span class="st">&quot;va [^ ]+|vont [^ ]+&quot;</span></span></code></pre></div>
+<h4
+id="q11-dans-une-seule-ligne-de-commande-remplacez-tous-les-verbes-soulignés-par-leurs-correspondants-au-futur-simple-à-laide-de-la-commande-sed.">Q11:
+Dans une seule ligne de commande, remplacez tous les verbes soulignés
+par leurs correspondants au futur simple à l’aide de la commande
+<em>sed</em>.</h4>
+<h2 id="exercice-2.2-globbing-regex-et-scripts">Exercice 2.2 : Globbing,
+Regex et Scripts</h2>
+<h4
+id="q12-créez-un-script-nommé-cherche_motif-qui-prend-en-entrée-un-chemin-r-vers-un-dossier-et-une-chaîne-de-caractères-c-et-qui-renvoie-la-liste-de-fichiersdossiers-dans-r-dont-le-nom-contient-c.-si-le-répertoire-r-nexiste-pas-ou-sil-nest-pas-accessible-la-commande-ne-doit-rien-afficher-sur-la-sortie-standard.">Q12)
+Créez un script nommé <em>cherche_motif</em> qui prend en entrée un
+chemin <em>R</em> vers un dossier et une chaîne de caractères <em>C</em>
+et qui renvoie la liste de fichiers/dossiers dans <em>R</em> dont le nom
+contient <em>C</em>. Si le répertoire <em>R</em> n’existe pas ou s’il
+n’est pas accessible, la commande ne doit rien afficher sur la sortie
+standard.</h4>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="va">CHEMIN</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="va">CHAINE</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$2</span><span class="st">&quot;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="st">&quot;</span><span class="va">$CHEMIN</span><span class="st">&quot;</span> <span class="dv">2</span><span class="op">&gt;</span>/dev/null <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;</span><span class="va">$CHAINE</span><span class="st">&quot;</span> <span class="dv">2</span><span class="op">&gt;</span>/dev/null</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemple d&#39;utilisation</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./cherche_motif</span> <span class="st">&#39;Repertoire souhaité&#39;</span> <span class="st">&#39;Lettre voulu&#39;</span></span></code></pre></div>
+<h4
+id="q13-créez-un-script-nommé-remplace_repetition_motif-qui-prend-en-entrée-un-chemin-f-vers-un-fichier-de-texte-et-une-chaîne-c-de-caractères-et-qui-remplace-toutes-les-répétitions-de-c-dans-f-c.-à-d.-cc-ccc-ccc-cccc-par-un-seul-c.-la-commande-ne-doit-rien-afficher-sur-la-sortie-standard.">Q13:
+Créez un script nommé <em>remplace_repetition_motif</em> qui prend en
+entrée un chemin <em>F</em> vers un fichier de texte et une chaîne
+<em>C</em> de caractères et qui remplace toutes les répétitions de
+<em>C</em> dans <em>F</em> (c.-à-d. <em>CC</em>, <em>CCC</em>,
+<em>CCC</em>, <em>CCCC</em>, …) par un seul <em>C</em>. La commande ne
+doit rien afficher sur la sortie standard.</h4>
+</body>
+</html>
