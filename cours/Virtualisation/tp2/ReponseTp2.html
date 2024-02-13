@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Arthur KELLER" />
+  <title>Tp 2</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../../css/style.css" />
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Tp 2</h1>
+<p class="author">Arthur KELLER</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#premiers-conteneurs" id="toc-premiers-conteneurs">Premiers
+conteneurs</a></li>
+<li><a href="#conteneurs-en-arrière-plan"
+id="toc-conteneurs-en-arrière-plan">Conteneurs en arrière plan</a></li>
+<li><a href="#variables-denvironnement"
+id="toc-variables-denvironnement">Variables d’environnement</a></li>
+<li><a href="#utilisation-dimage-officielle"
+id="toc-utilisation-dimage-officielle">Utilisation d’image
+officielle</a></li>
+</ul>
+</nav>
+<h2 id="premiers-conteneurs">Premiers conteneurs</h2>
+<h4
+id="lancer-bash-dans-un-conteneur-interactif-utilisant-limage-debian">Lancer
+bash dans un conteneur interactif utilisant l’image debian</h4>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">root@debian:~#</span> docker run <span class="at">-it</span> debian</span></code></pre></div>
+<h4 id="installez-la-commande-tree">Installez la commande tree</h4>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">apt-get</span> install tree</span></code></pre></div>
+<h4 id="tester-la">Tester la</h4>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tree</span></span></code></pre></div>
+<h4
+id="quittez-le-conteneur-et-créez-en-un-nouveau-utilisant-la-même-image">Quittez
+le conteneur et créez en un nouveau utilisant la même image</h4>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">exit</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">tree</span></span></code></pre></div>
+<h4 id="que-pouvez-vous-en-conclure">Que pouvez vous en conclure ?</h4>
+<blockquote>
+<p>La commande s’est installé que dans un conteneur et ne peut pas etre
+utiliser d’en d’autre</p>
+</blockquote>
+<h4 id="supprimer-les-conteneurs">Supprimer les conteneurs</h4>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> container prune</span></code></pre></div>
+<h2 id="conteneurs-en-arrière-plan">Conteneurs en arrière plan</h2>
+<h4
+id="créez-un-conteneur-qui-utilise-limage-jpetazzoclock-et-qui-sexécute-en-avant-plan">Créez
+un conteneur qui utilise l’image jpetazzo/clock et qui s’exécute en
+avant plan</h4>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-it</span> jpetazzo/clock</span></code></pre></div>
+<h4
+id="stoppez-le-conteneur-avec-ctrl-c-et-créez-en-un-nouveau-en-arrière-plan-avec-la-même-image-en-lui-donnant-un-nom-de-votre-choix">Stoppez
+le conteneur avec Ctrl-C et créez en un nouveau en arrière plan avec la
+même image, en lui donnant un nom de votre choix</h4>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--name</span> tp2 <span class="at">-it</span> jpetazzo/clock <span class="kw">&amp;</span></span></code></pre></div>
+<h4
+id="utilisez-la-commande-docker-container-ls-pour-trouver-le-nom-de-ce-conteneur">Utilisez
+la commande docker container ls pour trouver le nom de ce conteneur</h4>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> container ls</span></code></pre></div>
+<h4
+id="grâce-à-la-commande-docker-logs-affichez-la-sortie-du-conteneur">Grâce
+à la commande docker logs affichez la sortie du conteneur</h4>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> logs tp2</span></code></pre></div>
+<h4 id="quelle-option-permet-dafficher-la-sortie-en-continu">Quelle
+option permet d’afficher la sortie en continu ?</h4>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> logs <span class="at">-f</span> tp2</span></code></pre></div>
+<h4
+id="quelle-commande-permet-dexécuter-un-nouveau-processus-dans-un-conteneur-déjà-en-fonctionnement">Quelle
+commande permet d’exécuter un nouveau processus dans un conteneur déjà
+en fonctionnement ?</h4>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> container exec <span class="at">-i</span> ...</span></code></pre></div>
+<h4
+id="utilisez-cette-commande-pour-lancer-le-shell-sh-dans-le-conteneur-en-cours-dexécution">Utilisez
+cette commande pour lancer le shell sh dans le conteneur en cours
+d’exécution</h4>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> container exec <span class="at">-i</span> sh</span></code></pre></div>
+<h4 id="une-fois-dans-ce-shell-lancez-la-commande-ps">Une fois dans ce
+shell, lancez la commande ps</h4>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ps</span></span></code></pre></div>
+<h4
+id="quen-déduisez-vous-sur-le-point-dentrée-de-limage-jpetazzoclock">Qu’en
+déduisez vous sur le point d’entrée de l’image jpetazzo/clock ?</h4>
+<blockquote>
+<p>On ne voit que les processures qui sont lancés dans ton conteneur</p>
+</blockquote>
+<h4 id="arrêtez-le-conteneur">Arrêtez le conteneur</h4>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> stop 8e8bbd065934</span></code></pre></div>
+<h4
+id="redémarrez-le-attention-sans-en-créer-un-nouveau-il-faut-démarrer-le-conteneur-stoppé">Redémarrez
+le (attention, sans en créer un nouveau il faut démarrer le conteneur
+stoppé)</h4>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> start 8e8bbd065934</span></code></pre></div>
+<h2 id="variables-denvironnement">Variables d’environnement</h2>
+<h4
+id="créez-un-nouveau-conteneur-basé-sur-limage-debian-en-mode-interactif-avec-les-variables-denvironnement-suivantes-définies-dans-la-commande-docker-run">Créez
+un nouveau conteneur basé sur l’image debian en mode interactif avec les
+variables d’environnement suivantes définies dans la commande docker
+run</h4>
+<ul>
+<li>TP avec comme valeur “02”</li>
+<li>SUJET avec comme valeur “Docker”</li>
+</ul>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-e</span> TP=<span class="st">&quot;02&quot;</span> SUJET=<span class="st">&quot;Docker&quot;</span> <span class="at">-it</span> debian</span></code></pre></div>
+<h4
+id="vérifiez-dans-le-shell-du-conteneur-que-vos-variables-denvironnement-ont-été-correctement-positionnées">Vérifiez
+dans le shell du conteneur que vos variables d’environnement ont été
+correctement positionnées</h4>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$TP</span> <span class="kw">&amp;&amp;</span> <span class="va">$SUJET</span></span></code></pre></div>
+<h4
+id="affichez-la-date-et-lheure-du-conteneur-à-laide-de-la-commande-date-que-remarquez-vous">Affichez
+la date et l’heure du conteneur à l’aide de la commande date, que
+remarquez vous ?</h4>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">date</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Reponse : Nous sommmes dans le fuseau horaire de l&#39;angleterre</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Tue</span> Feb 13 14:41:34 UTC 2024</span></code></pre></div>
+<h4
+id="effectuez-une-recherche-afin-de-trouver-comment-démarrer-un-conteneur-qui-affichera-la-date-dans-le-bon-fuseau-horaire">Effectuez
+une recherche afin de trouver comment démarrer un conteneur qui
+affichera la date dans le bon fuseau horaire</h4>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="va">TZ</span><span class="op">=</span><span class="st">&#39;Europe/Paris&#39;</span> <span class="fu">date</span></span></code></pre></div>
+<h2 id="utilisation-dimage-officielle">Utilisation d’image
+officielle</h2>
+<h4
+id="à-laide-de-la-documentation-de-limage-sur-httpshub.docker.com-démarrez-un-conteneur-qui-exécute-postgresql-en-version-14-respectant-les-consignes-suivantes">À
+l’aide de la documentation de l’image sur <a
+href="https://hub.docker.com">https://hub.docker.com</a>, démarrez un
+conteneur qui exécute PostgreSQL en version 14 respectant les consignes
+suivantes:</h4>
+<ul>
+<li>Un utilisateur “user” doit exister et pouvoir se connecter avec le
+mot de passe “user”</li>
+<li>Une base nommée userdb doit être créée dont le propriétaire est
+l’utilisateur “user”</li>
+<li>Aucune de ces configurations ne doit être effectuée manuellement
+après démarrage du conteneur</li>
+<li>Le conteneur doit exposer le port tcp 5432 sur la machine
+virtuelle</li>
+</ul>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--name</span> postgres-container <span class="at">-e</span> POSTGRES_USER=user <span class="at">-e</span> POSTGRES_PASSWORD=user <span class="at">-p</span> 5432:5432 <span class="at">-d</span> postgres:14</span></code></pre></div>
+<h4
+id="dans-votre-machine-virtuelle-installez-le-paquet-postgresql-client-et-utilisez-la-commande-psql-pour-vérifier-que-votre-conteneur-respecte-bien-les-consignes">Dans
+votre machine virtuelle, installez le paquet postgresql-client et
+utilisez la commande psql pour vérifier que votre conteneur respecte
+bien les consignes</h4>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Installation du paquet postgresql-client</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="ex">apt-get</span> install postgresql-client</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Test de connexion à la base</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="ex">psql</span> <span class="at">-U</span> user <span class="at">-h</span> localhost</span></code></pre></div>
+</body>
+</html>
