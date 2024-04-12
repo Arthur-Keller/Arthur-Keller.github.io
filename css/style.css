@@ -199,11 +199,18 @@ ul {
     flex-wrap: wrap;
 }
 
+.skills>.Docker{
+    width: 125px;
+    height: 125px;
+    margin: 10px;
+}
+
 .skills>img{
     width: 100px;
     height: 100px;
     margin: 10px;
 }
+
 
 .skills>p{
     letter-spacing: 1px;
@@ -461,6 +468,7 @@ h1 {
     font-size: 20px;
     margin-left: 20px;
     margin-right: 20px;
+    text-align: justify;
 }
 
 .titre-coord-link {
