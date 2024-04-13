@@ -212,9 +212,24 @@ ul {
 }
 
 
-.skills>p{
+.hard-skills-test {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    width: 60%;
+    border-radius: 20px;
+    margin-top: 20px;
+    padding: 30px;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.5);
+    column-count: 3; /* Nombre de colonnes */
+    column-gap: 20px; /* Espacement entre les colonnes */
+}
+
+.skills > p {
     letter-spacing: 1px;
     font-size: 20px;
+    margin-bottom: 10px; /* Ajout d'un espacement entre chaque compétence */
 }
 
 /* FORMATION */
