@@ -91,3 +91,19 @@ a{
     box-shadow: 0 5px 10px rgba(0,0,0,0.5);
     border-radius: 10px;    
 }
+
+.imageDuoStage>img {
+    width: 550px;
+    height: 375px;
+    margin: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+
+.imageSoloStage>img{
+    width: 400px;
+    height: 140px;
+    margin: 10px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+    border-radius: 10px;
+}
