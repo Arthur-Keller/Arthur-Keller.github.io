@@ -107,3 +107,15 @@ a{
     box-shadow: 0 5px 10px rgba(0,0,0,0.5);
     border-radius: 10px;
 }
+
+.imageDuoStage>img:hover{
+    -ms-transform: scale(1.7); /* IE 9 */
+    -webkit-transform: scale(1.5); /* Safari 3-8 */
+    transform: scale(1.5);
+}
+
+.imageDuo>img:hover{
+    -ms-transform: scale(1.7); /* IE 9 */
+    -webkit-transform: scale(1.5); /* Safari 3-8 */
+    transform: scale(1.5);
+}
