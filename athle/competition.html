@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Calendrier Athlé 2025</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    h1 { text-align: center; margin-bottom: 1rem; }
+    .legend { margin: 1.5rem 0; }
+    .legend span { display: inline-block; margin-right: 1.5rem; }
+    .legend .box {
+      width: 1em; height: 1em; display: inline-block;
+      vertical-align: middle; margin-right: 0.3em;
+    }
+    .red   { background: #e74c3c; }
+    .green { background: #2ecc71; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.5em;
+      text-align: center;
+    }
+    td.present { background: #2ecc71; color: #fff; }
+    td.absent  { background: #e74c3c; color: #fff; }
+  </style>
+</head>
+<body>
+
+  <h1>Calendrier des meetings Athlé 2025</h1>
+
+  <div class="legend">
+    <span><strong>F</strong> → Femme</span>
+    <span><strong>H</strong> → Homme</span>
+    <span><strong>CAM</strong> → Cadet M.</span>
+    <span><span class="box red"></span> Discipline absente</span>
+    <span><span class="box green"></span> Discipline présente</span>
+  </div>
+
+  <table id="competitions">
+    <thead><tr id="header-row"></tr></thead>
+    <tbody></tbody>
+  </table>
+
+  <!-- JSONP : on injecte ce script qui appellera buildTable() -->
+  <script>
+    function buildTable(json) {
+      // la data est dans json.table
+      const cols = json.table.cols.map(c => c.label);
+      const rows = json.table.rows;
+
+      // header
+      const header = document.getElementById('header-row');
+      cols.forEach(text => {
+        const th = document.createElement('th');
+        th.textContent = text;
+        header.appendChild(th);
+      });
+
+      // lignes
+      const tbody = document.querySelector('#competitions tbody');
+      rows.forEach(r => {
+        const tr = document.createElement('tr');
+        r.c.forEach(cellObj => {
+          const val = cellObj && cellObj.v != null ? cellObj.v : '';
+          const td  = document.createElement('td');
+          td.textContent = val;
+          if (val.toString().trim() === '') td.classList.add('absent');
+          else td.classList.add('present');
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+    }
+  </script>
+
+  <!--
+    → Remplace "Sheet1" par le nom de ta feuille si besoin,
+      sinon le paramètre sheet est optionnel pour la première feuille.
+  -->
+  <script src="https://docs.google.com/spreadsheets/d/1KO4UqeHBdHGxWCAMnKcRcvapXvCOq28qXO6RhnhpytM/gviz/tq?tq=&tqx=out:jsonp&callback=buildTable&sheet=Sheet1"></script>
+
+</body>
+</html>
