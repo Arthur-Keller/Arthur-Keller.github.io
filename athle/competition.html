@@ -46,14 +46,12 @@
     <tbody></tbody>
   </table>
 
-  <!-- JSONP : on injecte ce script qui appellera buildTable() -->
   <script>
     function buildTable(json) {
-      // la data est dans json.table
       const cols = json.table.cols.map(c => c.label);
       const rows = json.table.rows;
 
-      // header
+      // En-tête
       const header = document.getElementById('header-row');
       cols.forEach(text => {
         const th = document.createElement('th');
@@ -61,7 +59,7 @@
         header.appendChild(th);
       });
 
-      // lignes
+      // Corps de tableau
       const tbody = document.querySelector('#competitions tbody');
       rows.forEach(r => {
         const tr = document.createElement('tr');
@@ -69,8 +67,7 @@
           const val = cellObj && cellObj.v != null ? cellObj.v : '';
           const td  = document.createElement('td');
           td.textContent = val;
-          if (val.toString().trim() === '') td.classList.add('absent');
-          else td.classList.add('present');
+          td.classList.add(val.toString().trim() ? 'present' : 'absent');
           tr.appendChild(td);
         });
         tbody.appendChild(tr);
@@ -78,12 +75,12 @@
     }
   </script>
 
-  <!--
-    → Remplace "Sheet1" par le nom de ta feuille si besoin,
-      sinon le paramètre sheet est optionnel pour la première feuille.
-  -->
-  <script src="https://docs.google.com/spreadsheets/d/1KO4UqeHBdHGxWCAMnKcRcvapXvCOq28qXO6RhnhpytM/gviz/tq?
-  tq=&tqx=out:jsonp&callback=buildTable&sheet=Sheet1"></script>
+  <!-- Chargement JSONP corrigé : out:json & callback=buildTable -->
+  <script src="https://docs.google.com/spreadsheets/d/16zqAXRrUyh7fCGKy14uSTvkb-ehcQANPeG7l0ZMgFbM/
+                 gviz/tq?
+                 sheet=Sheet1
+                 &tqx=out:json;callback:buildTable">
+  </script>
 
 </body>
 </html>
