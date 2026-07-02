@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Projet Solo — Superviser un Portefeuille de Projets</title>
+<title>Portefeuille de Projets — KELLER Arthur</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -24,7 +24,8 @@
 
   .cover {
     text-align: center;
-    max-width: 640px;
+    max-width: 760px;
+    width: 100%;
   }
 
   .logo {
@@ -35,7 +36,7 @@
   }
 
   h1 {
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 700;
     color: #ffffff;
     line-height: 1.35;
@@ -53,24 +54,57 @@
     font-weight: 600;
     color: #e2e8f0;
     letter-spacing: 0.5px;
-    margin-bottom: 44px;
+    margin-bottom: 48px;
   }
 
-  .cta {
-    display: inline-block;
-    background: #2b6cb0;
-    color: #ffffff;
+  .projects {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 600px) {
+    .projects { grid-template-columns: 1fr; }
+  }
+
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 22px 22px 20px;
     text-decoration: none;
-    font-size: 14px;
-    font-weight: 700;
-    padding: 14px 32px;
-    border-radius: 8px;
-    transition: background 0.15s ease, transform 0.15s ease;
+    color: inherit;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
   }
 
-  .cta:hover {
-    background: #2c5282;
-    transform: translateY(-2px);
+  .project-card:hover {
+    transform: translateY(-4px);
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .project-card .ptitle {
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 8px;
+  }
+
+  .project-card .pdesc {
+    font-size: 12px;
+    color: #a0aec0;
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+
+  .project-card .plink {
+    font-size: 13px;
+    font-weight: 700;
+    color: #63b3ed;
+    margin-top: auto;
   }
 </style>
 </head>
@@ -78,10 +112,22 @@
 
 <div class="cover">
   <img class="logo" src="./img/logo-cesi.png" alt="Logo CESI">
-  <h1>Projet Solo — Superviser un Portefeuille de Projets</h1>
+  <h1>Superviser un Portefeuille de Projets</h1>
   <p class="subtitle">Master Manager en Infrastructures et Cybersécurité des SI</p>
   <p class="name">KELLER Arthur</p>
-  <a class="cta" href="projets.html">Accéder aux livrables →</a>
+
+  <div class="projects">
+    <a class="project-card" href="projet-solo-web001/projets.html">
+      <div class="ptitle">Projet Solo — WEB-001</div>
+      <div class="pdesc">Refonte de l'application web Time'Eats : planning, budget, risques, KPI, communication, sécurité et qualité.</div>
+      <div class="plink">Accéder aux livrables →</div>
+    </a>
+    <a class="project-card" href="projet-collaboratif-dsi/index.html">
+      <div class="ptitle">Projet Collaboratif — DSI</div>
+      <div class="pdesc">Superviser le portefeuille projets de la DSI.</div>
+      <div class="plink">Accéder aux livrables →</div>
+    </a>
+  </div>
 </div>
 
 </body>
