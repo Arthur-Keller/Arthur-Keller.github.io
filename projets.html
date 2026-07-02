@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Livrables — Projet WEB-001</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f4f6f9;
+    color: #1a1a2e;
+    min-height: 100vh;
+  }
+
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #ffffff;
+    padding: 24px 40px 36px;
+    position: relative;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #a0aec0;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: color 0.15s ease;
+  }
+
+  .back-link:hover { color: #ffffff; }
+
+  .header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-top: 18px;
+  }
+
+  .header p {
+    font-size: 13px;
+    color: #a0aec0;
+    margin-top: 6px;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 36px 40px 60px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    border-left: 4px solid #2b6cb0;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  }
+
+  .card .icon {
+    font-size: 30px;
+    margin-bottom: 14px;
+  }
+
+  .card h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 8px;
+  }
+
+  .card p {
+    font-size: 13px;
+    color: #718096;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a class="back-link" href="index.html">← Accueil</a>
+  <h1>Livrables — Projet WEB-001</h1>
+  <p>Refonte de l'application web · Time'Eats · Master MICS — KELLER Arthur</p>
+</div>
+
+<div class="container">
+  <div class="grid">
+    <a class="card" href="gantt_WEB001.html">
+      <div class="icon">📅</div>
+      <h2>Planning Gantt</h2>
+      <p>Séquencement des phases, jalons et charge de travail du projet.</p>
+    </a>
+    <a class="card" href="budget_WEB001.html">
+      <div class="icon">💰</div>
+      <h2>Budget prévisionnel</h2>
+      <p>Répartition de l'enveloppe, coûts internes et externes, hypothèses.</p>
+    </a>
+    <a class="card" href="risques_WEB001.html">
+      <div class="icon">⚠️</div>
+      <h2>Registre des risques</h2>
+      <p>Identification, évaluation et plans de mitigation des risques projet.</p>
+    </a>
+    <a class="card" href="kpi_WEB001.html">
+      <div class="icon">📊</div>
+      <h2>Tableau de bord KPI</h2>
+      <p>Indicateurs de suivi de l'avancement et de la performance du projet.</p>
+    </a>
+    <a class="card" href="communication_WEB001.html">
+      <div class="icon">📣</div>
+      <h2>Plan de communication</h2>
+      <p>Stratégie et cadence de communication auprès des parties prenantes.</p>
+    </a>
+    <a class="card" href="securite_WEB001.html">
+      <div class="icon">🔒</div>
+      <h2>Plan de sécurité</h2>
+      <p>Mesures de sécurisation applicative et organisationnelle du projet.</p>
+    </a>
+    <a class="card" href="qualite_WEB001.html">
+      <div class="icon">✅</div>
+      <h2>Plan qualité TDD</h2>
+      <p>Démarche qualité et pratique du développement piloté par les tests.</p>
+    </a>
+  </div>
+</div>
+
+</body>
+</html>

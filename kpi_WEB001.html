@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Référentiel KPI — WEB-001 Refonte Application Web — Time'Eats</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; color: #1a1a2e; font-size: 13px; }
+
+  .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 28px 40px 20px; }
+  .header h1 { font-size: 22px; font-weight: 700; }
+  .header p { font-size: 13px; color: #a0aec0; margin-top: 4px; }
+  .header-meta { display: flex; gap: 32px; margin-top: 16px; flex-wrap: wrap; }
+  .meta-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #718096; }
+  .meta-value { font-size: 13px; font-weight: 600; color: #e2e8f0; margin-top: 2px; }
+
+  .container { padding: 28px 40px 48px; }
+
+  .intro { background: white; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); padding: 18px 22px; margin-bottom: 28px; font-size: 12px; color: #4a5568; line-height: 1.7; }
+  .intro strong { color: #1a1a2e; }
+
+  /* Axe titre */
+  .axe-title {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 18px; border-radius: 8px 8px 0 0;
+    font-size: 14px; font-weight: 700; color: white;
+    margin-top: 24px;
+  }
+  .axe-title .axe-num { font-size: 11px; font-weight: 600; opacity: 0.75; margin-left: auto; }
+
+  .ax-planning  { background: #2b6cb0; }
+  .ax-budget    { background: #276749; }
+  .ax-qualite   { background: #553c9a; }
+  .ax-securite  { background: #742a2a; }
+  .ax-perf      { background: #2c7a7b; }
+  .ax-risques   { background: #c05621; }
+
+  /* Table KPI */
+  .kpi-table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 1px 4px rgba(0,0,0,0.08); border-radius: 0 0 8px 8px; margin-bottom: 4px; overflow: hidden; }
+  .kpi-table thead tr { background: #f7fafc; }
+  .kpi-table th { font-size: 10px; font-weight: 700; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 14px; text-align: left; border-bottom: 2px solid #e2e8f0; white-space: nowrap; }
+  .kpi-table td { padding: 11px 14px; border-bottom: 1px solid #f0f4f8; vertical-align: top; font-size: 12px; color: #2d3748; line-height: 1.5; }
+  .kpi-table tr:last-child td { border-bottom: none; }
+  .kpi-table tr:hover td { background: #f7fafc; }
+
+  .kpi-id { font-weight: 700; font-size: 11px; white-space: nowrap; }
+  .kpi-name { font-weight: 600; color: #1a1a2e; }
+  .kpi-formula { font-size: 11px; color: #553c9a; font-family: 'Courier New', monospace; background: #faf5ff; padding: 2px 6px; border-radius: 3px; display: inline-block; }
+  .kpi-cible { font-weight: 700; }
+
+  /* Badges fréquence */
+  .badge { display: inline-block; border-radius: 4px; padding: 2px 8px; font-size: 10px; font-weight: 700; }
+  .bf-sprint  { background: #ebf8ff; color: #2b6cb0; }
+  .bf-mensuel { background: #f0fff4; color: #276749; }
+  .bf-hebdo   { background: #fffbeb; color: #c05621; }
+  .bf-golive  { background: #fff5f5; color: #742a2a; }
+  .bf-continu { background: #e9d8fd; color: #553c9a; }
+
+  /* Seuils */
+  .seuil-ok     { color: #276749; font-weight: 700; }
+  .seuil-warn   { color: #c05621; font-weight: 700; }
+  .seuil-crit   { color: #742a2a; font-weight: 700; }
+
+  .col-id    { width: 5%; }
+  .col-name  { width: 18%; }
+  .col-form  { width: 20%; }
+  .col-cible { width: 10%; }
+  .col-seuils{ width: 18%; }
+  .col-freq  { width: 8%; }
+  .col-src   { width: 11%; }
+  .col-resp  { width: 10%; }
+
+  .footer { margin-top: 32px; font-size: 10px; color: #a0aec0; text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>RÉFÉRENTIEL KPI — WEB-001 · Refonte de l'application web</h1>
+  <p>Time'Eats · DSI · Document de pilotage projet · Version 1.0</p>
+  <div class="header-meta">
+    <div><div class="meta-label">Projet</div><div class="meta-value">WEB-001</div></div>
+    <div><div class="meta-label">Période</div><div class="meta-value">Mai → Octobre N</div></div>
+    <div><div class="meta-label">Budget</div><div class="meta-value">300 000 €</div></div>
+    <div><div class="meta-label">Charge totale</div><div class="meta-value">540 j/h</div></div>
+    <div><div class="meta-label">Sprints</div><div class="meta-value">12 × 2 semaines</div></div>
+    <div><div class="meta-label">Axes KPI</div><div class="meta-value">6 axes · 24 indicateurs</div></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="intro">
+    Ce référentiel définit l'ensemble des indicateurs clés de performance (KPI) retenus pour le pilotage du projet <strong>WEB-001 — Refonte de l'application web Time'Eats</strong>. 
+    Il couvre <strong>6 axes de pilotage</strong> : Planning, Budget, Qualité, Sécurité, Performance technique et Risques.
+    Chaque KPI est défini par sa formule de calcul, sa cible, ses seuils d'alerte, sa fréquence de mesure, sa source de données et son responsable.
+    Ce document est la référence pour l'alimentation du tableau de bord présenté en <strong>Copil mensuel</strong>.
+  </div>
+
+  <!-- AXE 1 : PLANNING -->
+  <div class="axe-title ax-planning">
+    📅 AXE 1 — PLANNING <span class="axe-num">5 indicateurs</span>
+  </div>
+  <table class="kpi-table">
+    <thead>
+      <tr>
+        <th class="col-id">ID</th>
+        <th class="col-name">Indicateur</th>
+        <th class="col-form">Formule / Définition</th>
+        <th class="col-cible">Cible</th>
+        <th class="col-seuils">Seuils</th>
+        <th class="col-freq">Fréquence</th>
+        <th class="col-src">Source</th>
+        <th class="col-resp">Responsable</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="kpi-id">P-01</span></td>
+        <td><span class="kpi-name">Taux d'avancement sprints</span></td>
+        <td><span class="kpi-formula">Sprints livrés / 12 × 100</span></td>
+        <td><span class="kpi-cible">100 % à S12</span></td>
+        <td>
+          <span class="seuil-ok">✓ Conforme</span> si avancement ≥ attendu<br>
+          <span class="seuil-warn">⚠ Alerte</span> si retard &gt; 1 sprint<br>
+          <span class="seuil-crit">✗ Critique</span> si retard &gt; 2 sprints
+        </td>
+        <td><span class="badge bf-sprint">Par sprint</span></td>
+        <td>Jira / Backlog Scrum</td>
+        <td>CDP / PMO</td>
+      </tr>
+      <tr>
+        <td><span class="kpi-id">P-02</span></td>
+        <td><span class="kpi-name">Jalons respectés</span></td>
+        <td><span class="kpi-formula">Nb jalons livrés à date / Nb jalons prévus</span></td>
+        <td><span class="kpi-cible">7 / 7</span></td>
+        <td>
+          <span class="seuil-ok">✓ Conforme</span> 0 jalon en retard<br>
+          <span class="seuil-warn">⚠ Alerte</span> 1 jalon décalé ≤ 2 sem.<br>
+          <span class="seuil-crit">✗ Critique</span> 1 jalon décalé &gt; 2 sem.
+        </td>
+        <td><span class="badge bf-mensuel">Mensuel</span></td>
+        <td>Planning projet / GANTT</td>
+        <td>CDP / PMO</td>
+      </tr>
+      <tr>
+        <td><span class="kpi-id">P-03</span></td>
+        <td><span class="kpi-name">Vélocité d'équipe</span></td>
+        <td><span class="kpi-formula">Story points livrés / sprint</span></td>
+        <td><span class="kpi-cible">≥ 40 pts</span></td>
+        <td>
+          <span class="seuil-ok">✓ Conforme</span> ≥ 40 pts<br>
+          <span class="seuil-warn">⚠ Alerte</span> 30–39 pts<br>
+          <span class="seuil-crit">✗ Critique</span> &lt; 30 pts
+        </td>
+        <td><span class="badge bf-sprint">Par sprint</span></td>
+        <td>Jira — Sprint Review</td>
+        <td>Lead Dev</td>
+      </tr>
+      <tr>
+        <td><span class="kpi-id">P-04</span></td>
+        <td><span class="kpi-name">Taux de complétion backlog</span></td>
+        <td><span class="kpi-formula">US livrées en DoD / US planifiées sprint</span></td>
+        <td><span class="kpi-cible">≥ 90 %</span></td>
+        <td>
+          <span class="seuil-ok">✓ Conforme</span> ≥ 90 %<br>
+          <span class="seuil-warn">⚠ Alerte</span> 75–89 %<br>
+          <span class="seuil-crit">✗ Critique</span> &lt; 75 %
+        </td>
+        <td><span class="badge bf-sprint">Par sprint</span></td>
+        <td>Jira — Sprint Report</td>
+        <td>Lead Dev / CDP</td>
+      </tr>
+      <tr>
+        <td><span class="kpi-id">P-05</span></td>
+        <td><span class="kpi-name">Retard accumulé</span></td>
+        <td><span class="kpi-formula">Somme des jours de glissement cumulés sur le planning</span></td>
+        <td><span class="kpi-cible">0 j au go-live</span></td>
+        <td>
+          <span class="seuil-ok">✓ Conforme</span> 0 j<br>
+          <span class="seuil-warn">⚠ Alerte</span> 1–10 j<br>
+          <span class="seuil-crit">✗ Critique</span> &gt; 10 j
+        </td>
+        <td><span class="badge bf-mensuel">Mensuel</span></td>
+        <td>GANTT / Planning projet</td>
+        <td>CDP / PMO</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- AXE 2 : BUDGET -->
+  <div class="axe-title ax-budget">
+    💶 AXE 2 — BUDGET <span class="axe-num">4 indicateurs</span>
+  </div>
+  <table class="kpi-table">
+    <thead>
+      <tr>
+        <th class="col-id">ID</th>
+        <th class="col-name">Indicateur</th>
+        <th class="col-form">Formule / Définition</th>
+        <th class="col-cible">Cible</th>
+        <th class="col-seuils">Seuils</th>
+        <th class="col-freq">Fréquence</th>
+        <th class="col-src">Source</th>
+        <th class="col-resp">Responsable</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="kpi-id">B-01</span></td>
+        <td><span class="kpi-name">Consommation budgétaire globale</span></td>
+        <td><span class="kpi-formula">Dépenses réelles / Budget total (300 000 €) × 100</span></td>
+        <td><span class="kpi-cible">≤ 100 %</span></td>
+        <td>
+          <span class="seuil-ok">✓ Conforme</span> ≤ 95 % à fin projet<br>
+          <span class="seuil-warn">⚠ Alerte</span> 95–105 %<br>
+          <span class="seuil-crit">✗ Critique</span> &gt; 105 %
+        </td>
+        <td><span class="badge bf-mensuel">Mensuel</span></td>
+        <td>ERP / Comptabilité DSI</td>
+        <td>CDP / PMO</td>
+      </tr>
+      <tr>
+        <td><span class="kpi-id">B-02</span></td>
+        <td><span class="kpi-name">Coût ESN consommé</span></td>
+        <td><span class="kpi-formula">Jours ESN facturés × 600 €/j — Enveloppe : 144 000 €</span></td>
+        <td><span class="kpi-cible">≤ 144 000 €</span></td>
+        <td>
+          <span class="seuil-ok">✓ Conforme</span> ≤ 144 000 €<br>
+          <span class="seuil-warn">⚠ Alerte</span> 144 001 – 153 000 €<br>
+          <span class="seuil-crit">✗ Critique</span> &gt; 153 000 € (marge entamée)
+        </td>
+        <td><span class="badge bf-mensuel">Mensuel</span></td>
+        <td>Factures ESN / ERP</td>
+        <td>CDP / Achats DSI</td>
+      </tr>
+      <tr>
+        <td><span class="kpi-id">B-03</span></td>
+        <td><span class="kpi-name">Coût infrastructure Azure</span></td>
+        <td><span class="kpi-formula">Dépenses Azure réelles — Enveloppe : 39 000 €</span></td>
+        <td><span class="kpi-cible">≤ 39 000 €</span></td>
+        <td>
+          <span class="seuil-ok">✓ Conforme</span> ≤ 39 000 €<br>
+          <span class="seuil-warn">⚠ Alerte</span> 39 001 – 42 000 €<br>
+          <span class="seuil-crit">✗ Critique</span> &gt; 42 000 €
+        </td>
+        <td><span class="badge bf-mensuel">Mensuel</span></td>
+        <td>Azure Cost Management</td>
+        <td>Lead Dev / Admin Sys</td>
+      </tr>
+      <tr>
+        <td><span class="kpi-id">B-04</span></td>
+        <td><span class="kpi-name">Réserve budgétaire disponible</span></td>
+        <td><span class="kpi-formula">Réserve initiale (72 000 €) – Montant activé</span></td>
+        <td><span class="kpi-cible">≥ 0 € au go-live</span></td>
+        <td>
+          <span class="seuil-ok">✓ Conforme</span> Non entamée<br>
+          <span class="seuil-warn">⚠ Alerte</span> Activation partielle (décision Copil)<br>
+          <span class="seuil-crit">✗ Critique</span> Réserve épuisée
+        </td>
+        <td><span class="badge bf-mensuel">Mensuel</span></td>
+        <td>Suivi PMO</td>
+        <td>Sponsor / DSI</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- AXE 3 : QUALITÉ -->
+  <div class="axe-title ax-qualite">
+    🧪 AXE 3 — QUALITÉ <span class="axe-num">5 indicateurs</span>
+  </div>
+  <table class="kpi-table">
+    <thead>
+      <tr>
+        <th class="col-id">ID</th>
+        <th class="col-name">Indicateur</th>
+        <th class="col-form">Formule / Définition</th>
+        <th class="col-cible">Cible</th>
+        <th class="col-seuils">Seuils</th>
+        <th class="col-freq">Fréquence</th>
+        <th class="col-src">Source</th>
+        <th class="col-resp">Responsable</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="kpi-id">Q-01</span></td>
+        <td><span class="kpi-name">Couverture de tests automatisés</span></td>
+        <td><span class="kpi-formula">Lignes de code couvertes / Total lignes × 100</span></td>
+        <td><span class="kpi-cible">≥ 80 % au go-live</span></td>
+        <td>
+          <span class="seuil-ok">✓ Conforme</span> ≥ 80 %<br>
+          <span class="seuil-warn">⚠ Alerte</span> 65–79 %<br>
+          <span class="seuil-crit">✗ Critique</span> &lt; 65 %
+        </td>
+        <td><span class="badge bf-sprint">Par sprint</span></td>
+        <td>SonarQube</td>
+        <td>Lead Dev</td>
+      </tr>
+      <tr>
+        <td><span class="kpi-id">Q-02</span></td>
+        <td><span class="kpi-name">Bugs bloquants ouverts</span></td>
+        <td><span class="kpi-formula">Nb de bugs de sévérité CRITICAL/BLOCKER non résolus</span></td>
+        <td><span class="kpi-cible">0 au go-live</span></td>
+        <td>
+          <span class="seuil-ok">✓ Conforme</span> 0<br>
+          <span class="seuil-warn">⚠ Alerte</span> 1–2 (hors sprint actif)<br>
+          <span class="seuil-crit">✗ Critique</span> ≥ 1 à J6 (UAT)
+        </td>
+        <td><span class="badge bf-sprint">Par sprint</span></td>
+        <td>Jira — Bug tracker</td>
+        <td>Lead Dev / CDP</td>
+      </tr>
+      <tr>
+        <td><span class="kpi-id">Q-03</span></td>
+        <td><span class="kpi-name">Bugs majeurs ouverts</span></td>
+        <td><span class="kpi-formula">Nb de bugs de sévérité MAJOR non résolus</span></td>
+        <td><span class="kpi-cible">&lt; 5 à J6 (UAT)</span></td>
+        <td>
+          <span class="seuil-ok">✓ Conforme</span> &lt; 5<br>
+          <span class="seuil-warn">⚠ Alerte</span> 5–10<br>
+          <span class="seuil-crit">✗ Critique</span> &gt; 10 à J6
+        </td>
+        <td><span class="badge bf-sprint">Par sprint</span></td>
+        <td>Jira — Bug tracker</td>
+        <td>Lead Dev</td>
+      </tr>
+      <tr>
+        <td><span class="kpi-id">Q-04</span></td>
+        <td><span class="kpi-name">Dette technique</span></td>
+        <td><span class="kpi-formula">Estimation SonarQube du temps de remédiation (jours)</span></td>
+        <td><span class="kpi-cible">&lt; 5 j au go-live</span></td>
+        <td>
+          <span class="seuil-ok">✓ Conforme</span> &lt; 5 j<br>
+          <span class="seuil-warn">⚠ Alerte</span> 5–10 j<br>
+          <span class="seuil-crit">✗ Critique</span> &gt; 10 j
+        </td>
+        <td><span class="badge bf-sprint">Par sprint</span></td>
+        <td>SonarQube</td>
+        <td>Lead Dev</td>
+      </tr>
+      <tr>
+        <td><span class="kpi-id">Q-05</span></td>
+        <td><span class="kpi-name">Taux de succès pipeline CI/CD</span></td>
+        <td><span class="kpi-formula">Builds réussis / Total builds déclenchés × 100</span></td>
+        <td><span class="kpi-cible">≥ 95 %</span></td>
+        <td>
+          <span class="seuil-ok">✓ Conforme</span> ≥ 95 %<br>
+          <span class="seuil-warn">⚠ Alerte</span> 85–94 %<br>
+          <span class="seuil-crit">✗ Critique</span> &lt; 85 %
+        </td>
+        <td><span class="badge bf-continu">Continu</span></td>
+        <td>GitHub Actions</td>
+        <td>Lead Dev</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- AXE 4 : SÉCURITÉ -->
+  <div class="axe-title ax-securite">
+    🔒 AXE 4 — SÉCURITÉ <span class="axe-num">5 indicateurs</span>
+  </div>
+  <table class="kpi-table">
+    <thead>
+      <tr>
+        <th class="col-id">ID</th>
+        <th class="col-name">Indicateur</th>
+        <th class="col-form">Formule / Définition</th>
+        <th class="col-cible">Cible</th>
+        <th class="col-seuils">Seuils</th>
+        <th class="col-freq">Fréquence</th>
+        <th class="col-src">Source</th>
+        <th class="col-resp">Responsable</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="kpi-id">S-01</span></td>
+        <td><span class="kpi-name">Vulnérabilités critiques ouvertes</span></td>
+        <td><span class="kpi-formula">Nb de CVE de sévérité CRITICAL non corrigées (CVSS ≥ 9)</span></td>
+        <td><span class="kpi-cible">0 au go-live</span></td>
+        <td>
+          <span class="seuil-ok">✓ Conforme</span> 0<br>
+          <span class="seuil-warn">⚠ Alerte</span> 1 (plan de correction &lt; 48 h)<br>
+          <span class="seuil-crit">✗ Bloquant</span> ≥ 1 à J7 (go-live bloqué)
+        </td>
+        <td><span class="badge bf-continu">Continu</span></td>
+        <td>SonarQube / OWASP Dependency Check</td>
+        <td>RSSI</td>
+      </tr>
+      <tr>
+        <td><span class="kpi-id">S-02</span></td>
+        <td><span class="kpi-name">Vulnérabilités élevées ouvertes</span></td>
+        <td><span class="kpi-formula">Nb de CVE de sévérité HIGH non corrigées (CVSS 7–8,9)</span></td>
+        <td><span class="kpi-cible">0 au go-live</span></td>
+        <td>
+          <span class="seuil-ok">✓ Conforme</span> 0<br>
+          <span class="seuil-warn">⚠ Alerte</span> 1–3 avec plan de correction<br>
+          <span class="seuil-crit">✗ Critique</span> &gt; 3 ou ≥ 1 à J7
+        </td>
+        <td><span class="badge bf-hebdo">Hebdo</span></td>
+        <td>SonarQube / Azure Defender</td>
+        <td>RSSI / Lead Dev</td>
+      </tr>
+      <tr>
+        <td><span class="kpi-id">S-03</span></td>
+        <td><span class="kpi-name">Résultat du pentest OWASP Top 10</span></td>
+        <td><span class="kpi-formula">Nb de failles OWASP identifiées non résolues à J6 (UAT)</span></td>
+        <td><span class="kpi-cible">0 faille critique / élevée à J6</span></td>
+        <td>
+          <span class="seuil-ok">✓ Conforme</span> 0 critique ou élevée<br>
+          <span class="seuil-warn">⚠ Alerte</span> 1–2 moyennes avec plan<br>
+          <span class="seuil-crit">✗ Bloquant</span> ≥ 1 critique à J6
+        </td>
+        <td><span class="badge bf-golive">Unique (S9–S10)</span></td>
+        <td>Rapport pentest externe</td>
+        <td>RSSI</td>
+      </tr>
+      <tr>
+        <td><span class="kpi-id">S-04</span></td>
+        <td><span class="kpi-name">Intégration MFA (Azure AD B2C)</span></td>
+        <td><span class="kpi-formula">MFA opérationnel en recette à J4 (Août N) — Binaire Oui/Non</span></td>
+        <td><span class="kpi-cible">Oui à J4</span></td>
+        <td>
+          <span class="seuil-ok">✓ Conforme</span> Livré à J4<br>
+          <span class="seuil-warn">⚠ Alerte</span> Retard ≤ 1 sprint (lié projet MFA)<br>
+          <span class="seuil-crit">✗ Critique</span> Non livré à J6 (blocage go-live)
+        </td>
+        <td><span class="badge bf-golive">Jalon J4</span></td>
+        <td>Suivi projet MFA / RSSI</td>
+        <td>RSSI / CDP</td>
+      </tr>
+      <tr>
+        <td><span class="kpi-id">S-05</span></td>
+        <td><span class="kpi-name">Conformité RGPD</span></td>
+        <td><span class="kpi-formula">Revue mensuelle RSSI : respect Privacy by Design, PIA réalisé, consentements conformes</span></td>
+        <td><span class="kpi-cible">Conforme à chaque revue</span></td>
+        <td>
+          <span class="seuil-ok">✓ Conforme</span> Aucune non-conformité<br>
+          <span class="seuil-warn">⚠ Alerte</span> Non-conformité mineure avec plan<br>
+          <span class="seuil-crit">✗ Critique</span> Non-conformité bloquant la mise en prod
+        </td>
+        <td><span class="badge bf-mensuel">Mensuel</span></td>
+        <td>Revue RSSI / DPO</td>
+        <td>RSSI / DPO</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- AXE 5 : PERFORMANCE -->
+  <div class="axe-title ax-perf">
+    ⚡ AXE 5 — PERFORMANCE TECHNIQUE <span class="axe-num">3 indicateurs</span>
+  </div>
+  <table class="kpi-table">
+    <thead>
+      <tr>
+        <th class="col-id">ID</th>
+        <th class="col-name">Indicateur</th>
+        <th class="col-form">Formule / Définition</th>
+        <th class="col-cible">Cible</th>
+        <th class="col-seuils">Seuils</th>
+        <th class="col-freq">Fréquence</th>
+        <th class="col-src">Source</th>
+        <th class="col-resp">Responsable</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="kpi-id">T-01</span></td>
+        <td><span class="kpi-name">LCP — Largest Contentful Paint</span></td>
+        <td><span class="kpi-formula">Temps de rendu du plus grand élément visible (Core Web Vitals)</span></td>
+        <td><span class="kpi-cible">≤ 2,5 s au go-live</span></td>
+        <td>
+          <span class="seuil-ok">✓ Conforme</span> ≤ 2,5 s<br>
+          <span class="seuil-warn">⚠ Alerte</span> 2,5 – 4,0 s<br>
+          <span class="seuil-crit">✗ Critique</span> &gt; 4,0 s
+        </td>
+        <td><span class="badge bf-sprint">Par sprint (S7+)</span></td>
+        <td>Lighthouse / Azure Monitor</td>
+        <td>Lead Dev / Dev Front</td>
+      </tr>
+      <tr>
+        <td><span class="kpi-id">T-02</span></td>
+        <td><span class="kpi-name">Capacité de charge (tests k6)</span></td>
+        <td><span class="kpi-formula">Nb d'utilisateurs simultanés supportés sans dégradation (&lt; 3 s de réponse P95)</span></td>
+        <td><span class="kpi-cible">≥ 10 000 utilisateurs simultanés</span></td>
+        <td>
+          <span class="seuil-ok">✓ Conforme</span> ≥ 10 000 users sans dégradation<br>
+          <span class="seuil-warn">⚠ Alerte</span> 7 000–9 999 users<br>
+          <span class="seuil-crit">✗ Critique</span> &lt; 7 000 users
+        </td>
+        <td><span class="badge bf-golive">S9 + J6 (UAT)</span></td>
+        <td>k6 — Tests de charge</td>
+        <td>Lead Dev / Dev Back</td>
+      </tr>
+      <tr>
+        <td><span class="kpi-id">T-03</span></td>
+        <td><span class="kpi-name">Disponibilité (SLA Azure prod)</span></td>
+        <td><span class="kpi-formula">Temps de disponibilité mesuré / Temps total × 100 — applicable post go-live</span></td>
+        <td><span class="kpi-cible">≥ 99,9 %</span></td>
+        <td>
+          <span class="seuil-ok">✓ Conforme</span> ≥ 99,9 %<br>
+          <span class="seuil-warn">⚠ Alerte</span> 99,0 – 99,8 %<br>
+          <span class="seuil-crit">✗ Critique</span> &lt; 99,0 %
+        </td>
+        <td><span class="badge bf-mensuel">Mensuel (post go-live)</span></td>
+        <td>Azure Monitor / App Insights</td>
+        <td>Lead Dev / Admin Sys</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- AXE 6 : RISQUES -->
+  <div class="axe-title ax-risques">
+    ⚠️ AXE 6 — RISQUES <span class="axe-num">2 indicateurs</span>
+  </div>
+  <table class="kpi-table">
+    <thead>
+      <tr>
+        <th class="col-id">ID</th>
+        <th class="col-name">Indicateur</th>
+        <th class="col-form">Formule / Définition</th>
+        <th class="col-cible">Cible</th>
+        <th class="col-seuils">Seuils</th>
+        <th class="col-freq">Fréquence</th>
+        <th class="col-src">Source</th>
+        <th class="col-resp">Responsable</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="kpi-id">R-01</span></td>
+        <td><span class="kpi-name">Risques critiques ouverts</span></td>
+        <td><span class="kpi-formula">Nb de risques de score ≥ 12 (sur 16) sans plan d'action validé</span></td>
+        <td><span class="kpi-cible">0 au go-live</span></td>
+        <td>
+          <span class="seuil-ok">✓ Conforme</span> 0 risque critique sans plan<br>
+          <span class="seuil-warn">⚠ Alerte</span> 1–2 avec plan en cours<br>
+          <span class="seuil-crit">✗ Critique</span> ≥ 1 sans plan ou à J7
+        </td>
+        <td><span class="badge bf-mensuel">Mensuel Copil</span></td>
+        <td>Registre des risques</td>
+        <td>CDP / PMO</td>
+      </tr>
+      <tr>
+        <td><span class="kpi-id">R-02</span></td>
+        <td><span class="kpi-name">Taux de couverture des risques</span></td>
+        <td><span class="kpi-formula">Risques avec plan de réponse validé / Total risques identifiés × 100</span></td>
+        <td><span class="kpi-cible">100 % pour risques ≥ score 8</span></td>
+        <td>
+          <span class="seuil-ok">✓ Conforme</span> 100 % des risques élevés couverts<br>
+          <span class="seuil-warn">⚠ Alerte</span> 80–99 %<br>
+          <span class="seuil-crit">✗ Critique</span> &lt; 80 %
+        </td>
+        <td><span class="badge bf-mensuel">Mensuel Copil</span></td>
+        <td>Registre des risques</td>
+        <td>CDP / PMO</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="footer">
+    Time'Eats · WEB-001 · Référentiel KPI · Version 1.0 · Mai N · Confidentiel interne DSI
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Gantt — WEB-001 Refonte Application Web — Time'Eats</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; color: #1a1a2e; }
+
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: white;
+    padding: 28px 40px 20px;
+  }
+  .header h1 { font-size: 22px; font-weight: 700; letter-spacing: 0.3px; }
+  .header p { font-size: 13px; color: #a0aec0; margin-top: 4px; }
+  .header-meta { display: flex; gap: 32px; margin-top: 16px; }
+  .meta-item { display: flex; flex-direction: column; }
+  .meta-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #718096; }
+  .meta-value { font-size: 13px; font-weight: 600; color: #e2e8f0; margin-top: 2px; }
+
+  .container { padding: 24px 40px 40px; }
+
+  /* Légende ressources */
+  .legend-bar {
+    display: flex; gap: 20px; align-items: center;
+    background: white; border-radius: 8px; padding: 12px 20px;
+    margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    flex-wrap: wrap;
+  }
+  .legend-bar .title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #718096; margin-right: 4px; }
+  .leg-item { display: flex; align-items: center; gap: 7px; font-size: 12px; }
+  .leg-color { width: 28px; height: 10px; border-radius: 3px; }
+  .sep { width: 1px; height: 20px; background: #e2e8f0; }
+
+  /* Gantt table */
+  .gantt-wrap { background: white; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; }
+
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+
+  /* Header months */
+  .th-label { width: 200px; background: #1a1a2e; color: white; font-size: 12px; font-weight: 600; padding: 10px 14px; text-align: left; }
+  .th-month { background: #1a1a2e; color: #a0aec0; font-size: 11px; font-weight: 700; text-align: center; letter-spacing: 0.5px; text-transform: uppercase; border-left: 1px solid #2d3748; padding: 10px 4px; }
+  .th-month.current { color: #63b3ed; }
+
+  /* Sprint sub-header */
+  .th-sprint { background: #2d3748; color: #718096; font-size: 10px; text-align: center; padding: 5px 2px; border-left: 1px solid #374151; letter-spacing: 0.3px; }
+  .th-sprint.even { background: #283141; }
+
+  /* Rows */
+  tr.section-row td { background: #f0f4ff; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #4a5568; padding: 6px 14px; border-top: 2px solid #e2e8f0; }
+  tr.section-row td.cell { background: #f0f4ff; border-left: 1px solid #e8edf5; }
+
+  tr.task-row td.label { font-size: 12px; padding: 0 14px; height: 34px; color: #2d3748; border-bottom: 1px solid #f0f4ff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  tr.task-row td.cell { border-left: 1px solid #f0f4ff; border-bottom: 1px solid #f0f4ff; padding: 5px 2px; vertical-align: middle; }
+  tr.task-row:hover td { background: #fafbff; }
+
+  tr.resource-row td.label { font-size: 11px; padding: 0 14px; height: 28px; color: #718096; font-style: italic; border-bottom: 1px solid #f7f8fc; }
+  tr.resource-row td.cell { border-left: 1px solid #f7f8fc; border-bottom: 1px solid #f7f8fc; padding: 4px 2px; vertical-align: middle; }
+
+  /* Bars */
+  .bar { height: 16px; border-radius: 4px; width: 100%; display: block; }
+  .bar-start { border-radius: 4px 0 0 4px; }
+  .bar-mid { border-radius: 0; }
+  .bar-end { border-radius: 0 4px 4px 0; }
+  .bar-full { border-radius: 4px; }
+
+  /* Phase colors */
+  .c-cadrage    { background: #667eea; }
+  .c-archi      { background: #48bb78; }
+  .c-dev        { background: #ed8936; }
+  .c-integ      { background: #e53e3e; }
+  .c-tests      { background: #9f7aea; }
+  .c-cloture    { background: #38b2ac; }
+  .c-esn        { background: #f6ad55; opacity: 0.85; }
+  .c-dsi        { background: #63b3ed; opacity: 0.85; }
+
+  /* Jalon diamond */
+  .jalon-cell { position: relative; text-align: center; }
+  .jalon {
+    display: inline-block;
+    width: 14px; height: 14px;
+    background: #1a1a2e;
+    transform: rotate(45deg);
+    position: relative;
+  }
+  .jalon.j-go { background: #e53e3e; }
+  .jalon-label {
+    position: absolute; top: -18px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 9px; font-weight: 700;
+    color: #1a1a2e; white-space: nowrap;
+    background: white; padding: 1px 3px;
+    border-radius: 2px; border: 1px solid #e2e8f0;
+  }
+
+  /* Jalons legend */
+  .jalons-section {
+    background: white; border-radius: 8px; padding: 16px 20px;
+    margin-top: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .jalons-section h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #718096; margin-bottom: 12px; }
+  .jalons-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .jalon-card { background: #f7fafc; border-radius: 6px; padding: 10px 12px; border-left: 3px solid #1a1a2e; }
+  .jalon-card.go { border-left-color: #e53e3e; }
+  .jalon-card .jcode { font-size: 10px; font-weight: 700; color: #718096; }
+  .jalon-card .jdate { font-size: 11px; font-weight: 700; color: #2d3748; margin: 2px 0; }
+  .jalon-card .jdesc { font-size: 10px; color: #718096; line-height: 1.4; }
+
+  /* Note ressources */
+  .note-box {
+    background: #fffbeb; border: 1px solid #f6e05e; border-radius: 6px;
+    padding: 10px 16px; margin-top: 16px; font-size: 11px; color: #744210; line-height: 1.6;
+  }
+  .note-box strong { color: #975a16; }
+
+  /* Footer */
+  .footer { margin-top: 20px; font-size: 10px; color: #a0aec0; text-align: center; padding-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>GANTT PROJET — WEB-001 · Refonte de l'application web</h1>
+  <p>Time'Eats · DSI · Planning détaillé · 12 sprints Scrum de 2 semaines</p>
+  <div class="header-meta">
+    <div class="meta-item"><span class="meta-label">Début</span><span class="meta-value">Mai N</span></div>
+    <div class="meta-item"><span class="meta-label">Fin</span><span class="meta-value">Octobre N</span></div>
+    <div class="meta-item"><span class="meta-label">Durée</span><span class="meta-value">6 mois — 12 sprints</span></div>
+    <div class="meta-item"><span class="meta-label">Budget</span><span class="meta-value">300 000 €</span></div>
+    <div class="meta-item"><span class="meta-label">Charge totale</span><span class="meta-value">540 j/h</span></div>
+    <div class="meta-item"><span class="meta-label">Chef de projet</span><span class="meta-value">PMO — CDP-2</span></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="legend-bar">
+    <span class="title">Phases :</span>
+    <div class="leg-item"><div class="leg-color c-cadrage"></div> Cadrage</div>
+    <div class="leg-item"><div class="leg-color c-archi"></div> Architecture</div>
+    <div class="leg-item"><div class="leg-color c-dev"></div> Développement</div>
+    <div class="leg-item"><div class="leg-color c-integ"></div> Intégrations</div>
+    <div class="leg-item"><div class="leg-color c-tests"></div> Tests & Recette</div>
+    <div class="leg-item"><div class="leg-color c-cloture"></div> Clôture</div>
+    <div class="sep"></div>
+    <span class="title">Ressources :</span>
+    <div class="leg-item"><div class="leg-color c-esn"></div> ESN (×2)</div>
+    <div class="leg-item"><div class="leg-color c-dsi"></div> Équipe DSI</div>
+    <div class="sep"></div>
+    <span class="title">Jalons :</span>
+    <div class="leg-item"><div class="jalon" style="width:10px;height:10px;display:inline-block;background:#1a1a2e;transform:rotate(45deg);"></div> Jalon</div>
+    <div class="leg-item"><div class="jalon" style="width:10px;height:10px;display:inline-block;background:#e53e3e;transform:rotate(45deg);"></div> Go-live</div>
+  </div>
+
+  <div class="gantt-wrap">
+    <table>
+      <colgroup>
+        <col style="width:200px">
+        <!-- MAI: S1, S2 -->
+        <col style="width:4.166%"><col style="width:4.166%">
+        <!-- JUIN: S3, S4 -->
+        <col style="width:4.166%"><col style="width:4.166%">
+        <!-- JUIL: S5, S6 -->
+        <col style="width:4.166%"><col style="width:4.166%">
+        <!-- AOÛT: S7, S8 -->
+        <col style="width:4.166%"><col style="width:4.166%">
+        <!-- SEPT: S9, S10 -->
+        <col style="width:4.166%"><col style="width:4.166%">
+        <!-- OCT: S11, S12 -->
+        <col style="width:4.166%"><col style="width:4.166%">
+      </colgroup>
+      <thead>
+        <tr>
+          <td class="th-label">Tâche / Phase</td>
+          <td class="th-month" colspan="2">MAI</td>
+          <td class="th-month" colspan="2">JUIN</td>
+          <td class="th-month" colspan="2">JUILLET</td>
+          <td class="th-month" colspan="2">AOÛT</td>
+          <td class="th-month" colspan="2">SEPTEMBRE</td>
+          <td class="th-month" colspan="2">OCTOBRE</td>
+        </tr>
+        <tr>
+          <td class="th-label" style="font-size:10px;color:#718096;padding:5px 14px;">Sprint →</td>
+          <td class="th-sprint">S1</td><td class="th-sprint even">S2</td>
+          <td class="th-sprint">S3</td><td class="th-sprint even">S4</td>
+          <td class="th-sprint">S5</td><td class="th-sprint even">S6</td>
+          <td class="th-sprint">S7</td><td class="th-sprint even">S8</td>
+          <td class="th-sprint">S9</td><td class="th-sprint even">S10</td>
+          <td class="th-sprint">S11</td><td class="th-sprint even">S12</td>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- PHASE 1 — CADRAGE & INITIALISATION     -->
+        <!-- ═══════════════════════════════════════ -->
+        <tr class="section-row">
+          <td>Phase 1 — Cadrage &amp; Initialisation</td>
+          <td class="cell" colspan="12"></td>
+        </tr>
+
+        <!-- J1 Kick-off -->
+        <tr class="task-row">
+          <td class="label">📌 J1 — Kick-off projet</td>
+          <td class="cell jalon-cell">
+            <div style="position:relative;display:flex;justify-content:center;align-items:center;height:100%;">
+              <div class="jalon"><span class="jalon-label">J1</span></div>
+            </div>
+          </td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td>
+        </tr>
+
+        <tr class="task-row">
+          <td class="label">Note de cadrage &amp; backlog initial</td>
+          <td class="cell"><div class="bar bar-full c-cadrage"></div></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td>
+        </tr>
+
+        <tr class="task-row">
+          <td class="label">Matrice RACI &amp; gouvernance</td>
+          <td class="cell"><div class="bar bar-start c-cadrage"></div></td>
+          <td class="cell"><div class="bar bar-end c-cadrage"></div></td>
+          <td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td>
+        </tr>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- PHASE 2 — ARCHITECTURE & ENVIRONNEMENTS-->
+        <!-- ═══════════════════════════════════════ -->
+        <tr class="section-row">
+          <td>Phase 2 — Architecture &amp; Environnements</td>
+          <td class="cell" colspan="12"></td>
+        </tr>
+
+        <tr class="task-row">
+          <td class="label">Dossier d'architecture technique (DAT)</td>
+          <td class="cell"><div class="bar bar-start c-archi"></div></td>
+          <td class="cell"><div class="bar bar-mid c-archi"></div></td>
+          <td class="cell"><div class="bar bar-end c-archi"></div></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+        </tr>
+
+        <!-- J2 Architecture validée -->
+        <tr class="task-row">
+          <td class="label">📌 J2 — Architecture technique validée</td>
+          <td class="cell"></td><td class="cell"></td>
+          <td class="cell jalon-cell">
+            <div style="position:relative;display:flex;justify-content:center;align-items:center;height:100%;">
+              <div class="jalon"><span class="jalon-label">J2</span></div>
+            </div>
+          </td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+        </tr>
+
+        <tr class="task-row">
+          <td class="label">Environnements Azure (dev / recette / prod)</td>
+          <td class="cell"><div class="bar bar-start c-archi"></div></td>
+          <td class="cell"><div class="bar bar-mid c-archi"></div></td>
+          <td class="cell"><div class="bar bar-end c-archi"></div></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+        </tr>
+
+        <tr class="task-row">
+          <td class="label">IaC Terraform + RBAC / réseau Azure</td>
+          <td class="cell"><div class="bar bar-start c-archi"></div></td>
+          <td class="cell"><div class="bar bar-mid c-archi"></div></td>
+          <td class="cell"><div class="bar bar-end c-archi"></div></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+        </tr>
+
+        <tr class="task-row">
+          <td class="label">Pipeline CI/CD (GitHub Actions)</td>
+          <td class="cell"><div class="bar bar-start c-archi"></div></td>
+          <td class="cell"><div class="bar bar-mid c-archi"></div></td>
+          <td class="cell"><div class="bar bar-mid c-archi"></div></td>
+          <td class="cell"><div class="bar bar-end c-archi"></div></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td>
+        </tr>
+
+        <tr class="task-row">
+          <td class="label">Supervision Azure Monitor + alertes</td>
+          <td class="cell"></td>
+          <td class="cell"><div class="bar bar-start c-archi"></div></td>
+          <td class="cell"><div class="bar bar-mid c-archi"></div></td>
+          <td class="cell"><div class="bar bar-end c-archi"></div></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td>
+        </tr>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- PHASE 3 — DÉVELOPPEMENT FONCTIONNEL    -->
+        <!-- ═══════════════════════════════════════ -->
+        <tr class="section-row">
+          <td>Phase 3 — Développement fonctionnel</td>
+          <td class="cell" colspan="12"></td>
+        </tr>
+
+        <tr class="task-row">
+          <td class="label">Espace client (catalogue, commande, suivi)</td>
+          <td class="cell"></td><td class="cell"></td>
+          <td class="cell"><div class="bar bar-start c-dev"></div></td>
+          <td class="cell"><div class="bar bar-mid c-dev"></div></td>
+          <td class="cell"><div class="bar bar-mid c-dev"></div></td>
+          <td class="cell"><div class="bar bar-mid c-dev"></div></td>
+          <td class="cell"><div class="bar bar-mid c-dev"></div></td>
+          <td class="cell"><div class="bar bar-end c-dev"></div></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td>
+        </tr>
+
+        <tr class="task-row">
+          <td class="label">Espace fournisseur (commandes, stats)</td>
+          <td class="cell"></td><td class="cell"></td>
+          <td class="cell"><div class="bar bar-start c-dev"></div></td>
+          <td class="cell"><div class="bar bar-mid c-dev"></div></td>
+          <td class="cell"><div class="bar bar-mid c-dev"></div></td>
+          <td class="cell"><div class="bar bar-mid c-dev"></div></td>
+          <td class="cell"><div class="bar bar-mid c-dev"></div></td>
+          <td class="cell"><div class="bar bar-mid c-dev"></div></td>
+          <td class="cell"><div class="bar bar-end c-dev"></div></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+        </tr>
+
+        <tr class="task-row">
+          <td class="label">Back-office administrateur</td>
+          <td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td>
+          <td class="cell"><div class="bar bar-start c-dev"></div></td>
+          <td class="cell"><div class="bar bar-mid c-dev"></div></td>
+          <td class="cell"><div class="bar bar-mid c-dev"></div></td>
+          <td class="cell"><div class="bar bar-mid c-dev"></div></td>
+          <td class="cell"><div class="bar bar-end c-dev"></div></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+        </tr>
+
+        <!-- J5 Fin développement -->
+        <tr class="task-row">
+          <td class="label">📌 J5 — Fin du développement</td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td>
+          <td class="cell jalon-cell">
+            <div style="position:relative;display:flex;justify-content:center;align-items:center;height:100%;">
+              <div class="jalon"><span class="jalon-label">J5</span></div>
+            </div>
+          </td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+        </tr>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- PHASE 4 — INTÉGRATIONS EXTERNES        -->
+        <!-- ═══════════════════════════════════════ -->
+        <tr class="section-row">
+          <td>Phase 4 — Intégrations externes</td>
+          <td class="cell" colspan="12"></td>
+        </tr>
+
+        <tr class="task-row">
+          <td class="label">Connecteur CRM (API REST)</td>
+          <td class="cell"></td><td class="cell"></td>
+          <td class="cell"><div class="bar bar-start c-integ"></div></td>
+          <td class="cell"><div class="bar bar-mid c-integ"></div></td>
+          <td class="cell"><div class="bar bar-end c-integ"></div></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td>
+        </tr>
+
+        <!-- J3 CRM disponible -->
+        <tr class="task-row">
+          <td class="label">📌 J3 — Intégration CRM disponible</td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell jalon-cell">
+            <div style="position:relative;display:flex;justify-content:center;align-items:center;height:100%;">
+              <div class="jalon"><span class="jalon-label">J3</span></div>
+            </div>
+          </td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td>
+        </tr>
+
+        <tr class="task-row">
+          <td class="label">Authentification MFA (Azure AD B2C)</td>
+          <td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td>
+          <td class="cell"><div class="bar bar-start c-integ"></div></td>
+          <td class="cell"><div class="bar bar-mid c-integ"></div></td>
+          <td class="cell"><div class="bar bar-end c-integ"></div></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td>
+        </tr>
+
+        <!-- J4 MFA + MVP -->
+        <tr class="task-row">
+          <td class="label">📌 J4 — MFA disponible + MVP fonctionnel</td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell jalon-cell">
+            <div style="position:relative;display:flex;justify-content:center;align-items:center;height:100%;">
+              <div class="jalon"><span class="jalon-label">J4</span></div>
+            </div>
+          </td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td>
+        </tr>
+
+        <tr class="task-row">
+          <td class="label">Module paiement Stripe + webhooks</td>
+          <td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td>
+          <td class="cell"><div class="bar bar-start c-integ"></div></td>
+          <td class="cell"><div class="bar bar-mid c-integ"></div></td>
+          <td class="cell"><div class="bar bar-mid c-integ"></div></td>
+          <td class="cell"><div class="bar bar-end c-integ"></div></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td>
+        </tr>
+
+        <tr class="task-row">
+          <td class="label">Notifications multicanal (SendGrid/Twilio)</td>
+          <td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td>
+          <td class="cell"><div class="bar bar-start c-integ"></div></td>
+          <td class="cell"><div class="bar bar-mid c-integ"></div></td>
+          <td class="cell"><div class="bar bar-end c-integ"></div></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+        </tr>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- PHASE 5 — TESTS & DÉPLOIEMENT          -->
+        <!-- ═══════════════════════════════════════ -->
+        <tr class="section-row">
+          <td>Phase 5 — Tests &amp; Déploiement</td>
+          <td class="cell" colspan="12"></td>
+        </tr>
+
+        <tr class="task-row">
+          <td class="label">Tests unitaires &amp; intégration (SonarQube)</td>
+          <td class="cell"></td><td class="cell"></td>
+          <td class="cell"><div class="bar bar-start c-tests"></div></td>
+          <td class="cell"><div class="bar bar-mid c-tests"></div></td>
+          <td class="cell"><div class="bar bar-mid c-tests"></div></td>
+          <td class="cell"><div class="bar bar-mid c-tests"></div></td>
+          <td class="cell"><div class="bar bar-mid c-tests"></div></td>
+          <td class="cell"><div class="bar bar-mid c-tests"></div></td>
+          <td class="cell"><div class="bar bar-mid c-tests"></div></td>
+          <td class="cell"><div class="bar bar-end c-tests"></div></td>
+          <td class="cell"></td><td class="cell"></td>
+        </tr>
+
+        <tr class="task-row">
+          <td class="label">Recette fonctionnelle UAT</td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td>
+          <td class="cell"><div class="bar bar-start c-tests"></div></td>
+          <td class="cell"><div class="bar bar-mid c-tests"></div></td>
+          <td class="cell"><div class="bar bar-end c-tests"></div></td>
+          <td class="cell"></td>
+        </tr>
+
+        <!-- J6 UAT validée -->
+        <tr class="task-row">
+          <td class="label">📌 J6 — UAT validée</td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell jalon-cell">
+            <div style="position:relative;display:flex;justify-content:center;align-items:center;height:100%;">
+              <div class="jalon"><span class="jalon-label">J6</span></div>
+            </div>
+          </td>
+          <td class="cell"></td>
+        </tr>
+
+        <tr class="task-row">
+          <td class="label">Pentest sécurité OWASP (tiers externe)</td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td>
+          <td class="cell"><div class="bar bar-start c-tests"></div></td>
+          <td class="cell"><div class="bar bar-mid c-tests"></div></td>
+          <td class="cell"><div class="bar bar-end c-tests"></div></td>
+          <td class="cell"></td>
+        </tr>
+
+        <tr class="task-row">
+          <td class="label">Migration et validation des données</td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td>
+          <td class="cell"><div class="bar bar-start c-tests"></div></td>
+          <td class="cell"><div class="bar bar-mid c-tests"></div></td>
+          <td class="cell"><div class="bar bar-end c-tests"></div></td>
+          <td class="cell"></td>
+        </tr>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- PHASE 6 — CLÔTURE & LIVRAISON          -->
+        <!-- ═══════════════════════════════════════ -->
+        <tr class="section-row">
+          <td>Phase 6 — Clôture &amp; Livraison</td>
+          <td class="cell" colspan="12"></td>
+        </tr>
+
+        <tr class="task-row">
+          <td class="label">Go-live production + runbook déploiement</td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"><div class="bar bar-full c-cloture"></div></td>
+        </tr>
+
+        <!-- J7 Go-live -->
+        <tr class="task-row">
+          <td class="label">🔴 J7 — Go-live production</td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell jalon-cell">
+            <div style="position:relative;display:flex;justify-content:center;align-items:center;height:100%;">
+              <div class="jalon j-go"><span class="jalon-label" style="color:#e53e3e;">J7</span></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="task-row">
+          <td class="label">PV de recette signé + REX / capitalisation</td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td>
+          <td class="cell"><div class="bar bar-full c-cloture"></div></td>
+        </tr>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- RESSOURCES                              -->
+        <!-- ═══════════════════════════════════════ -->
+        <tr class="section-row">
+          <td>Ressources mobilisées</td>
+          <td class="cell" colspan="12"></td>
+        </tr>
+
+        <tr class="resource-row">
+          <td class="label">ESN ×2 Dev Web (240 j/h — 20 j/h/mois chacun)</td>
+          <td class="cell"><div class="bar bar-start c-esn" style="height:10px;"></div></td>
+          <td class="cell"><div class="bar bar-mid c-esn" style="height:10px;"></div></td>
+          <td class="cell"><div class="bar bar-mid c-esn" style="height:10px;"></div></td>
+          <td class="cell"><div class="bar bar-mid c-esn" style="height:10px;"></div></td>
+          <td class="cell"><div class="bar bar-mid c-esn" style="height:10px;"></div></td>
+          <td class="cell"><div class="bar bar-mid c-esn" style="height:10px;"></div></td>
+          <td class="cell"><div class="bar bar-mid c-esn" style="height:10px;"></div></td>
+          <td class="cell"><div class="bar bar-mid c-esn" style="height:10px;"></div></td>
+          <td class="cell"><div class="bar bar-mid c-esn" style="height:10px;"></div></td>
+          <td class="cell"><div class="bar bar-mid c-esn" style="height:10px;"></div></td>
+          <td class="cell"><div class="bar bar-mid c-esn" style="height:10px;"></div></td>
+          <td class="cell"><div class="bar bar-end c-esn" style="height:10px;"></div></td>
+        </tr>
+
+        <tr class="resource-row">
+          <td class="label">Équipe DSI — Lead Dev + 4 devs (300 j/h — dès Juin)</td>
+          <td class="cell" style="background:#fff8f0;font-size:9px;text-align:center;color:#c05621;">ESN only</td>
+          <td class="cell" style="background:#fff8f0;font-size:9px;text-align:center;color:#c05621;">ESN only</td>
+          <td class="cell"><div class="bar bar-start c-dsi" style="height:10px;"></div></td>
+          <td class="cell"><div class="bar bar-mid c-dsi" style="height:10px;"></div></td>
+          <td class="cell"><div class="bar bar-mid c-dsi" style="height:10px;"></div></td>
+          <td class="cell"><div class="bar bar-mid c-dsi" style="height:10px;"></div></td>
+          <td class="cell"><div class="bar bar-mid c-dsi" style="height:10px;"></div></td>
+          <td class="cell"><div class="bar bar-mid c-dsi" style="height:10px;"></div></td>
+          <td class="cell"><div class="bar bar-mid c-dsi" style="height:10px;"></div></td>
+          <td class="cell"><div class="bar bar-mid c-dsi" style="height:10px;"></div></td>
+          <td class="cell"><div class="bar bar-mid c-dsi" style="height:10px;"></div></td>
+          <td class="cell"><div class="bar bar-end c-dsi" style="height:10px;"></div></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- JALONS DÉTAILLÉS -->
+  <div class="jalons-section">
+    <h3>Récapitulatif des jalons</h3>
+    <div class="jalons-grid">
+      <div class="jalon-card">
+        <div class="jcode">J1 — Sprint 1</div>
+        <div class="jdate">Mai N</div>
+        <div class="jdesc">Kick-off projet — Charte signée, backlog priorisé, environnements dev Azure provisionnés</div>
+      </div>
+      <div class="jalon-card">
+        <div class="jcode">J2 — Sprint 3</div>
+        <div class="jdate">Juin N</div>
+        <div class="jdesc">Architecture validée — DAT approuvé par RSSI et Lead Dev, env. dev opérationnel</div>
+      </div>
+      <div class="jalon-card">
+        <div class="jcode">J3 — Sprint 5</div>
+        <div class="jdate">Juillet N</div>
+        <div class="jdesc">CRM disponible — API connectée en recette, profils clients synchronisés</div>
+      </div>
+      <div class="jalon-card">
+        <div class="jcode">J4 — Sprint 7</div>
+        <div class="jdate">Août N</div>
+        <div class="jdesc">MFA + MVP fonctionnel — Authentification intégrée, espaces client et fournisseur en recette</div>
+      </div>
+      <div class="jalon-card">
+        <div class="jcode">J5 — Sprint 9</div>
+        <div class="jdate">Septembre N</div>
+        <div class="jdesc">Fin du développement — Périmètre complet livré en recette, 0 bug bloquant</div>
+      </div>
+      <div class="jalon-card">
+        <div class="jcode">J6 — Sprint 11</div>
+        <div class="jdate">Octobre N</div>
+        <div class="jdesc">UAT validée — PV recette signé par PO, couverture tests ≥ 80 %, pentest finalisé</div>
+      </div>
+      <div class="jalon-card go">
+        <div class="jcode">J7 — Sprint 12</div>
+        <div class="jdate" style="color:#e53e3e;">Fin Octobre N 🔴</div>
+        <div class="jdesc">Go-live production — Déploiement Azure, migration données validée, plan de rollback prêt</div>
+      </div>
+      <div class="jalon-card" style="border-left-color:#e2e8f0;background:#f0f4ff;">
+        <div class="jcode" style="color:#9f7aea;">Chemin critique</div>
+        <div class="jdate" style="color:#553c9a;">J3 + J4</div>
+        <div class="jdesc">CRM (Juillet) et MFA (Août) sont les points de synchronisation avec les projets DSI externes. Tout retard impacte le go-live.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-box">
+    ⚠️ <strong>Note ressources — Mai (S1–S2) :</strong> L'équipe DSI interne (Lead Dev + 4 devs) finalise le projet CI/CD en Avril–Mai. Les 2 ESN Dev Web assurent seuls le cadrage technique, le setup de l'environnement Azure et le démarrage du développement en Mai. L'équipe DSI rejoint le projet en Juin (Sprint 3) sous la conduite du Lead Dev.
+  </div>
+
+  <div class="footer">
+    Time'Eats · WEB-001 · Gantt Projet · Version 1.0 · Juin N · Confidentiel interne DSI
+  </div>
+
+</div>
+</body>
+</html>

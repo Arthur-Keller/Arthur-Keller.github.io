@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Registre des risques — WEB-001 Refonte Application Web — Time'Eats</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; color: #1a1a2e; font-size: 13px; }
+
+  /* ── HEADER ── */
+  .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 28px 40px 20px; }
+  .header h1 { font-size: 22px; font-weight: 700; }
+  .header p { font-size: 13px; color: #a0aec0; margin-top: 4px; }
+  .header-meta { display: flex; gap: 32px; margin-top: 16px; flex-wrap: wrap; }
+  .meta-item { display: flex; flex-direction: column; }
+  .meta-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #718096; }
+  .meta-value { font-size: 13px; font-weight: 600; color: #e2e8f0; margin-top: 2px; }
+
+  .container { padding: 24px 40px 40px; }
+
+  /* ── KPI ── */
+  .kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 24px; }
+  .kpi { background: white; border-radius: 10px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); border-left: 4px solid #e2e8f0; }
+  .kpi.critique { border-left-color: #e53e3e; }
+  .kpi.eleve    { border-left-color: #ed8936; }
+  .kpi.moyen    { border-left-color: #ecc94b; }
+  .kpi.faible   { border-left-color: #48bb78; }
+  .kpi.total    { border-left-color: #4299e1; }
+  .kpi .klabel { font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: #718096; margin-bottom: 6px; }
+  .kpi .kvalue { font-size: 26px; font-weight: 700; color: #1a1a2e; }
+  .kpi .ksub   { font-size: 10px; color: #a0aec0; margin-top: 2px; }
+
+  /* ── MATRICE 4×4 ── */
+  .matrix-wrap { background: white; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); padding: 20px; margin-bottom: 20px; }
+  .matrix-wrap h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #718096; margin-bottom: 16px; }
+  .matrix-layout { display: flex; gap: 32px; align-items: flex-start; }
+  .matrix-grid { display: grid; grid-template-columns: 80px repeat(4, 90px); grid-template-rows: auto repeat(4, 72px); gap: 3px; }
+  .m-header { background: #2d3748; color: white; font-size: 10px; font-weight: 700; text-align: center; padding: 6px 4px; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+  .m-label  { background: #2d3748; color: white; font-size: 10px; font-weight: 700; text-align: center; padding: 4px; border-radius: 4px; display: flex; align-items: center; justify-content: center; writing-mode: horizontal-tb; }
+  .m-cell   { border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; padding: 4px; font-size: 9px; font-weight: 700; }
+  .m-cell .score { font-size: 14px; font-weight: 800; opacity: 0.4; }
+  .m-cell .ids   { font-size: 9px; font-weight: 700; line-height: 1.6; text-align: center; }
+  /* Couleurs matrice selon score */
+  .mc-1  { background: #f0fff4; color: #276749; }   /* score 1 */
+  .mc-2  { background: #f0fff4; color: #276749; }   /* score 2 */
+  .mc-3  { background: #fefcbf; color: #744210; }   /* score 3 */
+  .mc-4  { background: #fefcbf; color: #744210; }   /* score 4 */
+  .mc-6  { background: #fefcbf; color: #744210; }   /* score 6 */
+  .mc-8  { background: #feebc8; color: #7b341e; }   /* score 8 */
+  .mc-9  { background: #feebc8; color: #7b341e; }   /* score 9 */
+  .mc-12 { background: #fed7d7; color: #742a2a; }   /* score 12 */
+  .mc-16 { background: #fc8181; color: #63171b; }   /* score 16 */
+
+  /* Légende matrice */
+  .matrix-legend { display: flex; flex-direction: column; gap: 8px; min-width: 160px; }
+  .leg-item { display: flex; align-items: center; gap: 10px; }
+  .leg-dot { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+  .leg-text { font-size: 11px; color: #4a5568; }
+  .leg-text strong { color: #1a1a2e; }
+
+  /* Légende réponses */
+  .resp-legend { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+  .resp-card { background: white; border-radius: 8px; padding: 12px 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.07); border-top: 3px solid; }
+  .resp-card.eviter    { border-top-color: #e53e3e; }
+  .resp-card.attenuer  { border-top-color: #ed8936; }
+  .resp-card.transferer{ border-top-color: #4299e1; }
+  .resp-card.accepter  { border-top-color: #48bb78; }
+  .resp-card .rt { font-size: 11px; font-weight: 700; color: #2d3748; margin-bottom: 4px; }
+  .resp-card .rd { font-size: 11px; color: #718096; line-height: 1.5; }
+
+  /* ── REGISTRE ── */
+  .registre { background: white; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); overflow: hidden; margin-bottom: 20px; }
+  .reg-section { background: #2d3748; color: white; padding: 8px 18px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; }
+  .reg-section.planning  { background: #2b6cb0; }
+  .reg-section.ressources{ background: #c05621; }
+  .reg-section.technique { background: #276749; }
+  .reg-section.securite  { background: #553c9a; }
+  .reg-section.externe   { background: #2c7a7b; }
+
+  .risk-row { display: grid; grid-template-columns: 52px 1fr 80px 80px 70px 200px 140px; gap: 0; border-bottom: 1px solid #f0f4f8; }
+  .risk-row:last-child { border-bottom: none; }
+  .risk-row:hover { background: #fafbff; }
+
+  .reg-col-head { display: grid; grid-template-columns: 52px 1fr 80px 80px 70px 200px 140px; background: #f7fafc; border-bottom: 1px solid #e2e8f0; }
+  .reg-col-head span { font-size: 10px; font-weight: 700; color: #a0aec0; text-transform: uppercase; letter-spacing: 0.4px; padding: 7px 10px; }
+
+  .rc { padding: 12px 10px; font-size: 12px; vertical-align: top; }
+  .rc.id { font-size: 13px; font-weight: 800; color: #2d3748; text-align: center; padding-top: 14px; }
+  .rc.desc .rname { font-weight: 600; color: #1a1a2e; margin-bottom: 3px; }
+  .rc.desc .rdesc { font-size: 11px; color: #718096; line-height: 1.5; }
+  .rc.center { text-align: center; }
+
+  /* Badges score */
+  .badge { display: inline-block; border-radius: 5px; padding: 3px 8px; font-size: 11px; font-weight: 700; }
+  .b-critique { background: #fed7d7; color: #742a2a; }
+  .b-eleve    { background: #feebc8; color: #7b341e; }
+  .b-moyen    { background: #fefcbf; color: #744210; }
+  .b-faible   { background: #f0fff4; color: #276749; }
+
+  .score-box { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 6px; font-size: 16px; font-weight: 800; }
+  .s-16 { background: #fc8181; color: #63171b; }
+  .s-12 { background: #fed7d7; color: #742a2a; }
+  .s-9  { background: #feebc8; color: #7b341e; }
+  .s-8  { background: #feebc8; color: #7b341e; }
+  .s-6  { background: #fefcbf; color: #744210; }
+  .s-4  { background: #fefcbf; color: #744210; }
+  .s-2  { background: #f0fff4; color: #276749; }
+  .s-1  { background: #f0fff4; color: #276749; }
+
+  .plan-text { font-size: 11px; color: #4a5568; line-height: 1.6; }
+  .resp-text { font-size: 11px; color: #718096; }
+  .resp-badge { display: inline-block; border-radius: 3px; padding: 1px 6px; font-size: 10px; font-weight: 700; margin-bottom: 4px; }
+  .rb-eviter     { background: #fed7d7; color: #742a2a; }
+  .rb-attenuer   { background: #feebc8; color: #7b341e; }
+  .rb-transferer { background: #ebf8ff; color: #2b6cb0; }
+  .rb-accepter   { background: #f0fff4; color: #276749; }
+
+  /* ── PLAN DE SUIVI ── */
+  .suivi { background: white; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); padding: 20px; margin-bottom: 20px; }
+  .suivi h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #718096; margin-bottom: 14px; }
+  .suivi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .suivi-card { border-radius: 8px; padding: 14px; border-left: 4px solid; }
+  .suivi-card.critique { background: #fff5f5; border-left-color: #e53e3e; }
+  .suivi-card.eleve    { background: #fffaf0; border-left-color: #ed8936; }
+  .suivi-card.moyen    { background: #fffff0; border-left-color: #ecc94b; }
+  .suivi-card .st { font-size: 11px; font-weight: 700; margin-bottom: 8px; }
+  .suivi-card .st span { font-size: 10px; font-weight: 400; color: #718096; }
+  .suivi-card ul { list-style: none; }
+  .suivi-card ul li { font-size: 11px; color: #4a5568; padding: 3px 0; border-bottom: 1px solid rgba(0,0,0,0.05); line-height: 1.5; }
+  .suivi-card ul li:last-child { border-bottom: none; }
+  .suivi-card ul li::before { content: "→ "; color: #a0aec0; }
+
+  .footer { margin-top: 20px; font-size: 10px; color: #a0aec0; text-align: center; padding-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>REGISTRE DES RISQUES — WEB-001 · Refonte de l'application web</h1>
+  <p>Time'Eats · DSI · Matrice 4×4 · 13 risques identifiés · Score = Probabilité × Impact · Mai N — Octobre N</p>
+  <div class="header-meta">
+    <div class="meta-item"><span class="meta-label">Risques identifiés</span><span class="meta-value">13</span></div>
+    <div class="meta-item"><span class="meta-label">Critiques (≥ 12)</span><span class="meta-value">3</span></div>
+    <div class="meta-item"><span class="meta-label">Élevés (8–9)</span><span class="meta-value">4</span></div>
+    <div class="meta-item"><span class="meta-label">Moyens (4–6)</span><span class="meta-value">4</span></div>
+    <div class="meta-item"><span class="meta-label">Faibles (1–3)</span><span class="meta-value">2</span></div>
+    <div class="meta-item"><span class="meta-label">Chef de projet</span><span class="meta-value">PMO — CDP-2</span></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- KPI -->
+  <div class="kpi-row">
+    <div class="kpi total">
+      <div class="klabel">Total risques</div>
+      <div class="kvalue">13</div>
+      <div class="ksub">Toutes catégories</div>
+    </div>
+    <div class="kpi critique">
+      <div class="klabel">Critique</div>
+      <div class="kvalue">3</div>
+      <div class="ksub">Score ≥ 12</div>
+    </div>
+    <div class="kpi eleve">
+      <div class="klabel">Élevé</div>
+      <div class="kvalue">4</div>
+      <div class="ksub">Score 8–9</div>
+    </div>
+    <div class="kpi moyen">
+      <div class="klabel">Moyen</div>
+      <div class="kvalue">4</div>
+      <div class="ksub">Score 4–6</div>
+    </div>
+    <div class="kpi faible">
+      <div class="klabel">Faible</div>
+      <div class="kvalue">2</div>
+      <div class="ksub">Score 1–3</div>
+    </div>
+  </div>
+
+  <!-- MATRICE 4×4 -->
+  <div class="matrix-wrap">
+    <h3>Matrice d'exposition aux risques (Probabilité × Impact)</h3>
+    <div class="matrix-layout">
+      <div class="matrix-grid">
+        <!-- Header row -->
+        <div class="m-header" style="background:transparent;"></div>
+        <div class="m-header">Impact<br>Faible (1)</div>
+        <div class="m-header">Impact<br>Moyen (2)</div>
+        <div class="m-header">Impact<br>Élevé (3)</div>
+        <div class="m-header">Impact<br>Critique (4)</div>
+        <!-- Row P=4 -->
+        <div class="m-label">Prob.<br>Critique (4)</div>
+        <div class="m-cell mc-4"><span class="score">4</span></div>
+        <div class="m-cell mc-8"><span class="score">8</span><span class="ids">R02 · R08</span></div>
+        <div class="m-cell mc-12"><span class="score">12</span><span class="ids">R01</span></div>
+        <div class="m-cell mc-16"><span class="score">16</span><span class="ids">R04</span></div>
+        <!-- Row P=3 -->
+        <div class="m-label">Prob.<br>Élevé (3)</div>
+        <div class="m-cell mc-3"><span class="score">3</span><span class="ids">R11</span></div>
+        <div class="m-cell mc-6"><span class="score">6</span><span class="ids">R03</span></div>
+        <div class="m-cell mc-9"><span class="score">9</span><span class="ids">R05 · R06</span></div>
+        <div class="m-cell mc-12"><span class="score">12</span><span class="ids">R08*</span></div>
+        <!-- Row P=2 -->
+        <div class="m-label">Prob.<br>Moyen (2)</div>
+        <div class="m-cell mc-2"><span class="score">2</span><span class="ids">R13</span></div>
+        <div class="m-cell mc-4"><span class="score">4</span><span class="ids">R10 · R12</span></div>
+        <div class="m-cell mc-6"><span class="score">6</span><span class="ids">R07*</span></div>
+        <div class="m-cell mc-8"><span class="score">8</span><span class="ids">R07</span></div>
+        <!-- Row P=1 -->
+        <div class="m-label">Prob.<br>Faible (1)</div>
+        <div class="m-cell mc-1"><span class="score">1</span><span class="ids">R09</span></div>
+        <div class="m-cell mc-2"><span class="score">2</span></div>
+        <div class="m-cell mc-3"><span class="score">3</span></div>
+        <div class="m-cell mc-4"><span class="score">4</span></div>
+      </div>
+      <div class="matrix-legend">
+        <div class="leg-item"><div class="leg-dot" style="background:#fc8181;"></div><div class="leg-text"><strong>Critique (12–16)</strong><br>Action immédiate requise</div></div>
+        <div class="leg-item"><div class="leg-dot" style="background:#feebc8;"></div><div class="leg-text"><strong>Élevé (8–9)</strong><br>Suivi hebdomadaire</div></div>
+        <div class="leg-item"><div class="leg-dot" style="background:#fefcbf;"></div><div class="leg-text"><strong>Moyen (4–6)</strong><br>Suivi bimensuel</div></div>
+        <div class="leg-item"><div class="leg-dot" style="background:#f0fff4;"></div><div class="leg-text"><strong>Faible (1–3)</strong><br>Surveillance passive</div></div>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid #e2e8f0;">
+          <div class="leg-text" style="font-size:10px;color:#a0aec0;line-height:1.6;">Score = Probabilité × Impact<br>Échelle 1 à 4 pour chaque axe</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LÉGENDE RÉPONSES -->
+  <div class="resp-legend">
+    <div class="resp-card eviter">
+      <div class="rt">🚫 Éviter</div>
+      <div class="rd">Modifier le projet pour éliminer le risque (périmètre, techno, planning)</div>
+    </div>
+    <div class="resp-card attenuer">
+      <div class="rt">🛡️ Atténuer</div>
+      <div class="rd">Réduire la probabilité et/ou l'impact par des actions préventives</div>
+    </div>
+    <div class="resp-card transferer">
+      <div class="rt">↗️ Transférer</div>
+      <div class="rd">Reporter la responsabilité sur un tiers (contrat ESN, SLA, assurance)</div>
+    </div>
+    <div class="resp-card accepter">
+      <div class="rt">✅ Accepter</div>
+      <div class="rd">Risque faible — surveiller sans action immédiate, plan de contingence si besoin</div>
+    </div>
+  </div>
+
+  <!-- REGISTRE -->
+  <div class="registre">
+    <div class="reg-col-head">
+      <span>ID</span><span>Risque</span><span>Prob.</span><span>Impact</span><span>Score</span><span>Plan de réponse</span><span>Responsable</span>
+    </div>
+
+    <!-- PLANNING & DÉPENDANCES -->
+    <div class="reg-section planning">Planning &amp; Dépendances</div>
+
+    <div class="risk-row">
+      <div class="rc id">R01</div>
+      <div class="rc desc"><div class="rname">Retard livraison CRM (dépendance Juillet)</div><div class="rdesc">Le CRM est attendu en Juillet (Sprint 5). Tout retard bloque l'intégration API côté web et décale les tests, mettant en péril le go-live d'Octobre.</div></div>
+      <div class="rc center"><span class="badge b-critique">4 – Critique</span></div>
+      <div class="rc center"><span class="badge b-critique">4 – Critique</span></div>
+      <div class="rc center"><div class="score-box s-16">16</div></div>
+      <div class="rc"><div class="resp-badge rb-eviter">Éviter</div> / <div class="resp-badge rb-attenuer">Atténuer</div><div class="plan-text">Démarrer les spécifications d'interface CRM dès Mai. Développer une API mock pour ne pas bloquer le développement. Synchronisation bimensuelle avec le chef de projet CRM.</div></div>
+      <div class="rc"><div class="resp-text">Chef de projet<br><em>Suivi hebdomadaire</em></div></div>
+    </div>
+
+    <div class="risk-row">
+      <div class="rc id">R02</div>
+      <div class="rc desc"><div class="rname">Retard livraison MFA (dépendance Août)</div><div class="rdesc">L'authentification forte est attendue en Août (Sprint 7). Sans MFA, le go-live ne peut pas être autorisé — c'est un critère de succès bloquant (C6).</div></div>
+      <div class="rc center"><span class="badge b-critique">4 – Critique</span></div>
+      <div class="rc center"><span class="badge b-eleve">3 – Élevé</span></div>
+      <div class="rc center"><div class="score-box s-12">12</div></div>
+      <div class="rc"><div class="resp-badge rb-attenuer">Atténuer</div><div class="plan-text">Concevoir l'architecture d'authentification dès le départ pour intégrer facilement le MFA. Prévoir une authentification basique renforcée en attendant. Blocage go-live si MFA non livré.</div></div>
+      <div class="rc"><div class="resp-text">RSSI + Chef de projet<br><em>Mensuel Copil</em></div></div>
+    </div>
+
+    <div class="risk-row">
+      <div class="rc id">R03</div>
+      <div class="rc desc"><div class="rname">Retard sur la migration Office 365</div><div class="rdesc">La migration Office 365 est en cours sur la période du projet. Un retard réduit la disponibilité des outils collaboratifs et peut impacter la productivité de l'équipe projet.</div></div>
+      <div class="rc center"><span class="badge b-eleve">3 – Élevé</span></div>
+      <div class="rc center"><span class="badge b-moyen">2 – Moyen</span></div>
+      <div class="rc center"><div class="score-box s-6">6</div></div>
+      <div class="rc"><div class="resp-badge rb-attenuer">Atténuer</div><div class="plan-text">Suivre l'avancement en Copil mensuel. Prévoir des outils alternatifs temporaires si retard constaté dès Juin.</div></div>
+      <div class="rc"><div class="resp-text">Chef de projet<br><em>Mensuel</em></div></div>
+    </div>
+
+    <!-- RESSOURCES & ÉQUIPE -->
+    <div class="reg-section ressources">Ressources &amp; Équipe</div>
+
+    <div class="risk-row">
+      <div class="rc id">R04</div>
+      <div class="rc desc"><div class="rname">Surcharge des développeurs DSI (multi-projets)</div><div class="rdesc">540 j/h cumulés sur WEB-001 (dont 300 j/h DSI) en parallèle de CRM et MOB. Risque de surcharge, arbitrages difficiles et baisse de qualité.</div></div>
+      <div class="rc center"><span class="badge b-critique">4 – Critique</span></div>
+      <div class="rc center"><span class="badge b-critique">4 – Critique</span></div>
+      <div class="rc center"><div class="score-box s-16">16</div></div>
+      <div class="rc"><div class="resp-badge rb-attenuer">Atténuer</div> / <div class="resp-badge rb-transferer">Transférer</div><div class="plan-text">Plan de charge nominatif par rôle défini au kick-off. Les 2 ESN absorbent les surcharges en Mai et restent mobilisables. Escalade DSI si arbitrage nécessaire entre projets.</div></div>
+      <div class="rc"><div class="resp-text">DSI + Chef de projet<br><em>Hebdomadaire</em></div></div>
+    </div>
+
+    <div class="risk-row">
+      <div class="rc id">R05</div>
+      <div class="rc desc"><div class="rname">Dérapage coût ou qualité ESN</div><div class="rdesc">Phase d'acculturation longue, compétences non alignées, turn-over prestataire. Risque de perte de maîtrise interne et dépassement budgétaire ESN (144 000 €).</div></div>
+      <div class="rc center"><span class="badge b-eleve">3 – Élevé</span></div>
+      <div class="rc center"><span class="badge b-eleve">3 – Élevé</span></div>
+      <div class="rc center"><div class="score-box s-9">9</div></div>
+      <div class="rc"><div class="resp-badge rb-transferer">Transférer</div> / <div class="resp-badge rb-attenuer">Atténuer</div><div class="plan-text">Clause contractuelle de pénalités sur retard et qualité. Revue de code systématique par le Lead Dev. Binômage ESN/dev interne. Clause de remplacement de profil sous 5 jours.</div></div>
+      <div class="rc"><div class="resp-text">Chef de projet + Lead Dev<br><em>Hebdomadaire</em></div></div>
+    </div>
+
+    <div class="risk-row">
+      <div class="rc id">R06</div>
+      <div class="rc desc"><div class="rname">Départ d'un développeur clé (Lead Dev)</div><div class="rdesc">Départ imprévu du Lead Dev en cours de projet. Perte de connaissance technique et ralentissement significatif du projet, notamment sur l'encadrement ESN.</div></div>
+      <div class="rc center"><span class="badge b-eleve">3 – Élevé</span></div>
+      <div class="rc center"><span class="badge b-eleve">3 – Élevé</span></div>
+      <div class="rc center"><div class="score-box s-9">9</div></div>
+      <div class="rc"><div class="resp-badge rb-attenuer">Atténuer</div><div class="plan-text">Documentation technique à jour (wiki, README, ADR). Binômage sur les modules critiques. Procédure de remplacement ESN activable sous 10 jours si besoin.</div></div>
+      <div class="rc"><div class="resp-text">Lead Dev<br><em>Mensuel</em></div></div>
+    </div>
+
+    <!-- RISQUES TECHNIQUES -->
+    <div class="reg-section technique">Risques Techniques</div>
+
+    <div class="risk-row">
+      <div class="rc id">R07</div>
+      <div class="rc desc"><div class="rname">Complexité de la migration de données</div><div class="rdesc">Reverse engineering de l'ancien site monolithique, cutover sans interruption d'activité. Risque de perte ou corruption de données clients et historiques commandes.</div></div>
+      <div class="rc center"><span class="badge b-moyen">2 – Moyen</span></div>
+      <div class="rc center"><span class="badge b-critique">4 – Critique</span></div>
+      <div class="rc center"><div class="score-box s-8">8</div></div>
+      <div class="rc"><div class="resp-badge rb-attenuer">Atténuer</div><div class="plan-text">Plan de migration détaillé avec jalons de validation. Tests sur environnement de recette 3 semaines avant go-live (Sprint 9). Sauvegarde complète avant bascule. Plan de rollback documenté et testé.</div></div>
+      <div class="rc"><div class="resp-text">Lead Dev + ESN<br><em>Sprint S9–S12</em></div></div>
+    </div>
+
+    <div class="risk-row">
+      <div class="rc id">R10</div>
+      <div class="rc desc"><div class="rname">Périmètre fonctionnel sous-estimé</div><div class="rdesc">Périmètre ambitieux (double espace, back-office, CRM, paiement, notifications) pouvant révéler des complexités non anticipées lors des sprints.</div></div>
+      <div class="rc center"><span class="badge b-moyen">2 – Moyen</span></div>
+      <div class="rc center"><span class="badge b-moyen">2 – Moyen</span></div>
+      <div class="rc center"><div class="score-box s-4">4</div></div>
+      <div class="rc"><div class="resp-badge rb-attenuer">Atténuer</div><div class="plan-text">Definition of Done claire pour chaque sprint. Revue de backlog bimensuelle avec le PO. Priorisation MoSCoW pour protéger le go-live si dérapage constaté en cours de sprint.</div></div>
+      <div class="rc"><div class="resp-text">Chef de projet + PO<br><em>Chaque sprint</em></div></div>
+    </div>
+
+    <!-- SÉCURITÉ & CONFORMITÉ -->
+    <div class="reg-section securite">Sécurité &amp; Conformité</div>
+
+    <div class="risk-row">
+      <div class="rc id">R08</div>
+      <div class="rc desc"><div class="rname">Faille de sécurité au lancement</div><div class="rdesc">Site e-commerce exposé : injection SQL/XSS, credential stuffing, DDoS, fraude paiement. Risque d'image majeur pour une marque en construction nationale.</div></div>
+      <div class="rc center"><span class="badge b-eleve">3 – Élevé</span></div>
+      <div class="rc center"><span class="badge b-critique">4 – Critique</span></div>
+      <div class="rc center"><div class="score-box s-12">12</div></div>
+      <div class="rc"><div class="resp-badge rb-attenuer">Atténuer</div> / <div class="resp-badge rb-eviter">Éviter</div><div class="plan-text">Pentest obligatoire avant go-live (budgété 8 000 €). OWASP Top 10 dans la Definition of Done. WAF Azure + monitoring temps réel. Revue RSSI mensuelle. Blocage go-live si vulnérabilités critiques ouvertes.</div></div>
+      <div class="rc"><div class="resp-text">RSSI<br><em>Mensuel + pré-lancement</em></div></div>
+    </div>
+
+    <div class="risk-row">
+      <div class="rc id">R11</div>
+      <div class="rc desc"><div class="rname">Non-conformité RGPD</div><div class="rdesc">Traitement de données sensibles (paiement, adresses, évaluations) sans conformité formalisée. Risque de sanction CNIL (jusqu'à 4 % du CA mondial).</div></div>
+      <div class="rc center"><span class="badge b-eleve">3 – Élevé</span></div>
+      <div class="rc center"><span class="badge b-faible">1 – Faible</span></div>
+      <div class="rc center"><div class="score-box s-6" style="background:#fefcbf;color:#744210;">3</div></div>
+      <div class="rc"><div class="resp-badge rb-attenuer">Atténuer</div><div class="plan-text">Revue juridique RGPD dès la phase de spécifications. Registre des traitements à jour. Privacy by Design dans les specs. Consentements et politique de données intégrés dès le MVP.</div></div>
+      <div class="rc"><div class="resp-text">RSSI + DPO<br><em>Mensuel</em></div></div>
+    </div>
+
+    <!-- RISQUES EXTERNES -->
+    <div class="reg-section externe">Risques Externes</div>
+
+    <div class="risk-row">
+      <div class="rc id">R12</div>
+      <div class="rc desc"><div class="rname">Indisponibilité d'un service tiers</div><div class="rdesc">Prestataires paiement (Stripe), cartographie, SMS/email (SendGrid/Twilio) — rupture de service ou hausse tarifaire en cours de projet ou au lancement.</div></div>
+      <div class="rc center"><span class="badge b-moyen">2 – Moyen</span></div>
+      <div class="rc center"><span class="badge b-moyen">2 – Moyen</span></div>
+      <div class="rc center"><div class="score-box s-4">4</div></div>
+      <div class="rc"><div class="resp-badge rb-transferer">Transférer</div> / <div class="resp-badge rb-accepter">Accepter</div><div class="plan-text">SLA contractuel avec chaque prestataire (99,9 % uptime minimum). Identifier des alternatives pour chaque service critique. Clause de sortie dans les contrats.</div></div>
+      <div class="rc"><div class="resp-text">Chef de projet<br><em>Trimestriel</em></div></div>
+    </div>
+
+    <div class="risk-row">
+      <div class="rc id">R13</div>
+      <div class="rc desc"><div class="rname">UX décevante au lancement</div><div class="rdesc">Standards fixés par les GAFAM. Une expérience utilisateur décevante peut durablement affecter l'image de Time'Eats en phase de lancement national.</div></div>
+      <div class="rc center"><span class="badge b-moyen">2 – Moyen</span></div>
+      <div class="rc center"><span class="badge b-faible">1 – Faible</span></div>
+      <div class="rc center"><div class="score-box s-2">2</div></div>
+      <div class="rc"><div class="resp-badge rb-attenuer">Atténuer</div> / <div class="resp-badge rb-accepter">Accepter</div><div class="plan-text">Design System validé par le PO en amont. Tests utilisateurs sur maquettes avant développement. Audit de performance (Core Web Vitals) à chaque sprint de démo.</div></div>
+      <div class="rc"><div class="resp-text">ESN + PO<br><em>Chaque sprint</em></div></div>
+    </div>
+
+    <div class="risk-row">
+      <div class="rc id">R09</div>
+      <div class="rc desc"><div class="rname">Obsolescence rapide des frameworks</div><div class="rdesc">Rupture de compatibilité ou fin de support d'une dépendance en cours de projet (npm, Azure SDK, etc.). Risque limité sur 6 mois mais à surveiller.</div></div>
+      <div class="rc center"><span class="badge b-faible">1 – Faible</span></div>
+      <div class="rc center"><span class="badge b-faible">1 – Faible</span></div>
+      <div class="rc center"><div class="score-box s-1">1</div></div>
+      <div class="rc"><div class="resp-badge rb-accepter">Accepter</div><div class="plan-text">Choisir des frameworks LTS (Long Term Support) lors de la phase d'architecture. Veille technologique mensuelle par le Lead Dev.</div></div>
+      <div class="rc"><div class="resp-text">Lead Dev<br><em>Mensuel</em></div></div>
+    </div>
+
+  </div>
+
+  <!-- PLAN DE SUIVI -->
+  <div class="suivi">
+    <h3>Plan de suivi des risques</h3>
+    <div class="suivi-grid">
+      <div class="suivi-card critique">
+        <div class="st" style="color:#742a2a;">Risques Critiques <span>(R01, R04, R02, R08)</span></div>
+        <ul>
+          <li>Revue en ouverture de chaque Copil mensuel</li>
+          <li>Indicateur de statut : Ouvert / En cours / Clos</li>
+          <li>Escalade DSI si aucune action sous 2 semaines</li>
+          <li>Décision go/no-go obligatoire avant jalon suivant</li>
+        </ul>
+      </div>
+      <div class="suivi-card eleve">
+        <div class="st" style="color:#7b341e;">Risques Élevés <span>(R05, R06, R07, R08)</span></div>
+        <ul>
+          <li>Point hebdomadaire Chef de projet + responsable</li>
+          <li>Suivi dans le backlog des risques (Jira / Azure DevOps)</li>
+          <li>Revue mensuelle en Copil si non résolu</li>
+          <li>Activation de la marge budgétaire si nécessaire</li>
+        </ul>
+      </div>
+      <div class="suivi-card moyen">
+        <div class="st" style="color:#744210;">Risques Moyens &amp; Faibles <span>(R03, R09–R13)</span></div>
+        <ul>
+          <li>Revue bimensuelle en comité technique</li>
+          <li>Réévaluation à chaque fin de sprint</li>
+          <li>Reclassification si probabilité ou impact évolue</li>
+          <li>Clôture formelle si le risque ne peut plus survenir</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Time'Eats · WEB-001 · Registre des Risques · Version 1.0 · Juin N · Confidentiel interne DSI
+  </div>
+
+</div>
+</body>
+</html>

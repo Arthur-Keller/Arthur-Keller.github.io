@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Plan de communication — WEB-001 Refonte Application Web — Time'Eats</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; color: #1a1a2e; font-size: 13px; }
+  .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 28px 40px 20px; }
+  .header h1 { font-size: 22px; font-weight: 700; }
+  .header p { font-size: 13px; color: #a0aec0; margin-top: 4px; }
+  .header-meta { display: flex; gap: 32px; margin-top: 16px; }
+  .meta-item { display: flex; flex-direction: column; }
+  .meta-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #718096; }
+  .meta-value { font-size: 13px; font-weight: 600; color: #e2e8f0; margin-top: 2px; }
+  .container { padding: 24px 40px 40px; }
+  .card { background: white; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); overflow: hidden; margin-bottom: 20px; }
+  .col-head { display: grid; grid-template-columns: 180px 120px 230px 1fr 130px; background: #f7fafc; border-bottom: 1px solid #e2e8f0; }
+  .col-head span { font-size: 10px; font-weight: 700; color: #a0aec0; text-transform: uppercase; letter-spacing: 0.5px; padding: 9px 14px; }
+  .section-bar { padding: 7px 14px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: white; }
+  .s-pilotage { background: #2b6cb0; }
+  .s-equipe   { background: #276749; }
+  .s-externe  { background: #c05621; }
+  .s-crise    { background: #742a2a; }
+  .comm-row { display: grid; grid-template-columns: 180px 120px 230px 1fr 130px; border-bottom: 1px solid #f0f4f8; align-items: center; }
+  .comm-row:last-child { border-bottom: none; }
+  .comm-row:hover { background: #fafbff; }
+  .cc { padding: 12px 14px; font-size: 12px; color: #2d3748; }
+  .cc.instance { font-weight: 600; }
+  .cc.obj { color: #4a5568; font-size: 11px; line-height: 1.5; }
+  .cc.resp { color: #718096; font-size: 11px; }
+  .badge { display: inline-block; border-radius: 4px; padding: 2px 8px; font-size: 10px; font-weight: 700; }
+  .b-hebdo   { background: #fed7d7; color: #742a2a; }
+  .b-bi      { background: #feebc8; color: #7b341e; }
+  .b-mensuel { background: #ebf8ff; color: #2b6cb0; }
+  .b-sprint  { background: #f0fff4; color: #276749; }
+  .b-event   { background: #faf5ff; color: #553c9a; }
+  .participants { display: flex; flex-wrap: wrap; gap: 4px; }
+  .part { display: inline-block; background: #edf2f7; color: #4a5568; border-radius: 3px; padding: 2px 7px; font-size: 10px; font-weight: 600; }
+  .footer { margin-top: 20px; font-size: 10px; color: #a0aec0; text-align: center; padding-bottom: 8px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>PLAN DE COMMUNICATION — WEB-001 · Refonte de l'application web</h1>
+  <p>Time'Eats · DSI · Mai N — Octobre N · 12 sprints Scrum</p>
+  <div class="header-meta">
+    <div class="meta-item"><span class="meta-label">Instances</span><span class="meta-value">9</span></div>
+    <div class="meta-item"><span class="meta-label">Méthode</span><span class="meta-value">Scrum</span></div>
+    <div class="meta-item"><span class="meta-label">Chef de projet</span><span class="meta-value">PMO — CDP-2</span></div>
+  </div>
+</div>
+<div class="container">
+  <div class="card">
+    <div class="col-head">
+      <span>Instance</span><span>Fréquence</span><span>Participants</span><span>Objectif</span><span>Support</span>
+    </div>
+
+    <div class="section-bar s-pilotage">Pilotage stratégique</div>
+
+    <div class="comm-row">
+      <div class="cc instance">Comité de Pilotage (Copil)</div>
+      <div class="cc"><span class="badge b-mensuel">Mensuel · 1h30</span></div>
+      <div class="cc"><div class="participants"><span class="part">Sponsor DSI</span><span class="part">Chef de projet</span><span class="part">PO</span><span class="part">RSSI</span></div></div>
+      <div class="cc obj">Décisions stratégiques, suivi budget et risques, arbitrage des demandes de changement.</div>
+      <div class="cc resp">CR sous 48h · PowerBI</div>
+    </div>
+
+    <div class="comm-row">
+      <div class="cc instance">Comité Technique (Cotech)</div>
+      <div class="cc"><span class="badge b-bi">Bihebdo · 1h</span></div>
+      <div class="cc"><div class="participants"><span class="part">Chef de projet</span><span class="part">Lead Dev</span><span class="part">ESN (réf.)</span></div></div>
+      <div class="cc obj">Revue des blocages techniques, validation des livraisons de sprint, suivi CI/CD et intégrations.</div>
+      <div class="cc resp">Notes de décision · Confluence</div>
+    </div>
+
+    <div class="section-bar s-equipe">Équipe projet</div>
+
+    <div class="comm-row">
+      <div class="cc instance">Daily Stand-up</div>
+      <div class="cc"><span class="badge b-hebdo">Quotidien · 15 min</span></div>
+      <div class="cc"><div class="participants"><span class="part">Équipe dev (×4)</span><span class="part">ESN (×2)</span><span class="part">Lead Dev</span></div></div>
+      <div class="cc obj">Synchronisation quotidienne : fait / prévu / blocages. Impediments tracés dans Jira.</div>
+      <div class="cc resp">Mise à jour Jira board</div>
+    </div>
+
+    <div class="comm-row">
+      <div class="cc instance">Sprint Planning</div>
+      <div class="cc"><span class="badge b-sprint">Début sprint · 2h</span></div>
+      <div class="cc"><div class="participants"><span class="part">Chef de projet</span><span class="part">PO</span><span class="part">Lead Dev</span><span class="part">ESN</span></div></div>
+      <div class="cc obj">Priorisation du backlog, estimation des stories, engagement sur le sprint goal.</div>
+      <div class="cc resp">Backlog Jira · Sprint goal</div>
+    </div>
+
+    <div class="comm-row">
+      <div class="cc instance">Sprint Review &amp; Rétro</div>
+      <div class="cc"><span class="badge b-sprint">Fin sprint · 1h30</span></div>
+      <div class="cc"><div class="participants"><span class="part">Chef de projet</span><span class="part">PO</span><span class="part">Lead Dev</span><span class="part">Équipe dev</span></div></div>
+      <div class="cc obj">Démonstration des livrables au PO, validation des critères d'acceptance, axes d'amélioration.</div>
+      <div class="cc resp">Démo · Vélocité sprint</div>
+    </div>
+
+    <div class="section-bar s-externe">Parties prenantes &amp; Prestataires</div>
+
+    <div class="comm-row">
+      <div class="cc instance">Atelier spécifications</div>
+      <div class="cc"><span class="badge b-sprint">Par sprint · 2h</span></div>
+      <div class="cc"><div class="participants"><span class="part">Chef de projet</span><span class="part">PO</span><span class="part">ESN UX</span></div></div>
+      <div class="cc obj">Validation des besoins fonctionnels, arbitrages MoSCoW, validation maquettes Figma.</div>
+      <div class="cc resp">Specs Confluence · Figma</div>
+    </div>
+
+    <div class="comm-row">
+      <div class="cc instance">Suivi ESN prestataires</div>
+      <div class="cc"><span class="badge b-bi">Bihebdo · 1h</span></div>
+      <div class="cc"><div class="participants"><span class="part">Chef de projet</span><span class="part">Lead Dev</span><span class="part">ESN (×2)</span></div></div>
+      <div class="cc obj">Pilotage de la prestation, vérification qualité et planning, gestion contractuelle.</div>
+      <div class="cc resp">Email récapitulatif</div>
+    </div>
+
+    <div class="comm-row">
+      <div class="cc instance">Newsletter projet</div>
+      <div class="cc"><span class="badge b-sprint">Fin sprint</span></div>
+      <div class="cc"><div class="participants"><span class="part">Toutes parties prenantes</span></div></div>
+      <div class="cc obj">Synthèse du sprint écoulé, sprint suivant, indicateurs clés planning / budget / risques.</div>
+      <div class="cc resp">Email · PDF 1 page</div>
+    </div>
+
+    <div class="section-bar s-crise">Communication de crise</div>
+
+    <div class="comm-row">
+      <div class="cc instance">Alerte risque critique</div>
+      <div class="cc"><span class="badge b-event">Événementiel · &lt; 2h</span></div>
+      <div class="cc"><div class="participants"><span class="part">Sponsor DSI</span><span class="part">RSSI</span><span class="part">Chef de projet</span></div></div>
+      <div class="cc obj">Notification immédiate en cas de dérive majeure, faille sécurité ou blocage go-live. Décision requise sous 4h.</div>
+      <div class="cc resp">Email urgent + appel</div>
+    </div>
+
+  </div>
+  <div class="footer">Time'Eats · WEB-001 · Plan de Communication · Version 1.0 · Juin N · Confidentiel interne DSI</div>
+</div>
+</body>
+</html>

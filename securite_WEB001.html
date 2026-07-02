@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Plan d'Assurance Sécurité — WEB-001 — Time'Eats</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; color: #1a1a2e; font-size: 13px; }
+
+.header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 28px 40px 20px; }
+.header h1 { font-size: 22px; font-weight: 700; }
+.header p { font-size: 13px; color: #a0aec0; margin-top: 4px; }
+.header-meta { display: flex; gap: 32px; margin-top: 16px; flex-wrap: wrap; }
+.meta-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #718096; }
+.meta-value { font-size: 13px; font-weight: 600; color: #e2e8f0; margin-top: 2px; }
+
+.container { padding: 28px 40px 48px; }
+
+.section-title { font-size: 13px; font-weight: 700; color: white; padding: 11px 18px; border-radius: 8px 8px 0 0; margin-top: 24px; }
+.card { background: white; border-radius: 0 0 10px 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); padding: 22px; }
+
+.st-red    { background: #742a2a; }
+.st-dark   { background: #2d3748; }
+.st-blue   { background: #2b6cb0; }
+.st-orange { background: #c05621; }
+.st-teal   { background: #2c7a7b; }
+
+/* Référentiels */
+.ref-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.ref-card { border-radius: 8px; padding: 16px; border: 1px solid #e2e8f0; }
+.ref-title { font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+.ref-item { font-size: 11px; color: #4a5568; padding: 3px 0; line-height: 1.5; }
+.ref-item::before { content: "›"; color: #a0aec0; margin-right: 6px; }
+
+/* Security by phase */
+.phase-table { width: 100%; border-collapse: collapse; }
+.phase-table th { background: #f7fafc; font-size: 10px; font-weight: 700; color: #718096; text-transform: uppercase; letter-spacing: 0.4px; padding: 8px 14px; border-bottom: 2px solid #e2e8f0; text-align: left; }
+.phase-table td { padding: 11px 14px; border-bottom: 1px solid #f0f4f8; font-size: 12px; vertical-align: top; line-height: 1.5; }
+.phase-table tr:last-child td { border-bottom: none; }
+.phase-table tr:hover td { background: #f7fafc; }
+.phase-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 4px; white-space: nowrap; }
+.pb-red    { background: #fed7d7; color: #742a2a; }
+.pb-blue   { background: #bee3f8; color: #2b6cb0; }
+.pb-orange { background: #feebc8; color: #c05621; }
+.pb-teal   { background: #b2f5ea; color: #2c7a7b; }
+.pb-dark   { background: #e2e8f0; color: #2d3748; }
+
+/* Contrôles techniques */
+.controls-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.ctrl-card { border-radius: 8px; border: 1px solid #e2e8f0; overflow: hidden; }
+.ctrl-header { padding: 10px 14px; font-size: 11px; font-weight: 700; color: white; display: flex; align-items: center; gap: 8px; }
+.ctrl-body { padding: 12px 14px; }
+.ctrl-item { display: flex; align-items: flex-start; gap: 8px; padding: 5px 0; border-bottom: 1px solid #f7fafc; font-size: 11px; color: #4a5568; line-height: 1.4; }
+.ctrl-item:last-child { border-bottom: none; }
+.ctrl-check { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: white; }
+
+/* OWASP table */
+.owasp-table { width: 100%; border-collapse: collapse; }
+.owasp-table th { background: #f7fafc; font-size: 10px; font-weight: 700; color: #718096; text-transform: uppercase; letter-spacing: 0.4px; padding: 8px 14px; border-bottom: 2px solid #e2e8f0; text-align: left; }
+.owasp-table td { padding: 9px 14px; border-bottom: 1px solid #f0f4f8; font-size: 11px; vertical-align: top; line-height: 1.5; }
+.owasp-table tr:last-child td { border-bottom: none; }
+.owasp-table tr:hover td { background: #f7fafc; }
+.owasp-num { font-weight: 700; color: #742a2a; white-space: nowrap; }
+.badge-ctrl { display: inline-block; font-size: 10px; padding: 1px 7px; border-radius: 3px; font-weight: 600; }
+.bc-ok  { background: #f0fff4; color: #276749; }
+.bc-dev { background: #ebf8ff; color: #2b6cb0; }
+.bc-infra { background: #faf5ff; color: #553c9a; }
+
+/* Vuln management */
+.vuln-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.vuln-card { border-radius: 8px; padding: 14px; text-align: center; }
+.vuln-level { font-size: 11px; font-weight: 700; margin-bottom: 6px; }
+.vuln-sla   { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+.vuln-sub   { font-size: 10px; opacity: 0.8; }
+
+.footer { margin-top: 32px; font-size: 10px; color: #a0aec0; text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>PLAN D'ASSURANCE SÉCURITÉ — WEB-001 · Refonte de l'application web</h1>
+  <p>Time'Eats · DSI · Document de pilotage sécurité · Version 1.0</p>
+  <div class="header-meta">
+    <div><div class="meta-label">Approche</div><div class="meta-value">Security by Design</div></div>
+    <div><div class="meta-label">Référentiel</div><div class="meta-value">OWASP Top 10 · RGPD</div></div>
+    <div><div class="meta-label">Infra</div><div class="meta-value">Azure (WAF · Key Vault · AD B2C)</div></div>
+    <div><div class="meta-label">Pentest</div><div class="meta-value">S9–S10 (prestataire externe)</div></div>
+    <div><div class="meta-label">Responsable</div><div class="meta-value">RSSI</div></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 1. RÉFÉRENTIELS -->
+  <div class="section-title st-red">1. Référentiels et obligations applicables</div>
+  <div class="card">
+    <div class="ref-grid">
+      <div class="ref-card" style="border-left: 3px solid #742a2a; background: #fff5f5;">
+        <div class="ref-title" style="color:#742a2a;">OWASP Top 10</div>
+        <div class="ref-item">Injection (SQL, XSS, commandes)</div>
+        <div class="ref-item">Broken Authentication</div>
+        <div class="ref-item">Sensitive Data Exposure</div>
+        <div class="ref-item">Security Misconfiguration</div>
+        <div class="ref-item">Broken Access Control</div>
+        <div class="ref-item">Intégré dans la DoD à chaque sprint</div>
+      </div>
+      <div class="ref-card" style="border-left: 3px solid #2c7a7b; background: #e6fffa;">
+        <div class="ref-title" style="color:#2c7a7b;">RGPD (Règlement UE 2016/679)</div>
+        <div class="ref-item">Privacy by Design obligatoire</div>
+        <div class="ref-item">Minimisation des données collectées</div>
+        <div class="ref-item">PIA réalisé avant la mise en prod</div>
+        <div class="ref-item">Droit à l'oubli implémenté</div>
+        <div class="ref-item">Gestion des consentements (cookies)</div>
+        <div class="ref-item">Revue mensuelle RSSI / DPO</div>
+      </div>
+      <div class="ref-card" style="border-left: 3px solid #2b6cb0; background: #ebf8ff;">
+        <div class="ref-title" style="color:#2b6cb0;">Sécurité Azure</div>
+        <div class="ref-item">Azure Security Benchmark v3</div>
+        <div class="ref-item">WAF (Web Application Firewall)</div>
+        <div class="ref-item">Azure Key Vault — secrets chiffrés</div>
+        <div class="ref-item">Azure AD B2C — MFA obligatoire</div>
+        <div class="ref-item">Azure Defender for App Service</div>
+        <div class="ref-item">Chiffrement TLS 1.2+ obligatoire</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. SECURITY BY DESIGN PAR PHASE -->
+  <div class="section-title st-dark">2. Security by Design — intégration par phase projet</div>
+  <div class="card">
+    <p style="font-size:11px; color:#718096; margin-bottom:16px;">La sécurité est intégrée à chaque phase du projet, pas uniquement en fin de cycle. Chaque action de sécurité est associée à un responsable et à une échéance.</p>
+    <table class="phase-table">
+      <thead>
+        <tr><th>Phase</th><th>Sprints</th><th>Actions sécurité</th><th>Responsable</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="phase-badge pb-dark">Cadrage</span></td>
+          <td>S1–S2</td>
+          <td>Analyse des risques sécurité · Classification des données · Définition des exigences sécurité du projet · Validation de l'architecture par le RSSI</td>
+          <td>RSSI · CDP</td>
+        </tr>
+        <tr>
+          <td><span class="phase-badge pb-blue">Architecture</span></td>
+          <td>S3</td>
+          <td>DAT soumis à revue RSSI · Choix Azure WAF + Key Vault · Configuration réseau (VNet, NSG) · Activation Azure Defender · TLS 1.2+ forcé</td>
+          <td>Lead Dev · RSSI</td>
+        </tr>
+        <tr>
+          <td><span class="phase-badge pb-blue">Développement</span></td>
+          <td>S3–S9</td>
+          <td>OWASP intégré dans la DoD · Revue de code sécurité sur chaque PR (Lead Dev) · Scan SonarQube à chaque commit · Aucun secret en clair dans le code (Key Vault)</td>
+          <td>Lead Dev · Dev / ESN</td>
+        </tr>
+        <tr>
+          <td><span class="phase-badge pb-orange">Intégrations</span></td>
+          <td>S5–S8</td>
+          <td>Authentification OAuth2 / JWT pour les APIs · MFA Azure AD B2C activé (J4) · Chiffrement des échanges CRM et paiement · Validation des tokens côté serveur</td>
+          <td>Lead Dev · RSSI</td>
+        </tr>
+        <tr>
+          <td><span class="phase-badge pb-red">Qualification</span></td>
+          <td>S9–S10</td>
+          <td>Tests OWASP ZAP (automatisés) · Pentest par prestataire externe · Revue des résultats avec RSSI · Plan de remédiation des failles identifiées</td>
+          <td>RSSI · Prestataire</td>
+        </tr>
+        <tr>
+          <td><span class="phase-badge pb-teal">Go-live</span></td>
+          <td>S11–S12</td>
+          <td>Validation finale RSSI (0 faille critique) · Azure Monitor + alertes sécurité activés · Plan de réponse aux incidents documenté · PV sécurité joint au PV de recette</td>
+          <td>RSSI · DSI</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 3. CONTRÔLES TECHNIQUES -->
+  <div class="section-title st-blue">3. Contrôles techniques retenus</div>
+  <div class="card">
+    <div class="controls-grid">
+      <div class="ctrl-card">
+        <div class="ctrl-header" style="background:#742a2a;">🔐 Authentification &amp; Accès</div>
+        <div class="ctrl-body">
+          <div class="ctrl-item"><div class="ctrl-check" style="background:#742a2a">✓</div>MFA obligatoire pour tous les utilisateurs (Azure AD B2C)</div>
+          <div class="ctrl-item"><div class="ctrl-check" style="background:#742a2a">✓</div>RBAC (Role-Based Access Control) — droits minimaux par rôle</div>
+          <div class="ctrl-item"><div class="ctrl-check" style="background:#742a2a">✓</div>Sessions JWT avec expiration courte (15 min + refresh token)</div>
+          <div class="ctrl-item"><div class="ctrl-check" style="background:#742a2a">✓</div>Comptes de service DSI séparés des comptes utilisateurs</div>
+          <div class="ctrl-item"><div class="ctrl-check" style="background:#742a2a">✓</div>Aucun compte générique ou partagé en production</div>
+        </div>
+      </div>
+
+      <div class="ctrl-card">
+        <div class="ctrl-header" style="background:#2b6cb0;">☁️ Infrastructure Azure</div>
+        <div class="ctrl-body">
+          <div class="ctrl-item"><div class="ctrl-check" style="background:#2b6cb0">✓</div>Azure WAF — filtrage des requêtes malveillantes (OWASP ruleset)</div>
+          <div class="ctrl-item"><div class="ctrl-check" style="background:#2b6cb0">✓</div>Azure Key Vault — stockage chiffré de tous les secrets et certificats</div>
+          <div class="ctrl-item"><div class="ctrl-check" style="background:#2b6cb0">✓</div>HTTPS / TLS 1.2 minimum forcé (TLS 1.0 / 1.1 désactivés)</div>
+          <div class="ctrl-item"><div class="ctrl-check" style="background:#2b6cb0">✓</div>Azure Defender for App Service — détection des anomalies</div>
+          <div class="ctrl-item"><div class="ctrl-check" style="background:#2b6cb0">✓</div>Sauvegardes PostgreSQL chiffrées — rétention 30 jours</div>
+        </div>
+      </div>
+
+      <div class="ctrl-card">
+        <div class="ctrl-header" style="background:#553c9a;">🛡️ Sécurité applicative</div>
+        <div class="ctrl-body">
+          <div class="ctrl-item"><div class="ctrl-check" style="background:#553c9a">✓</div>Headers HTTP sécurisés (CSP, HSTS, X-Frame-Options, X-Content-Type)</div>
+          <div class="ctrl-item"><div class="ctrl-check" style="background:#553c9a">✓</div>Validation des entrées côté serveur (pas uniquement côté client)</div>
+          <div class="ctrl-item"><div class="ctrl-check" style="background:#553c9a">✓</div>Requêtes SQL paramétrées (ORM — 0 concaténation de chaîne)</div>
+          <div class="ctrl-item"><div class="ctrl-check" style="background:#553c9a">✓</div>Protection CSRF sur tous les formulaires (tokens)</div>
+          <div class="ctrl-item"><div class="ctrl-check" style="background:#553c9a">✓</div>Données sensibles jamais dans les logs ni dans les URLs</div>
+        </div>
+      </div>
+
+      <div class="ctrl-card">
+        <div class="ctrl-header" style="background:#2c7a7b;">📊 Surveillance &amp; Réponse</div>
+        <div class="ctrl-body">
+          <div class="ctrl-item"><div class="ctrl-check" style="background:#2c7a7b">✓</div>Azure Monitor — alertes temps réel sur anomalies de trafic</div>
+          <div class="ctrl-item"><div class="ctrl-check" style="background:#2c7a7b">✓</div>Logs d'accès aux données sensibles centralisés et horodatés</div>
+          <div class="ctrl-item"><div class="ctrl-check" style="background:#2c7a7b">✓</div>Alertes RSSI automatiques sur vulnérabilité critique détectée</div>
+          <div class="ctrl-item"><div class="ctrl-check" style="background:#2c7a7b">✓</div>Plan de réponse aux incidents documenté avant go-live</div>
+          <div class="ctrl-item"><div class="ctrl-check" style="background:#2c7a7b">✓</div>Plan de rollback testé et validé (retour version précédente &lt; 1 h)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. OWASP TOP 10 -->
+  <div class="section-title st-red">4. Couverture OWASP Top 10 — mesures appliquées</div>
+  <div class="card">
+    <table class="owasp-table">
+      <thead>
+        <tr><th>Rang</th><th>Risque OWASP</th><th>Mesure retenue</th><th>Couverture</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="owasp-num">A01</td>
+          <td><strong>Broken Access Control</strong></td>
+          <td>RBAC Azure AD B2C · Vérification des droits côté serveur à chaque requête · Tests Playwright sur les accès non autorisés</td>
+          <td><span class="badge-ctrl bc-ok">Dev + Infra</span></td>
+        </tr>
+        <tr>
+          <td class="owasp-num">A02</td>
+          <td><strong>Cryptographic Failures</strong></td>
+          <td>TLS 1.2+ obligatoire · Données au repos chiffrées (Azure PostgreSQL) · Secrets dans Key Vault uniquement</td>
+          <td><span class="badge-ctrl bc-infra">Infra Azure</span></td>
+        </tr>
+        <tr>
+          <td class="owasp-num">A03</td>
+          <td><strong>Injection (SQL, XSS, CSRF)</strong></td>
+          <td>ORM paramétré (0 concaténation) · Validation des entrées · Tokens CSRF · Encodage des sorties HTML · Scan OWASP ZAP</td>
+          <td><span class="badge-ctrl bc-dev">Dev + Tests</span></td>
+        </tr>
+        <tr>
+          <td class="owasp-num">A04</td>
+          <td><strong>Insecure Design</strong></td>
+          <td>Security by Design dès le cadrage · Revue architecture RSSI (J2) · Threat modeling réalisé en S3</td>
+          <td><span class="badge-ctrl bc-ok">Architecture</span></td>
+        </tr>
+        <tr>
+          <td class="owasp-num">A05</td>
+          <td><strong>Security Misconfiguration</strong></td>
+          <td>IaC (Infrastructure as Code) — configuration Azure versionnée · Headers HTTP sécurisés · Environnements dev/prod strictement séparés</td>
+          <td><span class="badge-ctrl bc-infra">Infra Azure</span></td>
+        </tr>
+        <tr>
+          <td class="owasp-num">A06</td>
+          <td><strong>Vulnerable &amp; Outdated Components</strong></td>
+          <td>OWASP Dependency Check dans le pipeline CI/CD · Mise à jour des dépendances obligatoire avant chaque sprint review</td>
+          <td><span class="badge-ctrl bc-dev">CI/CD</span></td>
+        </tr>
+        <tr>
+          <td class="owasp-num">A07</td>
+          <td><strong>Identification &amp; Auth Failures</strong></td>
+          <td>MFA Azure AD B2C · JWT à expiration courte · Blocage après 5 tentatives échouées · Pas de mot de passe en clair</td>
+          <td><span class="badge-ctrl bc-infra">Infra Azure</span></td>
+        </tr>
+        <tr>
+          <td class="owasp-num">A08</td>
+          <td><strong>Software &amp; Data Integrity Failures</strong></td>
+          <td>Signature des artefacts de déploiement · Vérification intégrité dans le pipeline CI/CD · Dépôt Git protégé (branch protection)</td>
+          <td><span class="badge-ctrl bc-dev">CI/CD</span></td>
+        </tr>
+        <tr>
+          <td class="owasp-num">A09</td>
+          <td><strong>Security Logging &amp; Monitoring Failures</strong></td>
+          <td>Azure Monitor + logs centralisés · Alertes automatiques RSSI · Logs d'accès aux données sensibles horodatés et non modifiables</td>
+          <td><span class="badge-ctrl bc-infra">Infra Azure</span></td>
+        </tr>
+        <tr>
+          <td class="owasp-num">A10</td>
+          <td><strong>Server-Side Request Forgery (SSRF)</strong></td>
+          <td>Validation stricte des URLs côté serveur · Liste blanche des domaines autorisés pour les appels externes · WAF Azure configuré</td>
+          <td><span class="badge-ctrl bc-dev">Dev + WAF</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 5. GESTION DES VULNÉRABILITÉS -->
+  <div class="section-title st-orange">5. Gestion des vulnérabilités — SLA de remédiation</div>
+  <div class="card">
+    <p style="font-size:11px; color:#718096; margin-bottom:16px;">Toute vulnérabilité identifiée (scan SonarQube, OWASP ZAP, ou pentest) déclenche une procédure de remédiation avec un délai contractuel selon sa sévérité.</p>
+    <div class="vuln-grid">
+      <div class="vuln-card" style="background:#fff5f5; border: 1px solid #feb2b2;">
+        <div class="vuln-level" style="color:#742a2a;">CRITIQUE (CVSS ≥ 9)</div>
+        <div class="vuln-sla" style="color:#742a2a;">24 h</div>
+        <div class="vuln-sub" style="color:#742a2a;">Correctif obligatoire · Escalade Sponsor · Go-live bloqué si non résolu</div>
+      </div>
+      <div class="vuln-card" style="background:#fffbeb; border: 1px solid #fbd38d;">
+        <div class="vuln-level" style="color:#c05621;">ÉLEVÉE (CVSS 7–8,9)</div>
+        <div class="vuln-sla" style="color:#c05621;">72 h</div>
+        <div class="vuln-sub" style="color:#c05621;">Correctif dans le sprint courant · Alerte RSSI + CDP · Suivi Copil</div>
+      </div>
+      <div class="vuln-card" style="background:#fffff0; border: 1px solid #f6e05e;">
+        <div class="vuln-level" style="color:#744210;">MOYENNE (CVSS 4–6,9)</div>
+        <div class="vuln-sla" style="color:#744210;">Sprint suivant</div>
+        <div class="vuln-sub" style="color:#744210;">Planifié dans le backlog · Suivi hebdomadaire · Toléré au go-live si plan actif</div>
+      </div>
+      <div class="vuln-card" style="background:#f0fff4; border: 1px solid #9ae6b4;">
+        <div class="vuln-level" style="color:#276749;">FAIBLE (CVSS &lt; 4)</div>
+        <div class="vuln-sla" style="color:#276749;">Fin de projet</div>
+        <div class="vuln-sub" style="color:#276749;">Enregistré dans le backlog · Traité en amélioration continue post go-live</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Time'Eats · WEB-001 · Plan d'Assurance Sécurité · Version 1.0 · Mai N · Confidentiel interne DSI
+  </div>
+
+</div>
+</body>
+</html>

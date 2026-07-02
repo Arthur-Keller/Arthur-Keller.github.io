@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Budget — WEB-001 Refonte Application Web — Time'Eats</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; color: #1a1a2e; font-size: 13px; }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: white; padding: 28px 40px 20px;
+  }
+  .header h1 { font-size: 22px; font-weight: 700; }
+  .header p { font-size: 13px; color: #a0aec0; margin-top: 4px; }
+  .header-meta { display: flex; gap: 32px; margin-top: 16px; flex-wrap: wrap; }
+  .meta-item { display: flex; flex-direction: column; }
+  .meta-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #718096; }
+  .meta-value { font-size: 13px; font-weight: 600; color: #e2e8f0; margin-top: 2px; }
+
+  .container { padding: 24px 40px 40px; }
+
+  /* ── KPI CARDS ── */
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+  .kpi { background: white; border-radius: 10px; padding: 16px 18px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); border-left: 4px solid #e2e8f0; }
+  .kpi.green  { border-left-color: #48bb78; }
+  .kpi.blue   { border-left-color: #4299e1; }
+  .kpi.orange { border-left-color: #ed8936; }
+  .kpi.purple { border-left-color: #9f7aea; }
+  .kpi .klabel { font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: #718096; margin-bottom: 6px; }
+  .kpi .kvalue { font-size: 24px; font-weight: 700; color: #1a1a2e; }
+  .kpi .ksub  { font-size: 11px; color: #a0aec0; margin-top: 3px; }
+
+  /* ── SECTION CARD ── */
+  .card { background: white; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); overflow: hidden; margin-bottom: 20px; }
+  .card-header { padding: 12px 18px; display: flex; align-items: center; gap: 10px; }
+  .card-header h2 { font-size: 13px; font-weight: 700; color: white; }
+  .card-header .badge-intern { background: #e2e8f0; color: #4a5568; font-size: 10px; font-weight: 700; border-radius: 4px; padding: 2px 8px; }
+  .card-header .badge-extern { background: rgba(255,255,255,0.2); color: white; font-size: 10px; font-weight: 700; border-radius: 4px; padding: 2px 8px; }
+  .ch-blue   { background: #2b6cb0; }
+  .ch-orange { background: #c05621; }
+  .ch-teal   { background: #2c7a7b; }
+  .ch-purple { background: #553c9a; }
+  .ch-dark   { background: #2d3748; }
+
+  /* ── TABLE ── */
+  .col-head { display: grid; padding: 8px 18px; background: #f7fafc; border-bottom: 1px solid #e2e8f0; }
+  .col-head span { font-size: 10px; font-weight: 700; color: #a0aec0; text-transform: uppercase; letter-spacing: 0.4px; }
+
+  .budget-row { display: grid; align-items: center; padding: 10px 18px; border-bottom: 1px solid #f0f4f8; transition: background 0.1s; }
+  .budget-row:last-child { border-bottom: none; }
+  .budget-row:hover { background: #fafbff; }
+  .budget-row.subtotal { background: #f7fafc; border-top: 1px solid #e2e8f0; font-weight: 700; }
+  .budget-row.internalized { opacity: 0.7; font-style: italic; }
+
+  .rname { font-size: 12px; color: #2d3748; }
+  .rdetail { font-size: 10px; color: #a0aec0; margin-top: 2px; }
+  .rnum { text-align: right; font-size: 12px; }
+  .rnum.qty { color: #718096; }
+  .rnum.tjm { color: #718096; }
+  .rnum.total { font-weight: 600; color: #1a1a2e; }
+  .rnum.intern { color: #a0aec0; font-style: italic; }
+  .rnum.sub { font-size: 14px; font-weight: 700; color: #1a1a2e; }
+
+  /* 5 colonnes : #, Nom, Qté, TJM/Prix, Total */
+  .g5 { grid-template-columns: 24px 1fr 80px 90px 100px; gap: 8px; }
+  /* 4 colonnes : #, Nom, Détail, Total */
+  .g4 { grid-template-columns: 24px 1fr 1fr 100px; gap: 8px; }
+
+  .idx { font-size: 10px; color: #cbd5e0; text-align: center; }
+
+  /* ── TOTAL BARRE ── */
+  .total-bar { background: #1a1a2e; color: white; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border-radius: 0 0 10px 10px; }
+  .total-bar .tl { font-size: 14px; font-weight: 700; }
+  .total-bar .tr { font-size: 24px; font-weight: 700; }
+
+  /* ── RÉPARTITION BUDGET ── */
+  .repartition { background: white; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); padding: 20px; margin-bottom: 20px; }
+  .repartition h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #718096; margin-bottom: 16px; }
+  .prog-row { margin-bottom: 12px; }
+  .prog-head { display: flex; justify-content: space-between; margin-bottom: 5px; }
+  .prog-head .pname { font-size: 12px; color: #2d3748; font-weight: 500; }
+  .prog-head .ppct  { font-size: 12px; font-weight: 700; color: #1a1a2e; }
+  .prog-bg { background: #e2e8f0; border-radius: 4px; height: 10px; overflow: hidden; }
+  .prog-fill { height: 10px; border-radius: 4px; }
+  .prog-amount { font-size: 10px; color: #a0aec0; margin-top: 3px; text-align: right; }
+
+  /* ── HYPOTHÈSES ── */
+  .hyp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .hyp-card { background: #f7fafc; border-radius: 8px; padding: 12px 14px; border-left: 3px solid #e2e8f0; }
+  .hyp-card .ht { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #718096; margin-bottom: 6px; }
+  .hyp-card .hv { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-bottom: 3px; }
+  .hyp-card .hd { font-size: 11px; color: #718096; line-height: 1.5; }
+
+  /* ── NOTE BOX ── */
+  .note-box { background: #fffbeb; border: 1px solid #f6e05e; border-radius: 6px; padding: 12px 16px; margin-top: 20px; font-size: 11px; color: #744210; line-height: 1.7; }
+  .note-box strong { color: #975a16; }
+
+  .footer { margin-top: 20px; font-size: 10px; color: #a0aec0; text-align: center; padding-bottom: 8px; }
+  .tag { display: inline-block; background: #ebf8ff; color: #2b6cb0; border-radius: 4px; padding: 1px 7px; font-size: 10px; font-weight: 700; margin-left: 6px; }
+  .tag.intern { background: #f0fff4; color: #276749; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>BUDGET PROJET — WEB-001 · Refonte de l'application web</h1>
+  <p>Time'Eats · DSI · Enveloppe totale : 300 000 € · Méthode : TJM · Durée : 6 mois (Mai → Octobre N)</p>
+  <div class="header-meta">
+    <div class="meta-item"><span class="meta-label">Enveloppe totale</span><span class="meta-value">300 000 €</span></div>
+    <div class="meta-item"><span class="meta-label">Charge totale</span><span class="meta-value">540 j/h</span></div>
+    <div class="meta-item"><span class="meta-label">Dont DSI (internalisé)</span><span class="meta-value">300 j/h</span></div>
+    <div class="meta-item"><span class="meta-label">Dont ESN externes</span><span class="meta-value">240 j/h — 144 000 €</span></div>
+    <div class="meta-item"><span class="meta-label">Marge sécurité</span><span class="meta-value">15 % — 45 000 €</span></div>
+    <div class="meta-item"><span class="meta-label">Chef de projet</span><span class="meta-value">PMO — CDP-2</span></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- KPI -->
+  <div class="kpi-row">
+    <div class="kpi green">
+      <div class="klabel">Enveloppe totale</div>
+      <div class="kvalue">300 000 €</div>
+      <div class="ksub">Budget alloué projet</div>
+    </div>
+    <div class="kpi blue">
+      <div class="klabel">Coût ESN (budgété)</div>
+      <div class="kvalue">144 000 €</div>
+      <div class="ksub">48 % du budget · 2 Dev Web × 120 j/h</div>
+    </div>
+    <div class="kpi orange">
+      <div class="klabel">Infrastructure & Outillage</div>
+      <div class="kvalue">39 000 €</div>
+      <div class="ksub">13 % du budget · Azure + pentest</div>
+    </div>
+    <div class="kpi purple">
+      <div class="klabel">Marge & Réserve</div>
+      <div class="kvalue">117 000 €</div>
+      <div class="ksub">39 % · Marge 15 % + réserve complémentaire</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- 1. RESSOURCES HUMAINES INTERNES DSI       -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="card">
+    <div class="card-header ch-blue">
+      <h2>1. Ressources humaines internes DSI</h2>
+      <span class="badge-intern">Coût valorisé internalisé — non imputé au budget projet · TJM 400 €/j</span>
+    </div>
+    <div class="col-head g5">
+      <span></span>
+      <span>Rôle</span>
+      <span style="text-align:right">J/H total</span>
+      <span style="text-align:right">TJM interne</span>
+      <span style="text-align:right">Coût valorisé</span>
+    </div>
+
+    <div class="budget-row g5 internalized">
+      <span class="idx">1</span>
+      <div><div class="rname">Lead Developer</div><div class="rdetail">Encadrement technique, revues de code, pilotage ESN · Juin → Oct (5 mois)</div></div>
+      <span class="rnum qty">50 j/h</span>
+      <span class="rnum tjm">400 €/j</span>
+      <span class="rnum intern">20 000 €</span>
+    </div>
+    <div class="budget-row g5 internalized">
+      <span class="idx">2</span>
+      <div><div class="rname">Développeur Frontend</div><div class="rdetail">Composants UI, Design System, espace client · Juin → Oct (5 mois)</div></div>
+      <span class="rnum qty">100 j/h</span>
+      <span class="rnum tjm">400 €/j</span>
+      <span class="rnum intern">40 000 €</span>
+    </div>
+    <div class="budget-row g5 internalized">
+      <span class="idx">3</span>
+      <div><div class="rname">Développeur Backend</div><div class="rdetail">API REST, base de données, intégration CRM · Juin → Oct (5 mois)</div></div>
+      <span class="rnum qty">50 j/h</span>
+      <span class="rnum tjm">400 €/j</span>
+      <span class="rnum intern">20 000 €</span>
+    </div>
+    <div class="budget-row g5 internalized">
+      <span class="idx">4</span>
+      <div><div class="rname">Développeur Fullstack #1</div><div class="rdetail">Développement cross-fonctionnel, intégrations · Juin → Oct (5 mois)</div></div>
+      <span class="rnum qty">50 j/h</span>
+      <span class="rnum tjm">400 €/j</span>
+      <span class="rnum intern">20 000 €</span>
+    </div>
+    <div class="budget-row g5 internalized">
+      <span class="idx">5</span>
+      <div><div class="rname">Développeur Fullstack #2</div><div class="rdetail">Développement cross-fonctionnel, espace fournisseur · Juin → Oct (5 mois)</div></div>
+      <span class="rnum qty">50 j/h</span>
+      <span class="rnum tjm">400 €/j</span>
+      <span class="rnum intern">20 000 €</span>
+    </div>
+    <div class="budget-row g5 subtotal">
+      <span class="idx"></span>
+      <span class="rname">Sous-total DSI interne (valorisé — hors enveloppe)</span>
+      <span class="rnum sub">300 j/h</span>
+      <span></span>
+      <span class="rnum intern" style="font-size:13px;font-weight:700;">120 000 €</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- 2. PRESTATAIRES ESN EXTERNES              -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="card">
+    <div class="card-header ch-orange">
+      <h2>2. Prestataires ESN externes (×2)</h2>
+      <span class="badge-extern">Budgété — 144 000 € · 48 % de l'enveloppe</span>
+    </div>
+    <div class="col-head g5">
+      <span></span>
+      <span>Profil</span>
+      <span style="text-align:right">J/H total</span>
+      <span style="text-align:right">TJM</span>
+      <span style="text-align:right">Coût total</span>
+    </div>
+
+    <div class="budget-row g5">
+      <span class="idx">1</span>
+      <div>
+        <div class="rname">ESN Dev Web #1 <span class="tag">Externe</span></div>
+        <div class="rdetail">Dev Web fullstack · 20 j/h/mois · Mai → Octobre (6 mois) · Cadrage technique + développement</div>
+      </div>
+      <span class="rnum qty">120 j/h</span>
+      <span class="rnum tjm">600 €/j</span>
+      <span class="rnum total">72 000 €</span>
+    </div>
+    <div class="budget-row g5">
+      <span class="idx">2</span>
+      <div>
+        <div class="rname">ESN Dev Web #2 <span class="tag">Externe</span></div>
+        <div class="rdetail">Dev Web fullstack · 20 j/h/mois · Mai → Octobre (6 mois) · Setup environnement + développement</div>
+      </div>
+      <span class="rnum qty">120 j/h</span>
+      <span class="rnum tjm">600 €/j</span>
+      <span class="rnum total">72 000 €</span>
+    </div>
+    <div class="budget-row g5 subtotal">
+      <span class="idx"></span>
+      <span class="rname">Sous-total ESN</span>
+      <span class="rnum sub">240 j/h</span>
+      <span></span>
+      <span class="rnum sub">144 000 €</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- 3. INFRASTRUCTURE & OUTILLAGE             -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="card">
+    <div class="card-header ch-teal">
+      <h2>3. Infrastructure &amp; Outillage</h2>
+      <span class="badge-extern">Budgété — 39 000 € · 13 % de l'enveloppe</span>
+    </div>
+    <div class="col-head g4">
+      <span></span>
+      <span>Poste</span>
+      <span>Détail</span>
+      <span style="text-align:right">Coût estimé</span>
+    </div>
+
+    <div class="budget-row g4">
+      <span class="idx">1</span>
+      <div><div class="rname">Azure App Service (3 env.)</div><div class="rdetail">Dev / Recette / Production · 6 mois</div></div>
+      <span class="rdetail" style="color:#718096;">Plan Standard S2 × 3 env.</span>
+      <span class="rnum total">8 000 €</span>
+    </div>
+    <div class="budget-row g4">
+      <span class="idx">2</span>
+      <div><div class="rname">Azure Database for PostgreSQL</div><div class="rdetail">Instance managée · Sauvegarde automatique</div></div>
+      <span class="rdetail" style="color:#718096;">Plan General Purpose · 6 mois</span>
+      <span class="rnum total">6 000 €</span>
+    </div>
+    <div class="budget-row g4">
+      <span class="idx">3</span>
+      <div><div class="rname">Azure Blob Storage + CDN</div><div class="rdetail">Stockage médias, assets statiques, cache CDN</div></div>
+      <span class="rdetail" style="color:#718096;">LRS Standard · 6 mois</span>
+      <span class="rnum total">4 000 €</span>
+    </div>
+    <div class="budget-row g4">
+      <span class="idx">4</span>
+      <div><div class="rname">Application Gateway + WAF</div><div class="rdetail">Pare-feu applicatif, load balancing</div></div>
+      <span class="rdetail" style="color:#718096;">WAF v2 · 6 mois</span>
+      <span class="rnum total">6 000 €</span>
+    </div>
+    <div class="budget-row g4">
+      <span class="idx">5</span>
+      <div><div class="rname">Azure Key Vault + Monitor</div><div class="rdetail">Gestion des secrets, alertes, logs</div></div>
+      <span class="rdetail" style="color:#718096;">Standard tier · 6 mois</span>
+      <span class="rnum total">2 000 €</span>
+    </div>
+    <div class="budget-row g4">
+      <span class="idx">6</span>
+      <div><div class="rname">SonarQube + outils CI/CD</div><div class="rdetail">Analyse qualité code, licences GitHub Actions</div></div>
+      <span class="rdetail" style="color:#718096;">Community + modules</span>
+      <span class="rnum total">5 000 €</span>
+    </div>
+    <div class="budget-row g4">
+      <span class="idx">7</span>
+      <div><div class="rname">Pentest externe (OWASP Top 10)</div><div class="rdetail">Audit sécurité applicative avant go-live</div></div>
+      <span class="rdetail" style="color:#718096;">Prestataire sécurité tiers</span>
+      <span class="rnum total">8 000 €</span>
+    </div>
+    <div class="budget-row g4 subtotal">
+      <span class="idx"></span>
+      <span class="rname">Sous-total Infrastructure &amp; Outillage</span>
+      <span></span>
+      <span class="rnum sub">39 000 €</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- 4. MARGE DE SÉCURITÉ & RÉSERVE            -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="card">
+    <div class="card-header ch-purple">
+      <h2>4. Marge de sécurité &amp; Réserve complémentaire</h2>
+      <span class="badge-extern">Budgété — 117 000 € · 39 % de l'enveloppe</span>
+    </div>
+    <div class="col-head g4">
+      <span></span>
+      <span>Poste</span>
+      <span>Usage prévu</span>
+      <span style="text-align:right">Montant</span>
+    </div>
+
+    <div class="budget-row g4">
+      <span class="idx">1</span>
+      <div><div class="rname">Marge de sécurité (15 %)</div><div class="rdetail">Débloquée sur validation Sponsor — gérée par Chef de projet</div></div>
+      <span class="rdetail" style="color:#718096;">Aléas planning, surcoûts ESN, ajustements Azure</span>
+      <span class="rnum total">45 000 €</span>
+    </div>
+    <div class="budget-row g4">
+      <span class="idx">2</span>
+      <div><div class="rname">Réserve complémentaire disponible</div><div class="rdetail">Capacité résiduelle après ESN, infra et marge</div></div>
+      <span class="rdetail" style="color:#718096;">Formations, licences additionnelles, imprévus</span>
+      <span class="rnum total">72 000 €</span>
+    </div>
+    <div class="budget-row g4 subtotal">
+      <span class="idx"></span>
+      <span class="rname">Sous-total Marge &amp; Réserve</span>
+      <span></span>
+      <span class="rnum sub">117 000 €</span>
+    </div>
+  </div>
+
+  <!-- TOTAL -->
+  <div class="card">
+    <div class="total-bar">
+      <span class="tl">TOTAL PROJET WEB-001 — 540 j/h (300 j/h internes + 240 j/h ESN)</span>
+      <span class="tr">300 000 €</span>
+    </div>
+  </div>
+
+  <!-- RÉPARTITION VISUELLE -->
+  <div class="repartition">
+    <h3>Répartition de l'enveloppe budgétaire</h3>
+
+    <div class="prog-row">
+      <div class="prog-head">
+        <span class="pname">ESN externes (×2 Dev Web)</span>
+        <span class="ppct">48,0 %</span>
+      </div>
+      <div class="prog-bg"><div class="prog-fill" style="width:48%;background:#c05621;"></div></div>
+      <div class="prog-amount">144 000 € · 240 j/h × 600 €/j</div>
+    </div>
+
+    <div class="prog-row">
+      <div class="prog-head">
+        <span class="pname">Infrastructure &amp; Outillage Azure</span>
+        <span class="ppct">13,0 %</span>
+      </div>
+      <div class="prog-bg"><div class="prog-fill" style="width:13%;background:#2c7a7b;"></div></div>
+      <div class="prog-amount">39 000 € · 3 environnements Azure + pentest</div>
+    </div>
+
+    <div class="prog-row">
+      <div class="prog-head">
+        <span class="pname">Marge de sécurité (15 %)</span>
+        <span class="ppct">15,0 %</span>
+      </div>
+      <div class="prog-bg"><div class="prog-fill" style="width:15%;background:#553c9a;"></div></div>
+      <div class="prog-amount">45 000 € · Sur validation Sponsor</div>
+    </div>
+
+    <div class="prog-row">
+      <div class="prog-head">
+        <span class="pname">Réserve complémentaire disponible</span>
+        <span class="ppct">24,0 %</span>
+      </div>
+      <div class="prog-bg"><div class="prog-fill" style="width:24%;background:#2b6cb0;"></div></div>
+      <div class="prog-amount">72 000 € · Capacité résiduelle</div>
+    </div>
+
+    <div class="prog-row" style="margin-top:16px;padding-top:12px;border-top:1px solid #e2e8f0;">
+      <div class="prog-head">
+        <span class="pname" style="color:#276749;font-weight:700;">Ressources DSI internes (valorisé · hors budget · 400 €/j)</span>
+        <span class="ppct" style="color:#276749;">120 000 €</span>
+      </div>
+      <div class="prog-bg"><div class="prog-fill" style="width:100%;background:#48bb78;opacity:0.3;"></div></div>
+      <div class="prog-amount" style="color:#276749;">Lead Dev + 4 devs · 300 j/h · Juin → Octobre · Coût non imputé à l'enveloppe projet</div>
+    </div>
+  </div>
+
+  <!-- HYPOTHÈSES BUDGÉTAIRES -->
+  <div class="card" style="padding:20px;">
+    <h3 style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#718096;margin-bottom:14px;">Hypothèses budgétaires</h3>
+    <div class="hyp-grid">
+      <div class="hyp-card" style="border-left-color:#c05621;">
+        <div class="ht">TJM ESN</div>
+        <div class="hv">600 €/j</div>
+        <div class="hd">Tarif marché 2024 pour profils Dev Web fullstack senior. Contractualisé pour 6 mois.</div>
+      </div>
+      <div class="hyp-card" style="border-left-color:#2b6cb0;">
+        <div class="ht">Coût DSI interne</div>
+        <div class="hv">400 €/j · 120 000 €</div>
+        <div class="hd">TJM interne uniforme de 400 €/j · 300 j/h valorisés = 120 000 €. Coût non imputé à l'enveloppe WEB-001 mais affiché pour vision coût complet.</div>
+      </div>
+      <div class="hyp-card" style="border-left-color:#2c7a7b;">
+        <div class="ht">Infrastructure Azure</div>
+        <div class="hv">39 000 €</div>
+        <div class="hd">Estimation sur 6 mois incluant 3 environnements (dev, recette, prod) et le pentest externe (8 000 €).</div>
+      </div>
+      <div class="hyp-card" style="border-left-color:#553c9a;">
+        <div class="ht">Marge de sécurité</div>
+        <div class="hv">15 % — 45 000 €</div>
+        <div class="hd">Conforme aux bonnes pratiques PMO pour une refonte applicative. Débloquée uniquement sur validation Sponsor.</div>
+      </div>
+      <div class="hyp-card" style="border-left-color:#e53e3e;">
+        <div class="ht">Risque dépassement ESN</div>
+        <div class="hv">Couvert marge</div>
+        <div class="hd">En cas de surcharge ESN, la marge de sécurité absorbe jusqu'à 75 j/h supplémentaires au TJM de 600 €/j.</div>
+      </div>
+      <div class="hyp-card" style="border-left-color:#48bb78;">
+        <div class="ht">Taux d'utilisation budget</div>
+        <div class="hv">48 % (ESN seul)</div>
+        <div class="hd">Seul 48 % du budget est consommé par des coûts directs ESN. La réserve disponible offre une marge confortable.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-box">
+    ⚠️ <strong>Note PMO :</strong> En Mai (Sprint 1–2), seuls les 2 ESN sont actifs sur le projet (40 j/h, soit 24 000 €). L'équipe DSI rejoint le projet en Juin. Le suivi budgétaire est reporté mensuellement au Copil via le tableau de bord KPI. Tout dépassement de l'enveloppe ESN doit être signalé au Chef de projet sous 48h pour arbitrage Sponsor.
+  </div>
+
+  <div class="footer">
+    Time'Eats · WEB-001 · Budget Projet · Version 1.0 · Juin N · Confidentiel interne DSI
+  </div>
+
+</div>
+</body>
+</html>
