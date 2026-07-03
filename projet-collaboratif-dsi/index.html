@@ -49,24 +49,28 @@
     margin-bottom: 20px;
   }
 
-  .badge {
-    display: inline-block;
-    background: rgba(237, 137, 54, 0.15);
-    color: #f6ad55;
-    border: 1px solid rgba(237, 137, 54, 0.35);
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    padding: 6px 14px;
-    border-radius: 999px;
-    margin-bottom: 24px;
-  }
-
   .message {
     font-size: 14px;
     color: #a0aec0;
     line-height: 1.7;
+    margin-bottom: 32px;
+  }
+
+  .cta {
+    display: inline-block;
+    background: #2b6cb0;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 14px 32px;
+    border-radius: 8px;
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+
+  .cta:hover {
+    background: #2c5282;
+    transform: translateY(-2px);
   }
 </style>
 </head>
@@ -74,11 +78,9 @@
 
 <div class="cover">
   <a class="back-link" href="../index.html">← Accueil</a>
-  <div>
-    <span class="badge">Bientôt disponible</span>
-  </div>
   <h1>Projet Collaboratif — Superviser le portefeuille projets de la DSI</h1>
-  <p class="message">Contenu à venir. Les livrables de ce projet seront publiés ici prochainement.</p>
+  <p class="message">Retrouvez le tableau de bord PMO du portefeuille projets de la DSI.</p>
+  <a class="cta" href="PMO_Dashboard.html">Accéder au tableau de bord →</a>
 </div>
 
 </body>
