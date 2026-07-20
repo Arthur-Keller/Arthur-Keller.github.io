@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gantt — Projet CRM-001 | Time'Eats</title>
+<style>
+  :root{
+    --p1:#5b8def; --p2:#38a169; --p3:#e05252; --p4:#d69e2e; --p5:#805ad5;
+    --border:#e2e8f0; --text:#1a202c; --muted:#718096;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:32px;font-family:-apple-system,Segoe UI,Roboto,sans-serif;color:var(--text);background:#f7fafc}
+  h1{font-size:22px;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px}
+  .meta{display:flex;gap:24px;flex-wrap:wrap;margin-bottom:24px;font-size:13px}
+  .meta div{background:#fff;border:1px solid var(--border);border-radius:6px;padding:8px 14px}
+  .meta b{display:block;color:var(--muted);font-weight:500;font-size:11px;text-transform:uppercase}
+  .wrap{background:#fff;border:1px solid var(--border);border-radius:8px;overflow-x:auto}
+  table{border-collapse:collapse;width:100%;min-width:1000px;font-size:13px}
+  th,td{padding:6px 10px;border-bottom:1px solid var(--border);text-align:left;vertical-align:middle}
+  th{background:#f7fafc;font-size:11px;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .c-id{width:90px;font-family:monospace;font-size:11px;color:var(--muted)}
+  .c-task{width:270px}
+  .c-resp{width:130px;color:var(--muted)}
+  .c-load{width:60px;text-align:right;color:var(--muted)}
+  .c-chart{padding:0;position:relative;min-width:520px}
+  .months{display:flex;border-bottom:1px solid var(--border)}
+  .months span{flex:1;text-align:center;font-size:11px;padding:6px 0;color:var(--muted);border-left:1px solid var(--border)}
+  .track{position:relative;height:26px;background:linear-gradient(to right,transparent 0,transparent calc(16.666% - 1px),var(--border) calc(16.666% - 1px),var(--border) 16.666%);background-size:16.666% 100%}
+  .bar{position:absolute;top:5px;height:16px;border-radius:3px;color:#fff;font-size:10px;line-height:16px;padding-left:6px;white-space:nowrap;overflow:hidden}
+  .phase td{background:#edf2f7;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+  .milestone td{background:#fffaf0}
+  .milestone .c-task{font-weight:600}
+  .diamond{position:absolute;top:5px;width:16px;height:16px;background:#1a202c;transform:translateX(-8px) rotate(45deg);border-radius:2px}
+  .crit{box-shadow:0 0 0 2px #e05252 inset}
+  .legend{margin-top:16px;font-size:12px;color:var(--muted);display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+  .dot{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+</style>
+</head>
+<body>
+
+<h1>Diagramme de Gantt — Projet CRM-001</h1>
+<div class="sub">Time'Eats · DSI · Baseline v1.0 validée COPIL juin 2026</div>
+
+<div class="meta">
+  <div><b>Durée</b>Juin → Novembre 2026 (6 mois)</div>
+  <div><b>Budget</b>250 000 €</div>
+  <div><b>Charge</b>275 / 300 j/h</div>
+  <div><b>Priorité</b>5 / 5 ★</div>
+  <div><b>Mode</b>Prédictif (waterfall)</div>
+</div>
+
+<div class="wrap">
+<table>
+<thead>
+<tr>
+  <th class="c-id">ID</th>
+  <th class="c-task">Tâche / Livrable</th>
+  <th class="c-resp">Responsable</th>
+  <th class="c-load">j/h</th>
+  <th class="c-chart">
+    <div class="months">
+      <span>Juin</span><span>Juil.</span><span>Août</span><span>Sept.</span><span>Oct.</span><span>Nov.</span>
+    </div>
+  </th>
+</tr>
+</thead>
+<tbody id="rows"></tbody>
+</table>
+</div>
+
+<div class="legend">
+  <span><i class="dot" style="background:var(--p1)"></i>Cadrage</span>
+  <span><i class="dot" style="background:var(--p2)"></i>Paramétrage</span>
+  <span><i class="dot" style="background:var(--p3)"></i>Intégration API</span>
+  <span><i class="dot" style="background:var(--p4)"></i>Recette &amp; formation</span>
+  <span><i class="dot" style="background:var(--p5)"></i>Go-Live &amp; clôture</span>
+  <span><i class="dot" style="background:#1a202c;transform:rotate(45deg)"></i>Jalon COPIL</span>
+  <span style="border-left:1px solid var(--border);padding-left:18px">Contour rouge = chemin critique (marge 0 j)</span>
+</div>
+
+<script>
+const START = new Date(2026,5,1), END = new Date(2026,10,30);
+const SPAN = (END-START)/86400000;
+const d = s => { const [j,m,a]=s.split('/').map(Number); return new Date(a,m-1,j); };
+const pos = s => ((d(s)-START)/86400000)/SPAN*100;
+
+const data = [
+ {phase:"Phase 1 — Cadrage", color:"var(--p1)"},
+ {id:"CRM.01.01",t:"Initialisation du projet — kick-off",r:"CDP",c:5,s:"02/06/2026",e:"08/06/2026",crit:1},
+ {id:"CRM.01.02",t:"Analyse de l'existant & collecte des besoins",r:"CDP / MOA",c:15,s:"09/06/2026",e:"19/06/2026",crit:1},
+ {id:"CRM.01.03",t:"Rédaction & validation du cahier des charges",r:"MOA",c:10,s:"22/06/2026",e:"28/06/2026",crit:1},
+ {id:"CRM.M1",t:"M1 — Cadrage validé",r:"COPIL",c:"—",m:"28/06/2026"},
+
+ {phase:"Phase 2 — Paramétrage", color:"var(--p2)"},
+ {id:"CRM.02.01",t:"Paramétrage des modules CRM (SaaS)",r:"ESN",c:40,s:"01/07/2026",e:"30/08/2026",crit:1},
+ {id:"CRM.02.02",t:"Configuration des droits & profils utilisateurs",r:"DSI / ESN",c:10,s:"01/08/2026",e:"31/08/2026"},
+ {id:"CRM.02.03",t:"Reprise & migration des données client",r:"DSI",c:20,s:"01/07/2026",e:"15/08/2026"},
+ {id:"CRM.M2",t:"M2 — Paramétrage terminé",r:"CDP / ESN",c:"—",m:"30/08/2026"},
+
+ {phase:"Phase 3 — Intégration API (chemin critique)", color:"var(--p3)"},
+ {id:"CRM.03.01",t:"Développement du connecteur API web",r:"ESN",c:30,s:"02/09/2026",e:"20/09/2026",crit:1},
+ {id:"CRM.03.02",t:"Développement du connecteur API mobile",r:"ESN",c:25,s:"02/09/2026",e:"20/09/2026",crit:1},
+ {id:"CRM.03.03",t:"Tests d'intégration & qualification API",r:"DSI / ESN",c:15,s:"20/09/2026",e:"30/09/2026",crit:1},
+ {id:"CRM.M3",t:"M3 — Intégration API validée",r:"COPIL",c:"—",m:"30/09/2026"},
+
+ {phase:"Phase 4 — Recette UAT & formation", color:"var(--p4)"},
+ {id:"CRM.04.01",t:"Plan de tests UAT & scénarios",r:"MOA",c:10,s:"01/10/2026",e:"10/10/2026"},
+ {id:"CRM.04.02",t:"Exécution des tests utilisateurs (UAT)",r:"MOA / Utilisateurs",c:20,s:"01/10/2026",e:"18/10/2026",crit:1},
+ {id:"CRM.04.03",t:"Correction des anomalies de recette",r:"ESN",c:15,s:"14/10/2026",e:"31/10/2026",crit:1},
+ {id:"CRM.04.04",t:"Formation des utilisateurs finaux",r:"CDP / ESN",c:20,s:"12/10/2026",e:"31/10/2026"},
+ {id:"CRM.M4",t:"M4 — Recette UAT & formation validées",r:"COPIL",c:"—",m:"31/10/2026"},
+
+ {phase:"Phase 5 — Go-Live & clôture", color:"var(--p5)"},
+ {id:"CRM.05.01",t:"Déploiement Go-Live (bascule en production)",r:"DSI / ESN",c:10,s:"04/11/2026",e:"08/11/2026",crit:1},
+ {id:"CRM.05.02",t:"Support post-démarrage (hypercare 30 j)",r:"ESN / DSI",c:20,s:"09/11/2026",e:"29/11/2026",crit:1},
+ {id:"CRM.05.03",t:"Bilan REX & clôture administrative",r:"CDP / PMO",c:10,s:"16/11/2026",e:"29/11/2026",crit:1},
+ {id:"CRM.M5",t:"M5 — Go-Live & clôture officielle",r:"COPIL",c:"—",m:"29/11/2026"},
+];
+
+let color = "var(--p1)", html = "";
+for (const row of data) {
+  if (row.phase) { color = row.color; html += `<tr class="phase"><td colspan="5">${row.phase}</td></tr>`; continue; }
+  let chart;
+  if (row.m) {
+    chart = `<div class="track"><div class="diamond" style="left:${pos(row.m)}%"></div></div>`;
+  } else {
+    const l = pos(row.s), w = pos(row.e) - l;
+    chart = `<div class="track"><div class="bar${row.crit?" crit":""}" style="left:${l}%;width:${w}%;background:${color}"></div></div>`;
+  }
+  html += `<tr class="${row.m?"milestone":""}">
+    <td class="c-id">${row.id}</td><td class="c-task">${row.t}</td>
+    <td class="c-resp">${row.r}</td><td class="c-load">${row.c}</td>
+    <td class="c-chart">${chart}</td></tr>`;
+}
+document.getElementById("rows").innerHTML = html;
+</script>
+</body>
+</html>
